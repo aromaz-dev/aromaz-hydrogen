@@ -1,12 +1,12 @@
 import type {Route} from './+types/collections.all';
-import {useLoaderData} from 'react-router';
-import {getPaginationVariables, Image, Money} from '@shopify/hydrogen';
+import {Link, useLoaderData} from 'react-router';
+import {getPaginationVariables} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {ProductItem} from '~/components/ProductItem';
 import type {CollectionItemFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: `Hydrogen | Products`}];
+  return [{title: `Aromaz | Shop Natural Scent Care`}];
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -49,23 +49,70 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 
 export default function Collection() {
   const {products} = useLoaderData<typeof loader>();
+  const productCount = products.nodes.length;
 
   return (
-    <div className="collection">
-      <h1>Products</h1>
-      <PaginatedResourceSection<CollectionItemFragment>
-        connection={products}
-        resourcesClassName="products-grid"
-      >
-        {({node: product, index}) => (
-          <ProductItem
-            key={product.id}
-            product={product}
-            loading={index < 8 ? 'eager' : undefined}
+    <main className="shop-page">
+      <section className="shop-hero">
+        <div className="shop-hero-copy">
+          <p>Shop Aromaz</p>
+          <h1>Natural scent care for refillable daily routines.</h1>
+          <span>
+            Explore deodorant refills, reusable cases, loofah soap, and lip
+            care with clear product imagery and simple paths to buy.
+          </span>
+          <div className="shop-hero-actions">
+            <Link to="/products/refillable-deodorant/customize">
+              Build deodorant
+            </Link>
+            <Link to="/catalog">View catalog</Link>
+          </div>
+        </div>
+        <div className="shop-hero-media" aria-hidden="true">
+          <img
+            src="/aromaz-products/deodorant-eco-case.png"
+            alt=""
+            loading="eager"
           />
-        )}
-      </PaginatedResourceSection>
-    </div>
+          <img src="/aromaz-products/deodorant-refill.png" alt="" />
+          <img src="/aromaz-products/lip-balm.png" alt="" />
+        </div>
+      </section>
+
+      <section className="shop-filter-band" aria-label="Shop shortcuts">
+        <Link to="/products/refillable-deodorant/customize">
+          Refillable deodorant
+        </Link>
+        <Link to="/catalog">Scent catalog</Link>
+        <Link to="/search?q=soap">Loofah soap</Link>
+        <Link to="/search?q=lip%20balm">Lip balm</Link>
+      </section>
+
+      <section className="shop-grid-shell">
+        <div className="shop-grid-heading">
+          <div>
+            <p>{productCount} products</p>
+            <h2>Shop the collection</h2>
+          </div>
+          <span>
+            Product-first cards with prices, clear imagery, and quick paths to
+            the items that matter most.
+          </span>
+        </div>
+        <PaginatedResourceSection<CollectionItemFragment>
+          connection={products}
+          resourcesClassName="products-grid shop-products-grid"
+        >
+          {({node: product, index}) => (
+            <ProductItem
+              key={product.id}
+              product={product}
+              loading={index < 8 ? 'eager' : undefined}
+            />
+          )}
+        </PaginatedResourceSection>
+      </section>
+    </main>
   );
 }
 

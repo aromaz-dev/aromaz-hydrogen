@@ -1,9 +1,9 @@
-import {useLoaderData} from 'react-router';
+import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `Hydrogen | ${data?.page.title ?? ''}`}];
+  return [{title: `Aromaz | ${data?.page.title ?? ''}`}];
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -23,6 +23,22 @@ export async function loader(args: Route.LoaderArgs) {
 async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
   if (!params.handle) {
     throw new Error('Missing page handle');
+  }
+
+  if (params.handle === 'contact') {
+    return {
+      page: {
+        handle: 'contact',
+        id: 'aromaz-contact',
+        title: 'Contact Aromaz',
+        body: '',
+        seo: {
+          description:
+            'Contact Aromaz for customer support, wholesale, franchise interest, and brochure requests.',
+          title: 'Contact Aromaz',
+        },
+      },
+    };
   }
 
   const [{page}] = await Promise.all([
@@ -57,6 +73,10 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 export default function Page() {
   const {page} = useLoaderData<typeof loader>();
 
+  if (page.handle === 'contact') {
+    return <ContactPage />;
+  }
+
   return (
     <div className="page">
       <header>
@@ -64,6 +84,76 @@ export default function Page() {
       </header>
       <main dangerouslySetInnerHTML={{__html: page.body}} />
     </div>
+  );
+}
+
+function ContactPage() {
+  return (
+    <main className="contact-page">
+      <section className="contact-hero">
+        <div className="contact-hero-copy">
+          <p>Contact Aromaz</p>
+          <h1>Natural scent care, wholesale stories, and partnership notes.</h1>
+          <span>
+            For customer questions, wholesale requests, franchise interest, or
+            brochure access, reach the Aromaz team directly.
+          </span>
+          <a href="mailto:info@aromazco.com">info@aromazco.com</a>
+        </div>
+        <div className="contact-hero-products" aria-hidden="true">
+          <img src="/aromaz-products/deodorant-eco-case.png" alt="" />
+          <img src="/brochure/lip-balm-healing.png" alt="" />
+          <img src="/brochure/natural-loofah-soap-catalog.png" alt="" />
+        </div>
+      </section>
+
+      <section className="contact-info-band">
+        <article>
+          <span>Customer care</span>
+          <h2>Questions about your order or products?</h2>
+          <p>
+            Email Aromaz for help with product selection, scent questions,
+            checkout support, or general customer care.
+          </p>
+          <a href="mailto:info@aromazco.com">Email support</a>
+        </article>
+        <article>
+          <span>Wholesale</span>
+          <h2>Carry Aromaz in your shop.</h2>
+          <p>
+            Ask for the wholesale brochure, product catalog, pricing details,
+            and scent assortment guidance for boutiques and wellness retail.
+          </p>
+          <a href="mailto:info@aromazco.com?subject=Wholesale%20Brochure%20Request">
+            Request brochure
+          </a>
+        </article>
+        <article>
+          <span>Franchise</span>
+          <h2>Explore partnership opportunities.</h2>
+          <p>
+            For franchise or regional partnership conversations, include your
+            location, business background, and preferred timeline.
+          </p>
+          <a href="mailto:info@aromazco.com?subject=Franchise%20Inquiry">
+            Contact partnerships
+          </a>
+        </article>
+      </section>
+
+      <section className="contact-brochure">
+        <div>
+          <p>Brochure access</p>
+          <h2>Need the Aromaz catalog for buying decisions?</h2>
+          <span>
+            The digital catalog shows the refill scent family, loofah soap, and
+            lip care essentials. Wholesale buyers can email for the brochure and
+            current product availability.
+          </span>
+        </div>
+        <Link to="/catalog">View catalog</Link>
+      </section>
+    </main>
   );
 }
 

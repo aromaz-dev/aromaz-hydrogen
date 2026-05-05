@@ -138,7 +138,7 @@ function SearchAside() {
                   >
                     <p>
                       View all results for <q>{term.current}</q>
-                      &nbsp; →
+                      &nbsp;
                     </p>
                   </Link>
                 ) : null}

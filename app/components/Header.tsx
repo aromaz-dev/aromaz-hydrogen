@@ -24,10 +24,24 @@ export function Header({
   publicStoreDomain,
 }: HeaderProps) {
   const {shop, menu} = header;
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const updateHeader = () => {
+      setIsScrolled(window.scrollY > 24);
+    };
+
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, {passive: true});
+
+    return () => window.removeEventListener('scroll', updateHeader);
+  }, []);
+
   return (
-    <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
+    <header className={`header ${isScrolled ? 'header--scrolled' : ''}`}>
+      <NavLink className="header-logo" prefetch="intent" to="/" end>
+        <span>{shop.name}</span>
+        <small>Natural scent care</small>
       </NavLink>
       <HeaderMenu
         menu={menu}
@@ -35,6 +49,13 @@ export function Header({
         primaryDomainUrl={header.shop.primaryDomain.url}
         publicStoreDomain={publicStoreDomain}
       />
+      <NavLink
+        className="header-build-link"
+        prefetch="intent"
+        to="/products/refillable-deodorant/customize"
+      >
+        Build Your Deodorant
+      </NavLink>
       <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
     </header>
   );
@@ -57,15 +78,98 @@ export function HeaderMenu({
   return (
     <nav className={className} role="navigation">
       {viewport === 'mobile' && (
-        <NavLink
-          end
-          onClick={close}
-          prefetch="intent"
-          style={activeLinkStyle}
-          to="/"
-        >
-          Home
-        </NavLink>
+        <>
+          <NavLink
+            className="header-menu-item"
+            end
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
+            to="/"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
+            to="/collections/all"
+          >
+            Shop
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
+            to="/catalog"
+          >
+            Catalog
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
+            to="/pages/contact"
+          >
+            Contact
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
+            to="/products/refillable-deodorant/customize"
+          >
+            Build Your Deodorant
+          </NavLink>
+        </>
+      )}
+      {viewport === 'desktop' && (
+        <>
+          <NavLink
+            className="header-menu-item"
+            end
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
+            to="/"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            end
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
+            to="/collections/all"
+          >
+            Shop
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            end
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
+            to="/catalog"
+          >
+            Catalog
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            end
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
+            to="/pages/contact"
+          >
+            Contact
+          </NavLink>
+        </>
       )}
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
@@ -77,6 +181,19 @@ export function HeaderMenu({
           item.url.includes(primaryDomainUrl)
             ? new URL(item.url).pathname
             : item.url;
+        if (
+          item.title.toLowerCase() === 'home' ||
+          item.title.toLowerCase() === 'shop' ||
+          item.title.toLowerCase() === 'products' ||
+          item.title.toLowerCase() === 'about' ||
+          item.title.toLowerCase() === 'contact' ||
+          url === '/' ||
+          url === '/collections' ||
+          url === '/collections/all' ||
+          url === '/pages/contact'
+        ) {
+          return null;
+        }
         return (
           <NavLink
             className="header-menu-item"
@@ -102,7 +219,11 @@ function HeaderCtas({
   return (
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
+      <NavLink
+        className="header-link header-account"
+        prefetch="intent"
+        to="/account"
+      >
         <Suspense fallback="Sign in">
           <Await resolve={isLoggedIn} errorElement="Sign in">
             {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
@@ -121,8 +242,9 @@ function HeaderMenuMobileToggle() {
     <button
       className="header-menu-mobile-toggle reset"
       onClick={() => open('mobile')}
+      aria-label="Open menu"
     >
-      <h3>☰</h3>
+      <h3>Menu</h3>
     </button>
   );
 }
@@ -130,7 +252,7 @@ function HeaderMenuMobileToggle() {
 function SearchToggle() {
   const {open} = useAside();
   return (
-    <button className="reset" onClick={() => open('search')}>
+    <button className="reset header-link" onClick={() => open('search')}>
       Search
     </button>
   );
@@ -142,6 +264,7 @@ function CartBadge({count}: {count: number | null}) {
 
   return (
     <a
+      className="header-cart"
       href="/cart"
       onClick={(e) => {
         e.preventDefault();
@@ -154,7 +277,7 @@ function CartBadge({count}: {count: number | null}) {
         } as CartViewPayload);
       }}
     >
-      Cart {count === null ? <span>&nbsp;</span> : count}
+      Cart <span>{count === null ? '' : count}</span>
     </a>
   );
 }
@@ -191,36 +314,18 @@ const FALLBACK_HEADER_MENU = {
       id: 'gid://shopify/MenuItem/461609500728',
       resourceId: null,
       tags: [],
-      title: 'Collections',
+      title: 'Shop',
       type: 'HTTP',
-      url: '/collections',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461609533496',
-      resourceId: null,
-      tags: [],
-      title: 'Blog',
-      type: 'HTTP',
-      url: '/blogs/journal',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461609566264',
-      resourceId: null,
-      tags: [],
-      title: 'Policies',
-      type: 'HTTP',
-      url: '/policies',
+      url: '/collections/all',
       items: [],
     },
     {
       id: 'gid://shopify/MenuItem/461609599032',
       resourceId: 'gid://shopify/Page/92591030328',
       tags: [],
-      title: 'About',
+      title: 'Contact',
       type: 'PAGE',
-      url: '/pages/about',
+      url: '/pages/contact',
       items: [],
     },
   ],
@@ -234,7 +339,7 @@ function activeLinkStyle({
   isPending: boolean;
 }) {
   return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'black',
+    fontWeight: isActive ? 600 : undefined,
+    color: isPending ? '#6B7F5F' : undefined,
   };
 }

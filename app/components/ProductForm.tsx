@@ -19,7 +19,7 @@ export function ProductForm({
   const {open} = useAside();
 
   return (
-    <div className="mt-8 space-y-6">
+    <div id="add-to-cart" className="mt-8 space-y-6 scroll-mt-28">
       {productOptions.map((option) => {
         // If there is only a single value in the option values, don't display the option
         if (option.optionValues.length === 1) return null;
@@ -43,11 +43,11 @@ export function ProductForm({
                 } = value;
 
                 const baseClasses = `
-                  px-4 py-2 rounded-full transition-all font-sans text-sm
+                  min-h-10 rounded-md px-4 py-2 transition-colors font-sans text-sm
                   ${
                     selected
-                      ? 'border-2 border-terracotta bg-terracotta/5 text-charcoal font-medium'
-                      : 'border border-charcoal/20 text-charcoal/70 hover:border-charcoal/40'
+                      ? 'border border-terracotta bg-terracotta/5 text-charcoal font-medium'
+                      : 'border border-charcoal/20 bg-off-white text-charcoal/70 hover:border-olive'
                   }
                   ${!available && 'opacity-40'}
                   ${!exists && 'hidden'}

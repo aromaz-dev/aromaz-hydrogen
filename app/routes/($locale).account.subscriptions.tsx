@@ -169,7 +169,7 @@ function EmptySubscriptions() {
       <p>You don&apos;t have any subscriptions yet.</p>
       <br />
       <p>
-        <a href="/collections">Browse products →</a>
+        <a href="/collections/all">Browse products</a>
       </p>
     </div>
   );
@@ -205,7 +205,7 @@ function SubscriptionCard({
               {line.title || line.name}
             </span>
             <span className="subscription-line-details">
-              {line.quantity > 1 && `${line.quantity} × `}
+              {line.quantity > 1 && `${line.quantity} x `}
               {formatMoney(line.currentPrice.amount, line.currentPrice.currencyCode)}
             </span>
           </div>
@@ -282,7 +282,7 @@ function SubscriptionCard({
       {(isCancelled || isExpired) && (
         <div className="subscription-card-footer">
           <span className="subscription-ended">
-            {isCancelled ? 'Cancelled' : 'Expired'} ·{' '}
+            {isCancelled ? 'Cancelled' : 'Expired'} -{' '}
             {formatDate(contract.createdAt)}
           </span>
         </div>

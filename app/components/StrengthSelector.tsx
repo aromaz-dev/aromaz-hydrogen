@@ -23,14 +23,14 @@ export function StrengthSelector({
 }: StrengthSelectorProps) {
   return (
     <div
-      className={`flex items-center gap-1 p-1 bg-charcoal/5 rounded-full ${className}`}
+      className={`flex items-center gap-1 rounded-md bg-charcoal/5 p-1 ${className}`}
     >
       {options.map((strength) => (
         <button
           key={strength}
           type="button"
           onClick={() => onSelect(strength)}
-          className={`flex-1 py-2 px-3 rounded-full font-sans text-sm font-medium transition-all ${
+          className={`flex-1 rounded px-3 py-2 font-sans text-sm font-medium transition-colors ${
             selected === strength
               ? 'bg-white text-charcoal shadow-sm'
               : 'text-charcoal/60 hover:text-charcoal'

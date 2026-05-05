@@ -6,6 +6,7 @@ import type {
   RecommendedProductFragment,
 } from 'storefrontapi.generated';
 import {useVariantUrl} from '~/lib/variants';
+import {getLocalProductImage, isDemoOrPlaceholderImage} from '~/lib/local-images';
 
 export function ProductItem({
   product,
@@ -19,33 +20,54 @@ export function ProductItem({
 }) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
+  const localImage = getLocalProductImage(product.title, product.handle);
+  const useLocalImage = isDemoOrPlaceholderImage(image?.url);
+  const title = product.title.toLowerCase();
+  const productType = title.includes('refill')
+    ? 'Refill'
+    : title.includes('deodorant')
+    ? 'Deodorant'
+    : title.includes('balm')
+    ? 'Daily care'
+    : 'Aromaz care';
   return (
     <Link
-      className="group block"
+      className="product-card group"
       key={product.id}
       prefetch="intent"
       to={variantUrl}
     >
-      <div className="bg-off-white rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl">
-        {image && (
-          <div className="aspect-square overflow-hidden">
-            <Image
-              alt={image.altText || product.title}
-              aspectRatio="1/1"
-              data={image}
-              loading={loading}
-              sizes="(min-width: 45em) 400px, 100vw"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-          </div>
-        )}
-        <div className="p-6">
-          <h4 className="font-serif text-xl md:text-2xl text-charcoal mb-3 transition-colors duration-300 group-hover:text-terracotta">
+      <div className="product-card-media">
+        {useLocalImage ? (
+          <img
+            alt={product.title}
+            src={localImage}
+            loading={loading}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+          />
+        ) : image ? (
+          <Image
+            alt={image.altText || product.title}
+            aspectRatio="1/1"
+            data={image}
+            loading={loading}
+            sizes="(min-width: 45em) 360px, 100vw"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+          />
+        ) : null}
+      </div>
+      <div className="product-card-body">
+        <div>
+          <p className="product-card-kicker">{productType}</p>
+          <h4>
             {product.title}
           </h4>
-          <div className="font-sans text-lg text-rose-gold font-medium">
+        </div>
+        <div className="product-card-footer">
+          <span>
             <Money data={product.priceRange.minVariantPrice} />
-          </div>
+          </span>
+          <small>Shop now</small>
         </div>
       </div>
     </Link>
