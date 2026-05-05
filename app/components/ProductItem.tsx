@@ -27,6 +27,8 @@ export function ProductItem({
     ? 'Refill'
     : title.includes('deodorant')
     ? 'Deodorant'
+    : title.includes('soap') || title.includes('loofah')
+    ? 'Soap'
     : title.includes('balm')
     ? 'Daily care'
     : 'Aromaz care';

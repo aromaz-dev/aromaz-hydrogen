@@ -27,11 +27,23 @@ export default async function handleRequest(
     connectSrc: [
       "'self'",
       'https://analytics.tiktok.com',
+      'https://www.google.com',
+      'https://maps.googleapis.com',
+      'https://maps.gstatic.com',
     ],
     imgSrc: [
       "'self'",
       'https://cdn.shopify.com',
       'https://analytics.tiktok.com',
+      'https://www.google.com',
+      'https://maps.googleapis.com',
+      'https://maps.gstatic.com',
+      'https://*.googleusercontent.com',
+    ],
+    frameSrc: [
+      "'self'",
+      'https://www.google.com',
+      'https://maps.google.com',
     ],
   });
 

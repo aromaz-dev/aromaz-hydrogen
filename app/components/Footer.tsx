@@ -1,6 +1,7 @@
 import {Suspense} from 'react';
 import {Await, NavLink} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
+import {SocialLinks} from '~/components/SocialLinks';
 
 interface FooterProps {
   footer: Promise<FooterQuery | null>;
@@ -50,6 +51,9 @@ export function Footer({
                     <NavLink to="/catalog" prefetch="intent">
                       Catalog
                     </NavLink>
+                    <NavLink to="/pages/stockists" prefetch="intent">
+                      Find a Store
+                    </NavLink>
                     <NavLink
                       to="/products/refillable-deodorant/customize"
                       prefetch="intent"
@@ -74,7 +78,14 @@ export function Footer({
                     />
                   )}
                 </div>
+                <div className="footer-social">
+                  <h3>Social</h3>
+                  <SocialLinks compact />
+                </div>
               </div>
+            </div>
+            <div className="footer-bottom">
+              <p>Copyright © 2026 Aromaz Cosmetics. All rights reserved.</p>
             </div>
           </footer>
         )}

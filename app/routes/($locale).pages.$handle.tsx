@@ -1,6 +1,8 @@
 import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import {SocialLinks} from '~/components/SocialLinks';
+import {StockistsPage} from '~/components/StockistsPage';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [{title: `Aromaz | ${data?.page.title ?? ''}`}];
@@ -41,6 +43,22 @@ async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
     };
   }
 
+  if (params.handle === 'stockists') {
+    return {
+      page: {
+        handle: 'stockists',
+        id: 'aromaz-stockists',
+        title: 'Find a Store',
+        body: '',
+        seo: {
+          description:
+            'Find Aromaz stockists, retail partners, refill locations, and wholesale opportunities.',
+          title: 'Find a Store',
+        },
+      },
+    };
+  }
+
   const [{page}] = await Promise.all([
     context.storefront.query(PAGE_QUERY, {
       variables: {
@@ -75,6 +93,10 @@ export default function Page() {
 
   if (page.handle === 'contact') {
     return <ContactPage />;
+  }
+
+  if (page.handle === 'stockists') {
+    return <StockistsPage />;
   }
 
   return (
@@ -139,6 +161,14 @@ function ContactPage() {
             Contact partnerships
           </a>
         </article>
+      </section>
+
+      <section className="contact-social">
+        <div>
+          <p>Follow Aromaz</p>
+          <h2>New scents, product drops, and retail updates.</h2>
+        </div>
+        <SocialLinks />
       </section>
 
       <section className="contact-brochure">

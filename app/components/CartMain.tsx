@@ -97,7 +97,7 @@ function CartEmpty({
           to="/collections/all"
           onClick={close}
           prefetch="viewport"
-          className="inline-block rounded-md bg-charcoal px-6 py-3 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream transition-colors hover:bg-sage"
+          className="cart-empty-action"
         >
           Continue shopping
         </Link>
@@ -113,7 +113,12 @@ function CartEmpty({
         started!
       </p>
       <br />
-      <Link to="/collections/all" onClick={close} prefetch="viewport">
+      <Link
+        to="/collections/all"
+        onClick={close}
+        prefetch="viewport"
+        className="cart-empty-action"
+      >
         Continue shopping
       </Link>
     </div>

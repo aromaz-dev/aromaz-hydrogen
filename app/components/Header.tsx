@@ -112,6 +112,15 @@ export function HeaderMenu({
             onClick={close}
             prefetch="intent"
             style={activeLinkStyle}
+            to="/pages/stockists"
+          >
+            Find a Store
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
             to="/pages/contact"
           >
             Contact
@@ -165,6 +174,16 @@ export function HeaderMenu({
             onClick={close}
             prefetch="intent"
             style={activeLinkStyle}
+            to="/pages/stockists"
+          >
+            Find a Store
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            end
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
             to="/pages/contact"
           >
             Contact
@@ -187,10 +206,14 @@ export function HeaderMenu({
           item.title.toLowerCase() === 'products' ||
           item.title.toLowerCase() === 'about' ||
           item.title.toLowerCase() === 'contact' ||
+          item.title.toLowerCase() === 'find a store' ||
+          item.title.toLowerCase() === 'stockists' ||
           url === '/' ||
           url === '/collections' ||
           url === '/collections/all' ||
-          url === '/pages/contact'
+          url === '/pages/contact' ||
+          url === '/pages/stockists' ||
+          url === '/stockists'
         ) {
           return null;
         }

@@ -61,9 +61,9 @@ export default function Homepage() {
   return (
     <div className="home">
       <Hero />
+      <RecommendedProducts products={data.recommendedProducts} />
       <BrandStory />
       <IngredientsShowcase />
-      <RecommendedProducts products={data.recommendedProducts} />
     </div>
   );
 }
@@ -99,16 +99,34 @@ function Hero() {
         1,
         Math.max(0, (window.scrollY - heroTop) / heroHeight),
       );
+      const isCompact = window.matchMedia('(max-width: 900px)').matches;
 
       image.style.transform = `translate3d(0, ${-10 + progress * 30}%, 0) scale(${
         1.08 + progress * 0.06
       })`;
       copy.style.transform = `translate3d(0, ${progress * -32}px, 0)`;
       copy.style.opacity = `${1 - progress * 0.12}`;
-      actions.style.transform = `translate3d(0, ${progress * 420}px, 0)`;
-      actions.style.opacity = `${Math.max(0, 1 - Math.max(0, progress - 0.7) / 0.3)}`;
-      proof.style.transform = `translate3d(0, ${progress * -120}px, 0)`;
-      proof.style.opacity = `${1 - progress * 0.55}`;
+
+      const actionsStopY = Math.max(
+        0,
+        heroHeight -
+          copy.offsetTop -
+          actions.offsetTop -
+          actions.offsetHeight -
+          Math.min(220, heroHeight * 0.24),
+      );
+      const actionY = Math.min(actionsStopY, progress * actionsStopY * 2.1);
+      actions.style.transform = `translate3d(0, ${actionY}px, 0)`;
+      actions.style.opacity = `${Math.max(0, 1 - Math.max(0, progress - 0.76) / 0.24)}`;
+
+      if (isCompact) {
+        proof.style.transform = `translate3d(0, ${actionY}px, 0)`;
+        proof.style.opacity = '1';
+      } else {
+        const proofY = Math.max(-120, progress * -220);
+        proof.style.transform = `translate3d(0, ${proofY}px, 0)`;
+        proof.style.opacity = `${Math.max(0, 1 - Math.max(0, progress - 0.34) / 0.18)}`;
+      }
     };
 
     const requestUpdate = () => {
@@ -144,7 +162,7 @@ function Hero() {
         />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-64px)] max-w-7xl items-center px-6 py-16 md:px-10 lg:px-16">
+      <div className="home-hero-content relative z-10 mx-auto flex min-h-[calc(100svh-64px)] max-w-7xl items-center px-6 py-16 md:px-10 lg:px-16">
         <div className="home-hero-copy max-w-2xl" ref={copyRef}>
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.24em] text-clay">
             Natural refillable deodorant
@@ -162,13 +180,13 @@ function Hero() {
           >
             <Link
               to="/products/refillable-deodorant/customize"
-              className="inline-flex min-h-12 items-center justify-center rounded-md bg-cream px-7 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal shadow-lg shadow-charcoal/20 transition-colors hover:bg-terracotta hover:text-cream"
+              className="inline-flex min-h-14 items-center justify-center rounded-md bg-cream px-8 font-sans text-sm font-bold uppercase tracking-[0.12em] text-charcoal shadow-xl shadow-charcoal/30 transition-colors hover:bg-terracotta hover:text-cream"
             >
               Build your deodorant
             </Link>
             <Link
               to="/collections/all"
-              className="inline-flex min-h-12 items-center justify-center rounded-md border border-cream/40 px-7 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream transition-colors hover:border-cream hover:bg-cream/10"
+              className="home-hero-secondary-cta inline-flex min-h-14 items-center justify-center rounded-md px-8 font-sans text-sm font-bold uppercase tracking-[0.12em]"
             >
               Shop all
             </Link>
@@ -176,20 +194,22 @@ function Hero() {
         </div>
 
         <div
-          className="home-proof-strip absolute bottom-6 left-6 right-6 z-10 grid grid-cols-3 gap-2 text-cream/90 md:left-auto md:right-10 md:w-[440px]"
+          className="home-proof-strip absolute bottom-6 left-6 right-6 z-10 text-cream/90 md:left-auto md:right-10 md:w-[440px]"
           ref={proofRef}
         >
-          <div className="home-proof">
-            <span>Refillable</span>
-            <small>Less single-use packaging</small>
-          </div>
-          <div className="home-proof">
-            <span>Botanical</span>
-            <small>Scent-forward formulas</small>
-          </div>
-          <div className="home-proof">
-            <span>Flexible</span>
-            <small>One-time or subscribe</small>
+          <div className="home-proof-grid">
+            <div className="home-proof">
+              <span>Refillable</span>
+              <small>Less single-use packaging</small>
+            </div>
+            <div className="home-proof">
+              <span>Botanical</span>
+              <small>Scent-forward formulas</small>
+            </div>
+            <div className="home-proof">
+              <span>Flexible</span>
+              <small>One-time or subscribe</small>
+            </div>
           </div>
         </div>
       </div>
@@ -449,10 +469,60 @@ function RecommendedProducts({
 }: {
   products: Promise<RecommendedProductsQuery | null>;
 }) {
+  const shopSectionRef = useRef<HTMLElement>(null);
+  const shopHeaderRef = useRef<HTMLDivElement>(null);
+  const shopGridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const section = shopSectionRef.current;
+    const header = shopHeaderRef.current;
+    const grid = shopGridRef.current;
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+
+    if (!section || !header || !grid || reduceMotion) return;
+
+    let frame = 0;
+
+    const updateShopParallax = () => {
+      frame = 0;
+      const rect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || 1;
+      const progress = Math.min(
+        1,
+        Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)),
+      );
+      const entrance = Math.min(1, progress * 1.55);
+
+      header.style.transform = `translate3d(0, ${(1 - entrance) * 48}px, 0)`;
+      grid.style.transform = `translate3d(0, ${(1 - entrance) * 92}px, 0)`;
+      grid.style.opacity = `${0.72 + entrance * 0.28}`;
+    };
+
+    const requestUpdate = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateShopParallax);
+    };
+
+    updateShopParallax();
+    window.addEventListener('scroll', requestUpdate, {passive: true});
+    window.addEventListener('resize', requestUpdate);
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+    };
+  }, []);
+
   return (
-    <section className="bg-off-white py-16 md:py-24 px-6 md:px-10 lg:px-16">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <section className="home-shop-overlap" ref={shopSectionRef}>
+      <div className="home-shop-shell">
+        <div
+          className="home-shop-heading mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
+          ref={shopHeaderRef}
+        >
           <div>
             <p className="font-sans text-xs font-semibold uppercase tracking-[0.22em] text-olive">
               Shop Aromaz
@@ -463,22 +533,47 @@ function RecommendedProducts({
           </div>
           <Link
             to="/products/refillable-deodorant/customize"
-            className="inline-flex min-h-11 items-center justify-center rounded-md bg-terracotta px-5 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-cream shadow-md shadow-terracotta/20 transition-colors hover:bg-charcoal"
+            className="home-shop-cta inline-flex min-h-14 items-center justify-center rounded-md bg-charcoal px-8 font-sans text-sm font-bold uppercase tracking-[0.14em] text-cream shadow-xl shadow-charcoal/20 transition-colors hover:bg-terracotta"
           >
             Build your deodorant
           </Link>
         </div>
         <Suspense fallback={<div className="text-center text-charcoal/60">Loading products...</div>}>
           <Await resolve={products}>
-            {(response) => (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
-                {response
-                  ? response.products.nodes.map((product) => (
+            {(response) => {
+              const products = response?.products?.nodes ?? [];
+              const soapIndex = products.findIndex((product) => {
+                const productName = `${product.title} ${product.handle}`.toLowerCase();
+                return (
+                  productName.includes('soap') ||
+                  productName.includes('loofah') ||
+                  product.handle === 'beauty-example-product-1'
+                );
+              });
+              const featuredProducts =
+                soapIndex > -1
+                  ? [
+                      ...products.slice(0, 4),
+                      products[soapIndex],
+                    ].filter(
+                      (product, index, list) =>
+                        product &&
+                        list.findIndex((item) => item.id === product.id) ===
+                          index,
+                    )
+                  : products.slice(0, 5);
+
+              return (
+              <div
+                className="home-shop-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 md:gap-6"
+                ref={shopGridRef}
+              >
+                {featuredProducts.map((product) => (
                       <ProductItem key={product.id} product={product} />
-                    ))
-                  : null}
+                    ))}
               </div>
-            )}
+              );
+            }}
           </Await>
         </Suspense>
       </div>
@@ -530,7 +625,8 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   }
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    products(first: 4, sortKey: UPDATED_AT, reverse: true) {
+    products(first: 8, sortKey: UPDATED_AT, reverse: true) {
+      nodes {
       nodes {
         ...RecommendedProduct
       }
