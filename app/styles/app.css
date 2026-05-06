@@ -3038,6 +3038,11 @@ aside header {
   transform: translateY(-1px);
 }
 
+.stockists-map-anchor {
+  min-width: 0;
+  width: 100%;
+}
+
 .stockists-map-card {
   backdrop-filter: blur(18px);
   background: rgba(249, 244, 238, 0.18);
@@ -3050,13 +3055,280 @@ aside header {
   position: relative;
 }
 
-.stockists-map-card iframe {
+.stockists-slippy-map {
   background: var(--color-linen);
-  border: 0;
   border-radius: 6px;
-  display: block;
+  cursor: grab;
   min-height: min(58svh, 520px);
+  overflow: hidden;
+  position: relative;
+  touch-action: none;
+  user-select: none;
   width: 100%;
+}
+
+.stockists-slippy-map:active {
+  cursor: grabbing;
+}
+
+.stockists-map-tiles {
+  inset: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+.stockists-map-tiles img {
+  height: 256px;
+  position: absolute;
+  width: 256px;
+  user-select: none;
+}
+
+.stockists-map-pin {
+  align-items: center;
+  background: var(--color-terracotta);
+  border: 2px solid var(--color-cream);
+  border-radius: 999px;
+  box-shadow: 0 12px 30px rgba(32, 35, 34, 0.28);
+  color: var(--color-cream);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.68rem;
+  font-weight: 800;
+  gap: 0.35rem;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  padding: 0.36rem 0.58rem;
+  pointer-events: auto;
+  position: absolute;
+  text-transform: uppercase;
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+  width: auto;
+  z-index: 2;
+}
+
+.stockists-map-pin::after {
+  background: var(--color-cream);
+  border-radius: 999px;
+  content: "";
+  flex: 0 0 auto;
+  height: 0.48rem;
+  width: 0.48rem;
+}
+
+.stockists-map-pin span {
+  color: var(--color-cream);
+  font: inherit;
+  opacity: 1;
+  padding: 0;
+  pointer-events: none;
+  position: static;
+  transform: none;
+  white-space: nowrap;
+}
+
+.stockists-map-pin:hover,
+.stockists-map-pin:focus-visible {
+  background: var(--color-charcoal);
+  transform: translate(-50%, calc(-100% - 2px));
+}
+
+.stockists-map-pin--selected {
+  background: var(--color-charcoal);
+  z-index: 5;
+}
+
+.stockists-map-info {
+  background: var(--color-off-white);
+  border: 1px solid rgba(32, 35, 34, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 22px 56px rgba(32, 35, 34, 0.18);
+  color: var(--color-charcoal);
+  display: grid;
+  gap: 0.5rem;
+  left: clamp(1.1rem, 3vw, 1.5rem);
+  max-width: min(17rem, calc(100% - 2.2rem));
+  padding: 0.9rem 0.95rem 0.95rem;
+  position: absolute;
+  top: clamp(1.1rem, 3vw, 1.5rem);
+  z-index: 6;
+}
+
+.stockists-map-info > span {
+  color: var(--color-olive);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.stockists-map-info h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  line-height: 0.95;
+  margin: 0;
+  padding-right: 1.8rem;
+}
+
+.stockists-map-info address {
+  color: rgba(32, 35, 34, 0.72);
+  font-size: 0.74rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.stockists-map-info-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+}
+
+.stockists-map-info a,
+.stockists-map-info-actions button {
+  align-items: center;
+  border-radius: 6px;
+  display: inline-flex;
+  font-size: 0.62rem;
+  font-weight: 800;
+  justify-content: center;
+  letter-spacing: 0.12em;
+  min-height: 36px;
+  padding: 0.58rem 0.7rem;
+  text-transform: uppercase;
+}
+
+.stockists-map-info a {
+  background: var(--color-charcoal);
+  border: 1px solid var(--color-charcoal);
+  color: var(--color-cream);
+}
+
+.stockists-map-info-actions button {
+  background: transparent;
+  border: 1px solid rgba(32, 35, 34, 0.18);
+  color: var(--color-charcoal);
+  cursor: pointer;
+}
+
+.stockists-map-info a:hover,
+.stockists-map-info-actions button:hover {
+  background: var(--color-terracotta);
+  border-color: var(--color-terracotta);
+  color: var(--color-cream);
+  text-decoration: none;
+}
+
+.stockists-map-info-close {
+  align-items: center;
+  background: var(--color-charcoal);
+  border: 0;
+  border-radius: 999px;
+  color: var(--color-cream);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1rem;
+  height: 1.65rem;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  position: absolute;
+  right: 0.8rem;
+  top: 0.8rem;
+  width: 1.65rem;
+}
+
+.stockists-map-reset {
+  align-items: center;
+  background: rgba(253, 252, 250, 0.94);
+  border: 1px solid rgba(32, 35, 34, 0.12);
+  border-radius: 999px;
+  box-shadow: 0 12px 30px rgba(32, 35, 34, 0.16);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.68rem;
+  font-weight: 800;
+  gap: 0.35rem;
+  letter-spacing: 0.12em;
+  min-height: 2.25rem;
+  padding: 0 0.85rem 0 0.45rem;
+  position: absolute;
+  right: clamp(1.1rem, 3vw, 1.5rem);
+  text-transform: uppercase;
+  top: clamp(1.1rem, 3vw, 1.5rem);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+  z-index: 4;
+}
+
+.stockists-map-reset span {
+  align-items: center;
+  background: var(--color-charcoal);
+  border-radius: 999px;
+  color: var(--color-cream);
+  display: inline-flex;
+  font-size: 0.9rem;
+  height: 1.45rem;
+  justify-content: center;
+  line-height: 1;
+  width: 1.45rem;
+}
+
+.stockists-map-reset:hover {
+  background: var(--color-terracotta);
+  color: var(--color-cream);
+  transform: translateY(-1px);
+}
+
+.stockists-map-zoom {
+  display: grid;
+  gap: 0.4rem;
+  position: absolute;
+  right: clamp(1.1rem, 3vw, 1.5rem);
+  top: clamp(4rem, 8vw, 4.7rem);
+  z-index: 4;
+}
+
+.stockists-map-zoom button {
+  align-items: center;
+  background: rgba(253, 252, 250, 0.94);
+  border: 1px solid rgba(32, 35, 34, 0.12);
+  border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(32, 35, 34, 0.14);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1.1rem;
+  font-weight: 800;
+  height: 2.25rem;
+  justify-content: center;
+  line-height: 1;
+  width: 2.25rem;
+}
+
+.stockists-map-zoom button:hover {
+  background: var(--color-terracotta);
+  color: var(--color-cream);
+}
+
+.stockists-map-attribution {
+  background: rgba(253, 252, 250, 0.82);
+  bottom: 0;
+  color: rgba(32, 35, 34, 0.72);
+  font-size: 0.62rem;
+  margin: 0;
+  padding: 0.18rem 0.4rem;
+  position: absolute;
+  right: 0;
+  z-index: 3;
 }
 
 .stockists-map-caption {
@@ -3073,6 +3345,7 @@ aside header {
   max-width: min(22rem, calc(100% - 2rem));
   padding: 1rem 1.1rem;
   position: absolute;
+  z-index: 3;
 }
 
 .stockists-map-caption strong {
@@ -3088,6 +3361,36 @@ aside header {
   letter-spacing: 0.1em;
   line-height: 1.4;
   text-transform: uppercase;
+}
+
+.stockists-map-caption button {
+  align-items: center;
+  background: var(--color-charcoal);
+  border: 1px solid var(--color-charcoal);
+  border-radius: 6px;
+  color: var(--color-cream);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.72rem;
+  font-weight: 700;
+  justify-content: center;
+  justify-self: start;
+  letter-spacing: 0.14em;
+  margin-top: 0.65rem;
+  min-height: 40px;
+  padding: 0.7rem 0.9rem;
+  text-transform: uppercase;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.stockists-map-caption button:hover {
+  background: var(--color-terracotta);
+  border-color: var(--color-terracotta);
+  transform: translateY(-1px);
 }
 
 .stockists-directory {
@@ -3158,6 +3461,16 @@ aside header {
   border: 1px solid rgba(32, 35, 34, 0.08);
   border-radius: 8px;
   padding: clamp(1.25rem, 3vw, 1.8rem);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.stockists-list article.stockists-list-item--active {
+  border-color: rgba(178, 68, 30, 0.38);
+  box-shadow: 0 20px 48px rgba(32, 35, 34, 0.12);
+  transform: translateY(-2px);
 }
 
 .stockists-list span {
@@ -3194,11 +3507,20 @@ aside header {
   margin: 0 0 1.2rem;
 }
 
-.stockists-list a {
+.stockists-list-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.stockists-list a,
+.stockists-list button {
   align-items: center;
   background: var(--color-charcoal);
+  border: 1px solid var(--color-charcoal);
   border-radius: 6px;
   color: var(--color-cream);
+  cursor: pointer;
   display: inline-flex;
   font-size: 0.72rem;
   font-weight: 700;
@@ -3213,8 +3535,16 @@ aside header {
     transform 160ms ease;
 }
 
-.stockists-list a:hover {
+.stockists-list a {
+  background: transparent;
+  border-color: rgba(32, 35, 34, 0.2);
+  color: var(--color-charcoal);
+}
+
+.stockists-list a:hover,
+.stockists-list button:hover {
   background: var(--color-terracotta);
+  border-color: var(--color-terracotta);
   color: var(--color-cream);
   transform: translateY(-1px);
 }
@@ -3236,7 +3566,7 @@ aside header {
     min-height: auto;
   }
 
-  .stockists-map-card iframe {
+  .stockists-slippy-map {
     min-height: 340px;
   }
 }

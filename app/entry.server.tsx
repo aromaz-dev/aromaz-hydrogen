@@ -39,6 +39,7 @@ export default async function handleRequest(
       'https://maps.googleapis.com',
       'https://maps.gstatic.com',
       'https://*.googleusercontent.com',
+      'https://tile.openstreetmap.org',
     ],
     frameSrc: [
       "'self'",
