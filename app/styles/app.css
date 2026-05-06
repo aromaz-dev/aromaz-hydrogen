@@ -933,6 +933,8 @@ img {
   background: rgba(253, 252, 250, 0.92);
   border-bottom: 1px solid rgba(32, 35, 34, 0.1);
   backdrop-filter: blur(18px);
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  flex-wrap: nowrap;
   height: var(--header-height);
   padding: 0 clamp(1rem, 3vw, 2.5rem);
   transition:
@@ -987,6 +989,7 @@ img {
 .header-menu-desktop {
   align-items: center;
   gap: 1.35rem;
+  margin-left: 0;
   transition: gap 180ms ease;
 }
 
@@ -1004,6 +1007,7 @@ img {
   min-height: 2.5rem;
   text-transform: uppercase;
   transform-origin: center;
+  white-space: nowrap;
   transition:
     color 160ms ease,
     font-size 180ms ease,
@@ -1024,6 +1028,7 @@ img {
 
 .header-ctas {
   gap: 1rem;
+  margin-left: auto;
   transition: gap 180ms ease;
 }
 
@@ -1031,7 +1036,7 @@ img {
   border: 1px solid rgba(178, 68, 30, 0.28);
   border-radius: 6px;
   color: var(--color-terracotta);
-  margin-left: 1.25rem;
+  margin-left: 0;
   min-height: 2.4rem;
   padding: 0 0.85rem;
 }
@@ -1106,13 +1111,13 @@ img {
 }
 
 .header--scrolled .header-build-link {
-  margin-left: 0.8rem;
+  margin-left: 0;
   min-height: 2rem;
   padding: 0 0.65rem;
 }
 
 .header--scrolled:hover .header-build-link {
-  margin-left: 1.25rem;
+  margin-left: 0;
   min-height: 2.4rem;
   padding: 0 0.85rem;
 }
@@ -1170,6 +1175,60 @@ img {
 .header-menu-mobile-toggle h3::before {
   content: "Menu";
   font-size: 0.78rem;
+}
+
+@media (max-width: 1180px) and (min-width: 1025px) {
+  .header {
+    gap: 0.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .header-menu-desktop {
+    gap: 0.8rem;
+  }
+
+  .header-ctas {
+    gap: 0.65rem;
+  }
+
+  .header-menu-item,
+  .header-link,
+  .header-cart,
+  .header-build-link {
+    font-size: 0.68rem;
+    letter-spacing: 0.09em;
+  }
+
+  .header-build-link {
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+  }
+
+  .header-logo span {
+    font-size: 1.28rem;
+  }
+
+  .header-logo small {
+    font-size: 0.56rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .header-menu-desktop,
+  .header-build-link,
+  .header-account {
+    display: none;
+  }
+
+  .header-menu-mobile-toggle {
+    display: inline-flex;
+  }
+
+  .header {
+    padding-left: clamp(0.9rem, 3vw, 1.5rem);
+    padding-right: clamp(0.9rem, 3vw, 1.5rem);
+  }
 }
 
 @media (max-width: 47.99em) {
@@ -1550,12 +1609,16 @@ aside header {
 .home-story-media img {
   height: 112%;
   transform: translateY(-6%) scale(1.03);
-  transition: transform 500ms ease;
   will-change: transform;
 }
 
 .home-story-media:hover img {
-  transform: translateY(-6%) scale(1.07);
+  filter: saturate(1.06);
+}
+
+.home-shop-grid .product-card-media img {
+  transform-origin: center;
+  will-change: transform;
 }
 
 .catalog-hero p,
@@ -2511,15 +2574,18 @@ aside header {
     url("/brochure/bg-loofah-lavender-sunny.png") center / cover fixed;
   color: var(--color-cream);
   display: grid;
-  gap: clamp(2rem, 5vw, 5rem);
-  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.85fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  grid-template-columns: minmax(0, 0.68fr) minmax(260px, 0.32fr);
   min-height: calc(100svh - var(--header-height));
   overflow: hidden;
   padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
+  position: relative;
 }
 
 .contact-hero-copy {
-  max-width: 780px;
+  max-width: min(760px, 100%);
+  position: relative;
+  z-index: 2;
 }
 
 .contact-hero-copy p,
@@ -2535,9 +2601,10 @@ aside header {
 
 .contact-hero-copy h1 {
   font-family: var(--font-serif);
-  font-size: clamp(3rem, 8vw, 7.25rem);
+  font-size: clamp(3rem, 5.4vw, 5.8rem);
   line-height: 0.9;
   margin: 0;
+  max-width: 12ch;
 }
 
 .contact-hero-copy span {
@@ -2575,29 +2642,43 @@ aside header {
 }
 
 .contact-hero-products {
-  align-items: end;
+  align-items: center;
   display: grid;
-  gap: clamp(0.75rem, 2vw, 1.2rem);
-  grid-template-columns: 1fr 0.68fr 0.88fr;
-  min-height: 440px;
+  gap: clamp(0.65rem, 1.4vw, 1rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-self: end;
+  margin-top: 0;
+  max-width: min(430px, 100%);
+  min-height: auto;
+  position: relative;
+  width: 100%;
+  z-index: 1;
 }
 
 .contact-hero-products img {
-  animation: contact-product-parallax linear both;
-  animation-range: entry 0% exit 100%;
-  animation-timeline: view();
+  animation: none;
   filter: drop-shadow(0 34px 60px rgba(32, 35, 34, 0.34));
-  max-height: 520px;
+  max-height: clamp(120px, 19vw, 250px);
   object-fit: contain;
+  transform: none;
   width: 100%;
 }
 
+.contact-hero-products img:first-child {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 76%;
+}
+
 .contact-hero-products img:nth-child(2) {
-  transform: translateY(-1.5rem);
+  justify-self: end;
+  transform: none;
+  width: 78%;
 }
 
 .contact-hero-products img:nth-child(3) {
-  transform: translateY(1.5rem);
+  justify-self: start;
+  transform: none;
 }
 
 .contact-info-band {
@@ -2705,6 +2786,181 @@ aside header {
   background: var(--color-cream);
   color: var(--color-charcoal);
   white-space: nowrap;
+}
+
+@media (max-width: 1280px) {
+  .contact-hero {
+    background-attachment: scroll;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    grid-template-columns: minmax(0, 0.66fr) minmax(220px, 0.34fr);
+    min-height: auto;
+    overflow: hidden;
+  }
+
+  .contact-hero-copy {
+    max-width: min(680px, 100%);
+  }
+
+  .contact-hero-copy h1 {
+    font-size: clamp(3rem, 5.2vw, 5rem);
+    max-width: 12ch;
+  }
+
+  .contact-hero-products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: auto;
+    max-width: min(360px, 100%);
+  }
+
+  .contact-hero-products img {
+    animation: none;
+    max-height: min(24svh, 210px);
+    transform: none;
+  }
+
+  .contact-hero-products img:nth-child(2),
+  .contact-hero-products img:nth-child(3) {
+    transform: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .shop-hero {
+    background-attachment: scroll;
+    gap: clamp(1.5rem, 5vw, 2.5rem);
+    grid-template-columns: 1fr;
+    min-height: auto;
+    overflow: visible;
+    padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 5vw, 3rem);
+  }
+
+  .shop-hero-copy {
+    max-width: min(760px, 100%);
+  }
+
+  .shop-hero-copy h1 {
+    font-size: clamp(3rem, 12vw, 5.4rem);
+    max-width: 12ch;
+  }
+
+  .shop-hero-copy span {
+    max-width: 42rem;
+  }
+
+  .shop-hero-media {
+    align-items: end;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 0.5rem;
+    min-height: auto;
+  }
+
+  .shop-hero-media img {
+    animation: none;
+    max-height: min(34svh, 280px);
+    transform: none;
+  }
+
+  .shop-hero-media img:nth-child(2),
+  .shop-hero-media img:nth-child(3) {
+    transform: none;
+  }
+
+  .shop-grid-heading,
+  .contact-info-band,
+  .contact-brochure,
+  .contact-social {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-info-band article {
+    min-height: auto;
+  }
+
+  .contact-brochure a {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 1024px) {
+  .contact-hero {
+    background-attachment: scroll;
+    gap: clamp(1.5rem, 5vw, 2.5rem);
+    grid-template-columns: 1fr;
+    min-height: auto;
+    overflow: visible;
+    padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 5vw, 3rem);
+  }
+
+  .contact-hero-copy {
+    max-width: min(760px, 100%);
+  }
+
+  .contact-hero-copy h1 {
+    font-size: clamp(3rem, 10vw, 5rem);
+    max-width: 12ch;
+  }
+
+  .contact-hero-copy span {
+    max-width: 42rem;
+  }
+
+  .contact-hero-products {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-self: stretch;
+    margin-top: 0.5rem;
+    max-width: none;
+  }
+
+  .contact-hero-products img,
+  .contact-hero-products img:first-child,
+  .contact-hero-products img:nth-child(2),
+  .contact-hero-products img:nth-child(3) {
+    max-height: min(30svh, 240px);
+    width: 100%;
+  }
+
+  .contact-hero-products img:first-child {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .shop-hero,
+  .contact-hero {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .shop-hero-copy h1,
+  .contact-hero-copy h1 {
+    font-size: clamp(2.7rem, 11vw, 3.6rem);
+    max-width: 100%;
+  }
+
+  .shop-hero-copy span,
+  .contact-hero-copy span {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .shop-hero-actions {
+    flex-direction: column;
+  }
+
+  .shop-hero-actions a,
+  .contact-hero-copy a {
+    width: 100%;
+  }
+
+  .shop-hero-media,
+  .contact-hero-products {
+    gap: 0.65rem;
+  }
+
+  .shop-hero-media img,
+  .contact-hero-products img {
+    max-height: min(24svh, 190px);
+  }
 }
 
 .stockists-page {
@@ -2925,10 +3181,42 @@ aside header {
   margin-bottom: 0.75rem;
 }
 
+.stockists-list address {
+  color: rgba(32, 35, 34, 0.74);
+  font-style: normal;
+  line-height: 1.55;
+  margin: 0 0 0.9rem;
+}
+
 .stockists-list p {
   color: rgba(32, 35, 34, 0.72);
   line-height: 1.65;
-  margin: 0;
+  margin: 0 0 1.2rem;
+}
+
+.stockists-list a {
+  align-items: center;
+  background: var(--color-charcoal);
+  border-radius: 6px;
+  color: var(--color-cream);
+  display: inline-flex;
+  font-size: 0.72rem;
+  font-weight: 700;
+  justify-content: center;
+  letter-spacing: 0.14em;
+  min-height: 42px;
+  padding: 0.75rem 1rem;
+  text-transform: uppercase;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.stockists-list a:hover {
+  background: var(--color-terracotta);
+  color: var(--color-cream);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 900px) {

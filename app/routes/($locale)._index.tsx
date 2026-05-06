@@ -4,9 +4,11 @@ import {Suspense, useEffect, useRef} from 'react';
 import {Image} from '@shopify/hydrogen';
 import type {
   FeaturedCollectionFragment,
+  RecommendedProductFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/ProductItem';
+import {BROCHURE_PRODUCTS} from '~/lib/brochure-products';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'Aromaz | Artisanal Natural Cosmetics'}];
@@ -101,8 +103,8 @@ function Hero() {
       );
       const isCompact = window.matchMedia('(max-width: 900px)').matches;
 
-      image.style.transform = `translate3d(0, ${-10 + progress * 30}%, 0) scale(${
-        1.08 + progress * 0.06
+      image.style.transform = `translate3d(0, ${-10 + progress * 24}%, 0) scale(${
+        1.08 + progress * 0.18
       })`;
       copy.style.transform = `translate3d(0, ${progress * -32}px, 0)`;
       copy.style.opacity = `${1 - progress * 0.12}`;
@@ -240,7 +242,10 @@ function BrandStory() {
       rows.forEach((row) => {
         const copy = row.querySelector<HTMLElement>('.home-story-copy');
         const media = row.querySelector<HTMLElement>('.home-story-media');
-        if (!copy || !media) return;
+        const image = row.querySelector<HTMLImageElement>(
+          '.home-story-media img',
+        );
+        if (!copy || !media || !image) return;
 
         const rect = row.getBoundingClientRect();
         const progress = Math.min(
@@ -250,10 +255,13 @@ function BrandStory() {
 
         const copyY = -74 + progress * 160;
         const mediaY = 42 - progress * 84;
+        const imageScale = 1.02 + progress * 0.1;
+        const imageY = -8 + progress * 4;
 
         copy.style.transform = `translate3d(0, ${copyY}px, 0)`;
         copy.style.opacity = `${0.72 + Math.min(progress, 0.65) * 0.43}`;
         media.style.transform = `translate3d(0, ${mediaY}px, 0)`;
+        image.style.transform = `translate3d(0, ${imageY}%, 0) scale(${imageScale})`;
       });
     };
 
@@ -498,6 +506,14 @@ function RecommendedProducts({
       header.style.transform = `translate3d(0, ${(1 - entrance) * 48}px, 0)`;
       grid.style.transform = `translate3d(0, ${(1 - entrance) * 92}px, 0)`;
       grid.style.opacity = `${0.72 + entrance * 0.28}`;
+
+      grid
+        .querySelectorAll<HTMLImageElement>('.product-card-media img')
+        .forEach((image, index) => {
+          const delay = Math.min(index * 0.045, 0.18);
+          const zoom = Math.min(1, Math.max(0, entrance - delay));
+          image.style.transform = `scale(${1 + zoom * 0.075})`;
+        });
     };
 
     const requestUpdate = () => {
@@ -538,7 +554,7 @@ function RecommendedProducts({
             Build your deodorant
           </Link>
         </div>
-        <Suspense fallback={<div className="text-center text-charcoal/60">Loading products...</div>}>
+        <Suspense fallback={<HomeShopFallbackGrid />}>
           <Await resolve={products}>
             {(response) => {
               const products = response?.products?.nodes ?? [];
@@ -559,18 +575,31 @@ function RecommendedProducts({
                       (product, index, list) =>
                         product &&
                         list.findIndex((item) => item.id === product.id) ===
-                          index,
+                        index,
                     )
                   : products.slice(0, 5);
+              const fallbackCards = getHomeShopFallbackCards(featuredProducts);
 
               return (
               <div
                 className="home-shop-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 md:gap-6"
                 ref={shopGridRef}
               >
-                {featuredProducts.map((product) => (
+                {featuredProducts.length > 0 ? (
+                  <>
+                    {featuredProducts.map((product) => (
                       <ProductItem key={product.id} product={product} />
                     ))}
+                    {fallbackCards.map((product) => (
+                      <HomeShopFallbackCard
+                        key={product.name}
+                        product={product}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <HomeShopFallbackCards />
+                )}
               </div>
               );
             }}
@@ -578,6 +607,136 @@ function RecommendedProducts({
         </Suspense>
       </div>
     </section>
+  );
+}
+
+type HomeShopFallbackProduct = {
+  name: string;
+  category: string;
+  price: string;
+  image: string;
+  href: string;
+};
+
+const HOME_SHOP_FALLBACK_PRODUCTS = [
+  {
+    name: 'Deodorant Refill',
+    category: 'Refill',
+    price: 'CA$16.85',
+    image: '/aromaz-products/deodorant-refill.png',
+    href: '/products/beauty-example-product-3',
+  },
+  {
+    name: 'Deodorant Eco-Case',
+    category: 'Deodorant',
+    price: 'CA$8.64',
+    image: '/aromaz-products/deodorant-eco-case.png',
+    href: '/products/beauty-example-product-4',
+  },
+  {
+    name: 'Natural Loofah Soap',
+    category: 'Soap',
+    price: 'CA$12.00',
+    image: BROCHURE_PRODUCTS[5].image,
+    href: BROCHURE_PRODUCTS[5].href,
+  },
+  {
+    name: 'Lip Balm',
+    category: 'Daily care',
+    price: 'CA$5.00',
+    image: '/aromaz-products/lip-balm.png',
+    href: '/products/refresh-renew-bundle?Ingredient%20origin=Cooling%20Lip%20Balm',
+  },
+  {
+    name: 'Mini Deodorant',
+    category: 'Deodorant',
+    price: 'CA$12.40',
+    image: '/aromaz-products/mini-deodorant.png',
+    href: '/products/beauty-example-product-2',
+  },
+] satisfies HomeShopFallbackProduct[];
+
+function getHomeShopFallbackCards(products: RecommendedProductFragment[]) {
+  const neededCount = Math.max(0, 5 - products.length);
+
+  if (!neededCount) {
+    return [];
+  }
+
+  return HOME_SHOP_FALLBACK_PRODUCTS.filter(
+    (fallbackProduct) =>
+      !products.some((product) =>
+        isMatchingHomeShopProduct(fallbackProduct.name, product),
+      ),
+  ).slice(0, neededCount);
+}
+
+function isMatchingHomeShopProduct(
+  fallbackName: string,
+  product: RecommendedProductFragment,
+) {
+  const fallback = fallbackName.toLowerCase();
+  const storefrontProduct = `${product.title} ${product.handle}`.toLowerCase();
+
+  if (fallback.includes('mini')) return storefrontProduct.includes('mini');
+  if (fallback.includes('refill')) return storefrontProduct.includes('refill');
+  if (fallback.includes('case')) return storefrontProduct.includes('case');
+  if (fallback.includes('soap')) {
+    return (
+      storefrontProduct.includes('soap') ||
+      storefrontProduct.includes('loofah') ||
+      product.handle === 'beauty-example-product-1'
+    );
+  }
+  if (fallback.includes('balm')) return storefrontProduct.includes('balm');
+
+  return storefrontProduct.includes(fallback);
+}
+
+function HomeShopFallbackGrid() {
+  return (
+    <div className="home-shop-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 md:gap-6">
+      <HomeShopFallbackCards />
+    </div>
+  );
+}
+
+function HomeShopFallbackCards() {
+  return (
+    <>
+      {HOME_SHOP_FALLBACK_PRODUCTS.map((product) => (
+        <HomeShopFallbackCard key={product.name} product={product} />
+      ))}
+    </>
+  );
+}
+
+function HomeShopFallbackCard({
+  product,
+}: {
+  product: (typeof HOME_SHOP_FALLBACK_PRODUCTS)[number];
+}) {
+  return (
+    <Link className="product-card group" to={product.href} prefetch="intent">
+      <div className="product-card-media">
+        <img
+          alt={product.name}
+          src={product.image}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+          loading="lazy"
+        />
+      </div>
+      <div className="product-card-body">
+        <div>
+          <p className="product-card-kicker">{product.category}</p>
+          <h4>{product.name}</h4>
+        </div>
+        <div className="product-card-footer">
+          <span>{product.price}</span>
+          <small>Shop now</small>
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -626,7 +785,6 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
     products(first: 8, sortKey: UPDATED_AT, reverse: true) {
-      nodes {
       nodes {
         ...RecommendedProduct
       }

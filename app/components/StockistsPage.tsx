@@ -1,25 +1,37 @@
 const STOCKIST_CATEGORIES = ['All', 'Retail', 'Refill', 'Wholesale'];
 
-const PREVIEW_LOCATIONS = [
+const STOCKIST_LOCATIONS = [
   {
-    name: 'Aromaz Stockist Network',
+    name: 'Shop Makers Park Royal',
     type: 'Retail',
-    city: 'Coming soon',
-    detail: 'Retail partner list will be added when locations are confirmed.',
+    city: 'West Vancouver, BC',
+    address: '2002 Park Royal S #967, West Vancouver, BC V7T 2W4',
+    detail: 'Aromaz is available at Shop Makers Park Royal.',
+    mapUrl:
+      'https://www.google.com/maps/search/?api=1&query=2002%20Park%20Royal%20S%20%23967%2C%20West%20Vancouver%2C%20BC%20V7T%202W4',
   },
   {
-    name: 'Refill Partners',
-    type: 'Refill',
-    city: 'Coming soon',
-    detail: 'Future refill points for deodorant cases and scent refills.',
+    name: 'Every Small Objects',
+    type: 'Retail',
+    city: 'Burnaby, BC',
+    address: '420 Grove Ave, Burnaby, BC V5B 4G3',
+    detail: 'Aromaz is available at Every Small Objects.',
+    mapUrl:
+      'https://www.google.com/maps/search/?api=1&query=420%20Grove%20Ave%2C%20Burnaby%2C%20BC%20V5B%204G3',
   },
   {
-    name: 'Wholesale Inquiries',
-    type: 'Wholesale',
-    city: 'Open now',
-    detail: 'Email for brochure access, product catalog, and retail terms.',
+    name: 'Daydream Factory',
+    type: 'Retail',
+    city: 'Vancouver, BC',
+    address: '2987 Granville St, Vancouver, BC V6H 3J6',
+    detail: 'Aromaz is available at Daydream Factory.',
+    mapUrl:
+      'https://www.google.com/maps/search/?api=1&query=2987%20Granville%20St%2C%20Vancouver%2C%20BC%20V6H%203J6',
   },
 ];
+
+const MAP_QUERY =
+  'Shop Makers Park Royal Every Small Objects Daydream Factory Vancouver BC Aromaz';
 
 export function StockistsPage() {
   return (
@@ -29,8 +41,8 @@ export function StockistsPage() {
           <p>Find a Store</p>
           <h1>Aromaz stockists and refill partners.</h1>
           <span>
-            A store locator for boutiques, wellness shops, refill bars, and
-            wholesale partners carrying Aromaz natural personal care.
+            Find Aromaz at current Vancouver-area retail partners carrying our
+            natural personal care.
           </span>
           <a href="mailto:info@aromazco.com?subject=Aromaz%20Stockist%20Inquiry">
             Become a stockist
@@ -39,13 +51,15 @@ export function StockistsPage() {
         <div className="stockists-map-card" aria-label="Interactive Aromaz stockist map">
           <iframe
             title="Aromaz stockists map"
-            src="https://www.google.com/maps?q=Canada%20wellness%20beauty%20stores&output=embed"
+            src={`https://www.google.com/maps?q=${encodeURIComponent(
+              MAP_QUERY,
+            )}&output=embed`}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
           <div className="stockists-map-caption">
-            <strong>Interactive map</strong>
-            <small>Store pins will be added when locations are confirmed.</small>
+            <strong>Current stockists</strong>
+            <small>West Vancouver, Burnaby, and Vancouver locations.</small>
           </div>
         </div>
       </section>
@@ -54,11 +68,11 @@ export function StockistsPage() {
         <div className="stockists-directory-heading">
           <div>
             <p>Locate Aromaz</p>
-            <h2>Retail list ready for your store data.</h2>
+            <h2>Available now at three local shops.</h2>
           </div>
           <span>
-            Send the store names, addresses, phone numbers, and categories when
-            ready, and this page can become the live locator.
+            Visit one of the current Aromaz stockists below, or contact us for
+            wholesale and partnership inquiries.
           </span>
         </div>
 
@@ -71,12 +85,16 @@ export function StockistsPage() {
         </div>
 
         <div className="stockists-list">
-          {PREVIEW_LOCATIONS.map((location) => (
+          {STOCKIST_LOCATIONS.map((location) => (
             <article key={location.name}>
               <span>{location.type}</span>
               <h3>{location.name}</h3>
               <strong>{location.city}</strong>
+              <address>{location.address}</address>
               <p>{location.detail}</p>
+              <a href={location.mapUrl} rel="noopener noreferrer" target="_blank">
+                View on map
+              </a>
             </article>
           ))}
         </div>
