@@ -42,7 +42,7 @@ export function SubscriptionSelector({
         isSelected={selectedPlanId === null}
         onSelect={() => onSelect(null)}
         title="One-Time Purchase"
-        description="Buy once, no commitment"
+        description="Best for trying a new scent"
         price={formatPrice(basePrice, currencyCode)}
         discount={null}
       />
@@ -64,7 +64,7 @@ export function SubscriptionSelector({
             title={frequency ? `Every ${frequency}` : plan.name}
             description={
               plan.recurringDeliveries
-                ? 'Recurring delivery · Cancel anytime'
+                ? 'Recurring delivery - Cancel anytime'
                 : plan.description || ''
             }
             price={formatPrice(subscriptionPrice, currencyCode)}
@@ -98,12 +98,12 @@ function SubscriptionOption({
       type="button"
       onClick={onSelect}
       className={`
-        relative flex items-center justify-between w-full p-4 rounded-2xl
-        border-2 transition-all text-left
+        relative flex items-center justify-between w-full gap-4 rounded-md p-4
+        border transition-colors text-left
         ${
           isSelected
             ? 'border-terracotta bg-terracotta/5'
-            : 'border-charcoal/10 bg-white hover:border-charcoal/20'
+            : 'border-charcoal/10 bg-off-white hover:border-olive'
         }
       `}
     >

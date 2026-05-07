@@ -62,6 +62,17 @@ export interface SellingPlanGroup {
   };
 }
 
+function getConnectionNodes<T>(
+  connection: {nodes?: T[]; edges?: Array<{node: T}>} | null | undefined,
+): T[] {
+  if (!connection) return [];
+  if (Array.isArray(connection.nodes)) return connection.nodes;
+  if (Array.isArray(connection.edges)) {
+    return connection.edges.map((edge) => edge.node).filter(Boolean);
+  }
+  return [];
+}
+
 /**
  * Calculate the subscription price based on adjustments
  */
@@ -107,10 +118,14 @@ export function getDiscountPercentage(
  * Flatten all selling plans from selling plan groups
  */
 export function flattenSellingPlans(
-  sellingPlanGroups: {nodes: SellingPlanGroup[]} | null | undefined,
+  sellingPlanGroups:
+    | {nodes?: SellingPlanGroup[]; edges?: Array<{node: SellingPlanGroup}>}
+    | null
+    | undefined,
 ): SellingPlan[] {
-  if (!sellingPlanGroups?.nodes) return [];
-  return sellingPlanGroups.nodes.flatMap((group) => group.sellingPlans.nodes);
+  return getConnectionNodes(sellingPlanGroups).flatMap((group) =>
+    getConnectionNodes(group.sellingPlans),
+  );
 }
 
 /**

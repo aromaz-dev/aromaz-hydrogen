@@ -1,6 +1,7 @@
 import {Suspense} from 'react';
 import {Await, NavLink} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
+import {SocialLinks} from '~/components/SocialLinks';
 
 interface FooterProps {
   footer: Promise<FooterQuery | null>;
@@ -18,13 +19,74 @@ export function Footer({
       <Await resolve={footerPromise}>
         {(footer) => (
           <footer className="footer">
-            {footer?.menu && header.shop.primaryDomain?.url && (
-              <FooterMenu
-                menu={footer.menu}
-                primaryDomainUrl={header.shop.primaryDomain.url}
-                publicStoreDomain={publicStoreDomain}
-              />
-            )}
+            <div className="footer-inner">
+              <div className="footer-brand">
+                <h2>{header.shop.name}</h2>
+                <p>
+                  Refillable scent care crafted for daily rituals, natural
+                  freshness, and less waste on the shelf.
+                </p>
+                <form
+                  className="footer-newsletter"
+                  onSubmit={(event) => event.preventDefault()}
+                >
+                  <label htmlFor="footer-email">Join the Aromaz list</label>
+                  <div>
+                    <input
+                      id="footer-email"
+                      type="email"
+                      placeholder="Email address"
+                    />
+                    <button type="submit">Join</button>
+                  </div>
+                </form>
+              </div>
+              <div className="footer-links">
+                <div>
+                  <h3>Shop</h3>
+                  <nav>
+                    <NavLink to="/collections/all" prefetch="intent">
+                      All products
+                    </NavLink>
+                    <NavLink to="/catalog" prefetch="intent">
+                      Catalog
+                    </NavLink>
+                    <NavLink to="/pages/stockists" prefetch="intent">
+                      Find a Store
+                    </NavLink>
+                    <NavLink
+                      to="/products/refillable-deodorant/customize"
+                      prefetch="intent"
+                    >
+                      Build deodorant
+                    </NavLink>
+                    <NavLink to="/search" prefetch="intent">
+                      Search
+                    </NavLink>
+                    <NavLink to="/pages/contact" prefetch="intent">
+                      Contact
+                    </NavLink>
+                  </nav>
+                </div>
+                <div>
+                  <h3>Support</h3>
+                  {footer?.menu && header.shop.primaryDomain?.url && (
+                    <FooterMenu
+                      menu={footer.menu}
+                      primaryDomainUrl={header.shop.primaryDomain.url}
+                      publicStoreDomain={publicStoreDomain}
+                    />
+                  )}
+                </div>
+                <div className="footer-social">
+                  <h3>Social</h3>
+                  <SocialLinks compact />
+                </div>
+              </div>
+            </div>
+            <div className="footer-bottom">
+              <p>Copyright © 2026 Aromaz Cosmetics. All rights reserved.</p>
+            </div>
           </footer>
         )}
       </Await>
@@ -123,7 +185,7 @@ function activeLinkStyle({
   isPending: boolean;
 }) {
   return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'white',
+    fontWeight: isActive ? 600 : undefined,
+    color: isPending ? '#D4C4B0' : undefined,
   };
 }

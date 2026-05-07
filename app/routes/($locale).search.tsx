@@ -49,7 +49,7 @@ export default function SearchPage() {
             <input
               defaultValue={term}
               name="q"
-              placeholder="Search…"
+              placeholder="Search..."
               ref={inputRef}
               type="search"
             />

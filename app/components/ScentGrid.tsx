@@ -2,6 +2,8 @@
 
 import {Money} from '@shopify/hydrogen';
 import {getScentName} from '~/lib/scent-utils';
+import type {MoneyV2} from '@shopify/hydrogen/storefront-api-types';
+import {LOCAL_IMAGE_FALLBACKS, isDemoOrPlaceholderImage} from '~/lib/local-images';
 
 /**
  * ScentGrid - Grid of scent options with circular images
@@ -19,8 +21,8 @@ export interface ScentOption {
   id: string;
   title: string;
   price: {
-    amount: string;
-    currencyCode: string;
+    amount: MoneyV2['amount'];
+    currencyCode: MoneyV2['currencyCode'];
   };
   image?: {
     url: string;
@@ -64,6 +66,9 @@ function ScentCircularGrid({
       {scents.map((variant) => {
         const isSelected = selectedId === variant.id;
         const scentName = getScentName(variant.title);
+        const imageUrl = isDemoOrPlaceholderImage(variant.image?.url)
+          ? LOCAL_IMAGE_FALLBACKS.scent
+          : variant.image?.url;
 
         return (
           <button
@@ -83,10 +88,10 @@ function ScentCircularGrid({
                   : 'border-2 border-transparent'
               }`}
             >
-              {variant.image ? (
-                <div className="aspect-square w-20 h-20 rounded-full overflow-hidden bg-white/50 backdrop-blur-sm">
+              {imageUrl ? (
+                <div className="aspect-square w-20 h-20 rounded-full overflow-hidden bg-off-white">
                   <img
-                    src={variant.image.url}
+                    src={imageUrl}
                     alt={variant.image.altText || scentName}
                     className="w-full h-full object-cover"
                   />
@@ -124,7 +129,7 @@ function ScentCardGrid({
   className,
 }: Omit<ScentGridProps, 'layout'>) {
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 ${className}`}>
+    <div className={`grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 ${className}`}>
       {scents.map((variant) => {
         const isSelected = selectedId === variant.id;
         const scentName = getScentName(variant.title);
@@ -134,10 +139,10 @@ function ScentCardGrid({
             key={variant.id}
             type="button"
             onClick={() => onSelect(variant)}
-            className={`p-4 md:p-6 rounded-lg border-2 transition-all text-left ${
+            className={`rounded-md border p-4 text-left transition-colors md:p-5 ${
               isSelected
                 ? 'border-terracotta bg-terracotta/5'
-                : 'border-charcoal/20 hover:border-terracotta/50'
+                : 'border-charcoal/15 bg-off-white hover:border-olive'
             }`}
           >
             <div className="flex items-start justify-between mb-2 md:mb-3">
@@ -145,9 +150,10 @@ function ScentCardGrid({
                 {scentName}
               </h3>
               {isSelected && (
-                <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-terracotta flex items-center justify-center text-cream flex-shrink-0">
-                  ✓
-                </div>
+                <div
+                  className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-terracotta flex-shrink-0"
+                  aria-label="Selected"
+                />
               )}
             </div>
             <p className="font-sans text-xs md:text-sm text-charcoal/70 mb-2">

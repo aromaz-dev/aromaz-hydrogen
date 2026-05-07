@@ -92,11 +92,7 @@ export function CartLineItem({
         <Link
           prefetch="intent"
           to={lineItemUrl}
-          onClick={() => {
-            if (layout === 'aside') {
-              close();
-            }
-          }}
+          onClick={close}
         >
           <p>
             <strong>{product.title}</strong>
@@ -140,7 +136,7 @@ function CartLineQuantityAside({line}: {line: CartLine}) {
             value={prevQuantity}
             className="w-8 h-8 flex items-center justify-center text-charcoal disabled:text-charcoal/30 hover:bg-charcoal/5 rounded-l-full transition-colors"
           >
-            −
+            -
           </button>
         </CartLineUpdateButton>
         <span className="w-8 text-center font-sans text-sm text-charcoal">

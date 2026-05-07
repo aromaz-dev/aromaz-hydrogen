@@ -28,12 +28,12 @@ export function AddToCartButton({
             onClick={onClick}
             disabled={disabled ?? fetcher.state !== 'idle'}
             className={`
-              w-full py-4 rounded-full font-sans font-medium text-lg
-              transition-all active:scale-[0.98] shadow-md hover:shadow-lg
+              w-full min-h-12 rounded-md px-6 font-sans text-sm font-semibold
+              uppercase tracking-[0.12em] transition-colors
               ${
                 disabled
                   ? 'bg-charcoal/10 text-charcoal/50 cursor-not-allowed'
-                  : 'bg-seafoam hover:bg-seafoam/90 text-white'
+                  : 'bg-terracotta hover:bg-sage text-cream'
               }
             `}
           >

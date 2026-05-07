@@ -1,7 +1,7 @@
 'use client';
 // v3: Direct checkout via CartForm
 
-import {useLoaderData, data} from 'react-router';
+import {useLoaderData, data, useSearchParams} from 'react-router';
 import type {Route} from './+types/products.refillable-deodorant.customize';
 import {PRODUCT_HANDLES} from '~/config/products';
 import {CUSTOMIZE_FLOW_DATA_QUERY} from '~/graphql/customize-flow';
@@ -24,6 +24,18 @@ import {
   getDiscountPercentage,
   formatPrice,
 } from '~/lib/subscription-utils';
+import {LOCAL_IMAGE_FALLBACKS, isDemoOrPlaceholderImage} from '~/lib/local-images';
+
+function getConnectionNodes<T>(
+  connection: {nodes?: T[]; edges?: Array<{node: T}>} | null | undefined,
+): T[] {
+  if (!connection) return [];
+  if (Array.isArray(connection.nodes)) return connection.nodes;
+  if (Array.isArray(connection.edges)) {
+    return connection.edges.map((edge) => edge.node).filter(Boolean);
+  }
+  return [];
+}
 
 export async function loader({context}: Route.LoaderArgs) {
   const {storefront} = context;
@@ -68,6 +80,21 @@ export async function loader({context}: Route.LoaderArgs) {
 
 export default function CustomizeDeodorantRoute() {
   const {caseProduct, refillProduct} = useLoaderData<typeof loader>();
+  const caseVariants = useMemo(
+    () => getConnectionNodes<any>(caseProduct?.variants),
+    [caseProduct?.variants],
+  );
+  const refillVariants = useMemo(
+    () => getConnectionNodes<any>(refillProduct?.variants),
+    [refillProduct?.variants],
+  );
+  const [searchParams] = useSearchParams();
+  const requestedScent = searchParams.get('scent');
+  const requestedStrength = STRENGTH_OPTIONS.includes(
+    searchParams.get('strength') as Strength,
+  )
+    ? (searchParams.get('strength') as Strength)
+    : 'Strong';
 
   // Extract selling plans from API data
   const sellingPlans = useMemo(
@@ -75,20 +102,34 @@ export default function CustomizeDeodorantRoute() {
     [refillProduct.sellingPlanGroups],
   );
 
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(() =>
+    requestedScent ? 2 : 1,
+  );
   const [selectedCase, setSelectedCase] = useState<any>(
-    () => caseProduct.variants.nodes[0] || null,
+    () => caseVariants[0] || null,
   );
   // null = one-time purchase, string = selling plan ID
   const [selectedSellingPlanId, setSelectedSellingPlanId] = useState<string | null>(null);
-  const [selectedStrength, setSelectedStrength] = useState<Strength>('Strong');
+  const [selectedStrength, setSelectedStrength] =
+    useState<Strength>(requestedStrength);
   const [selectedScent, setSelectedScent] = useState<any>(
-    () => refillProduct.variants.nodes.find((v: any) => v.title.endsWith('Strong')) || null,
+    () =>
+      (requestedScent
+          ? findVariant(
+            refillVariants,
+            requestedScent,
+            requestedStrength,
+          )
+        : null) ||
+      refillVariants.find((v: any) =>
+        v.title.endsWith(requestedStrength),
+      ) ||
+      null,
   );
 
   // Filter scents by selected strength
   const filteredScents = filterByStrength(
-    refillProduct.variants.nodes,
+    refillVariants,
     selectedStrength,
   );
 
@@ -98,7 +139,7 @@ export default function CustomizeDeodorantRoute() {
     const currentScentName = selectedScent ? getScentName(selectedScent.title) : null;
     if (currentScentName) {
       const newVariant = findVariant(
-        refillProduct.variants.nodes,
+        refillVariants,
         currentScentName,
         strength as Strength,
       );
@@ -127,13 +168,13 @@ export default function CustomizeDeodorantRoute() {
 
   const handleNext = () => {
     if (currentStep === 1 && selectedCase) setCurrentStep(2);
-    else if (currentStep === 2) setCurrentStep(3); // Plan step always allows proceed (one-time is valid)
+    else if (currentStep === 2 && selectedScent) setCurrentStep(3);
   };
 
   // Plan step always allows proceed (null = one-time purchase is valid)
   const canProceed =
     (currentStep === 1 && selectedCase) ||
-    currentStep === 2 ||
+    (currentStep === 2 && selectedScent) ||
     (currentStep === 3 && selectedScent);
 
   // Helper to get plan display name
@@ -142,16 +183,30 @@ export default function CustomizeDeodorantRoute() {
     return selectedPlan?.name || 'Subscription';
   };
 
+  const getCaseImageUrl = (variant: any) =>
+    isDemoOrPlaceholderImage(variant?.image?.url)
+      ? LOCAL_IMAGE_FALLBACKS.case
+      : variant.image.url;
+
+  const getScentImageUrl = (variant: any) =>
+    isDemoOrPlaceholderImage(variant?.image?.url)
+      ? LOCAL_IMAGE_FALLBACKS.scent
+      : variant.image.url;
+
   return (
-    <div className="min-h-screen bg-cream md:pb-0 relative">
+    <div className="customizer-page min-h-screen bg-cream md:pb-0 relative">
       {/* Desktop Header */}
-      <div className="hidden md:block py-8 px-16 border-b border-charcoal/10">
+      <div className="hidden md:block border-b border-charcoal/10 bg-off-white px-16 py-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="font-serif text-4xl text-charcoal">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.22em] text-olive">
+            Refillable deodorant builder
+          </p>
+          <h1 className="mt-3 font-serif text-5xl leading-tight text-charcoal">
             Build Your Refillable Deodorant
           </h1>
-          <p className="font-sans text-lg text-charcoal/70 mt-2">
-            Customize your perfect combination
+          <p className="font-sans text-lg text-charcoal/70 mt-3 max-w-2xl">
+            Choose a case, botanical scent, and refill plan. Your selected
+            setup stays visible while you build.
           </p>
         </div>
       </div>
@@ -164,10 +219,10 @@ export default function CustomizeDeodorantRoute() {
             {/* 1. Large Full-Width Image */}
             <div className="w-full h-[30vh] min-h-[180px] bg-cream">
               <div className="w-full h-full transition-all duration-500 transform">
-                {currentStep === 3 ? (
+                {currentStep === 2 || currentStep === 3 ? (
                   selectedScent?.image ? (
                     <img
-                      src={selectedScent.image.url}
+                      src={getScentImageUrl(selectedScent)}
                       alt={selectedScent.title}
                       className="w-full h-full object-cover drop-shadow-xl"
                     />
@@ -178,7 +233,7 @@ export default function CustomizeDeodorantRoute() {
                   )
                 ) : selectedCase?.image ? (
                   <img
-                    src={selectedCase.image.url}
+                    src={getCaseImageUrl(selectedCase)}
                     alt={selectedCase.title}
                     className="w-full h-full object-cover drop-shadow-xl"
                   />
@@ -208,18 +263,18 @@ export default function CustomizeDeodorantRoute() {
               <div>
                 <h3 className="font-serif text-2xl text-charcoal leading-tight">
                   {currentStep === 1 && "Choose your Case"}
-                  {currentStep === 2 && "Choose your Plan"}
-                  {currentStep === 3 && "Choose your Scent"}
+                  {currentStep === 2 && "Choose your Scent"}
+                  {currentStep === 3 && "Choose your Plan"}
                 </h3>
                 <p className="font-sans text-xs text-charcoal/60 mt-1 truncate">
                    {currentStep === 1 && (selectedCase ? selectedCase.title : "Select a style")}
-                   {currentStep === 2 && getPlanDisplayName()}
-                   {currentStep === 3 && (selectedScent ? getScentName(selectedScent.title) : "Select a scent")}
+                   {currentStep === 2 && (selectedScent ? getScentName(selectedScent.title) : "Select a scent")}
+                   {currentStep === 3 && getPlanDisplayName()}
                 </p>
               </div>
 
-              {/* Strength Selector (Step 3 only) */}
-              {currentStep === 3 && (
+              {/* Strength Selector (Step 2 only) */}
+              {currentStep === 2 && (
                 <StrengthSelector
                   options={STRENGTH_OPTIONS}
                   selected={selectedStrength}
@@ -236,7 +291,7 @@ export default function CustomizeDeodorantRoute() {
               {currentStep === 1 && (
                 <div className="space-y-6">
                   <div className="grid grid-cols-4 gap-4">
-                    {caseProduct.variants.nodes.map((variant: any) => {
+                    {caseVariants.map((variant: any) => {
                       const isSelected = selectedCase?.id === variant.id;
                       
                       // Map titles to colors for the selection border
@@ -266,7 +321,7 @@ export default function CustomizeDeodorantRoute() {
                               style={{ borderColor }}
                             >
                               <img
-                                src={variant.image.url}
+                                src={getCaseImageUrl(variant)}
                                 alt={variant.title}
                                 className="w-full h-full object-cover"
                               />
@@ -281,24 +336,24 @@ export default function CustomizeDeodorantRoute() {
                 </div>
               )}
 
-              {/* Step 2: Plan Selection */}
+              {/* Step 2: Scent Selection */}
               {currentStep === 2 && (
+                <ScentGrid
+                  scents={filteredScents as ScentOption[]}
+                  selectedId={selectedScent?.id || null}
+                  onSelect={(scent) => setSelectedScent(scent)}
+                  layout="circular"
+                />
+              )}
+
+              {/* Step 3: Plan Selection */}
+              {currentStep === 3 && (
                 <SubscriptionSelector
                   sellingPlans={sellingPlans}
                   selectedPlanId={selectedSellingPlanId}
                   onSelect={setSelectedSellingPlanId}
                   basePrice={scentPrice}
                   currencyCode={currencyCode}
-                />
-              )}
-
-              {/* Step 3: Scent Selection */}
-              {currentStep === 3 && (
-                <ScentGrid
-                  scents={filteredScents as ScentOption[]}
-                  selectedId={selectedScent?.id || null}
-                  onSelect={(scent) => setSelectedScent(scent)}
-                  layout="circular"
                 />
               )}
         </div>
@@ -312,8 +367,8 @@ export default function CustomizeDeodorantRoute() {
             <div className="flex items-center justify-center gap-4">
               {[
                 {num: 1, label: 'Case'},
-                {num: 2, label: 'Plan'},
-                {num: 3, label: 'Scent'},
+                {num: 2, label: 'Scent'},
+                {num: 3, label: 'Plan'},
               ].map(({num, label}) => (
                 <div key={num} className="flex items-center">
                   <button
@@ -321,16 +376,21 @@ export default function CustomizeDeodorantRoute() {
                       if (
                         num === 1 ||
                         (num === 2 && selectedCase) ||
-                        (num === 3 && selectedCase && selectedPlan)
+                        (num === 3 && selectedCase && selectedScent)
                       ) {
                         setCurrentStep(num);
                       }
                     }}
-                    disabled={!selectedCase && num > 1}
+                    disabled={
+                      (num === 2 && !selectedCase) ||
+                      (num === 3 && (!selectedCase || !selectedScent))
+                    }
                     className={`flex flex-col items-center gap-2 ${
                       currentStep === num
                         ? 'text-terracotta'
-                        : selectedCase || num === 1
+                        : num === 1 ||
+                          (num === 2 && selectedCase) ||
+                          (num === 3 && selectedCase && selectedScent)
                         ? 'text-charcoal cursor-pointer hover:text-terracotta'
                         : 'text-charcoal/30 cursor-not-allowed'
                     }`}
@@ -357,14 +417,14 @@ export default function CustomizeDeodorantRoute() {
           </div>
 
           {/* Flow Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 md:gap-12">
             {/* Left: Product Preview (Desktop Only) */}
             <div className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
-              <div className="bg-off-white rounded-lg p-8">
+              <div className="customizer-preview">
                 {selectedCase?.image ? (
-                  <div className="aspect-square rounded-lg overflow-hidden mb-6">
+                  <div className="aspect-square overflow-hidden rounded-md bg-cream mb-6">
                     <img
-                      src={selectedCase.image.url}
+                      src={getCaseImageUrl(selectedCase)}
                       alt={selectedCase.title}
                       className="w-full h-full object-cover"
                     />
@@ -390,10 +450,28 @@ export default function CustomizeDeodorantRoute() {
                       {getPlanDisplayName()}
                     </p>
                     {totalPrice > 0 && (
-                      <p className="font-serif text-3xl text-rose-gold mt-4">
+                      <p className="font-serif text-3xl text-terracotta mt-4">
                         {formatPrice(totalPrice, currencyCode)}
                       </p>
                     )}
+                  </div>
+                  <div className="customizer-summary">
+                    <div>
+                      <span>Case</span>
+                      <strong>{selectedCase?.title || 'Select a case'}</strong>
+                    </div>
+                    <div>
+                      <span>Scent</span>
+                      <strong>
+                        {selectedScent
+                          ? getScentName(selectedScent.title)
+                          : 'Select a scent'}
+                      </strong>
+                    </div>
+                    <div>
+                      <span>Plan</span>
+                      <strong>{getPlanDisplayName()}</strong>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -403,7 +481,7 @@ export default function CustomizeDeodorantRoute() {
             <div className="space-y-6 md:space-y-8">
               {/* Step 1: Case Selection */}
               {currentStep === 1 && (
-                <div className="bg-white rounded-lg p-4 md:p-8">
+                <div className="customizer-step-panel">
                   <h2 className="hidden md:block font-serif text-3xl text-charcoal mb-4">
                     Choose your case
                   </h2>
@@ -412,7 +490,7 @@ export default function CustomizeDeodorantRoute() {
                   </p>
 
                   <div className="grid grid-cols-4 md:grid-cols-3 gap-3 md:gap-6">
-                    {caseProduct.variants.nodes.map((variant: any) => {
+                    {caseVariants.map((variant: any) => {
                       const isSelected = selectedCase?.id === variant.id;
                       return (
                         <button
@@ -420,7 +498,7 @@ export default function CustomizeDeodorantRoute() {
                           onClick={() => setSelectedCase(variant)}
                           className={`cursor-pointer transition-all rounded-lg p-2 ${
                             isSelected
-                              ? 'ring-2 ring-terracotta bg-terracotta/5'
+                              ? 'ring-1 ring-terracotta bg-terracotta/5'
                               : 'hover:bg-charcoal/5'
                           }`}
                           title={variant.title}
@@ -428,7 +506,7 @@ export default function CustomizeDeodorantRoute() {
                           {variant.image ? (
                             <div className="aspect-square rounded-lg overflow-hidden mb-1 md:mb-3">
                               <img
-                                src={variant.image.url}
+                                src={getCaseImageUrl(variant)}
                                 alt={variant.title}
                                 className="w-full h-full object-cover"
                               />
@@ -452,52 +530,17 @@ export default function CustomizeDeodorantRoute() {
                   {selectedCase && (
                     <button
                       onClick={() => setCurrentStep(2)}
-                      className="hidden md:block mt-8 w-full bg-terracotta hover:bg-terracotta/90 text-cream px-8 py-4 rounded-full font-sans text-lg transition-all hover:scale-105 shadow-md"
+                      className="hidden md:block mt-8 w-full min-h-12 rounded-md bg-terracotta px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream transition-colors hover:bg-sage"
                     >
-                      Continue to Plan →
+                      Continue to Scent
                     </button>
                   )}
                 </div>
               )}
 
-              {/* Step 2: Plan Selection */}
+              {/* Step 2: Scent Selection */}
               {currentStep === 2 && (
-                <div className="bg-white rounded-lg p-4 md:p-8">
-                  <h2 className="hidden md:block font-serif text-3xl text-charcoal mb-4">
-                    Choose your plan
-                  </h2>
-                  <p className="hidden md:block font-sans text-lg text-charcoal/70 mb-8">
-                    Subscribe and save, or try it once
-                  </p>
-
-                  <SubscriptionSelector
-                    sellingPlans={sellingPlans}
-                    selectedPlanId={selectedSellingPlanId}
-                    onSelect={setSelectedSellingPlanId}
-                    basePrice={scentPrice}
-                    currencyCode={currencyCode}
-                  />
-
-                  <div className="hidden md:flex gap-4 mt-8">
-                    <button
-                      onClick={() => setCurrentStep(1)}
-                      className="flex-1 border-2 border-charcoal/20 text-charcoal px-8 py-4 rounded-full font-sans hover:border-charcoal"
-                    >
-                      ← Back
-                    </button>
-                    <button
-                      onClick={() => setCurrentStep(3)}
-                      className="flex-1 bg-terracotta hover:bg-terracotta/90 text-cream px-8 py-4 rounded-full font-sans transition-all hover:scale-105 shadow-md"
-                    >
-                      Continue to Scent →
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3: Scent Selection */}
-              {currentStep === 3 && (
-                <div className="bg-white rounded-lg p-4 md:p-8">
+                <div className="customizer-step-panel">
                   <h2 className="hidden md:block font-serif text-3xl text-charcoal mb-4">
                     Choose your scent
                   </h2>
@@ -524,10 +567,50 @@ export default function CustomizeDeodorantRoute() {
 
                   <div className="hidden md:flex gap-4 mt-8">
                     <button
-                      onClick={() => setCurrentStep(2)}
-                      className="flex-1 border-2 border-charcoal/20 text-charcoal px-8 py-4 rounded-full font-sans hover:border-charcoal"
+                      onClick={() => setCurrentStep(1)}
+                    className="flex-1 min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal hover:border-olive"
                     >
-                      ← Back
+                      Back
+                    </button>
+                    <button
+                      disabled={!selectedScent}
+                      onClick={() => setCurrentStep(3)}
+                      className={`flex-1 min-h-12 rounded-md px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] transition-colors ${
+                        selectedScent
+                          ? 'bg-terracotta text-cream hover:bg-sage'
+                          : 'bg-charcoal/15 text-charcoal/45 cursor-not-allowed'
+                      }`}
+                    >
+                      Continue to Plan
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3: Plan Selection */}
+              {currentStep === 3 && (
+                <div className="customizer-step-panel">
+                  <h2 className="hidden md:block font-serif text-3xl text-charcoal mb-4">
+                    Choose your plan
+                  </h2>
+                  <p className="hidden md:block font-sans text-lg text-charcoal/70 mb-8">
+                    Subscribe and save, or try it once
+                  </p>
+
+                  <SubscriptionSelector
+                    sellingPlans={sellingPlans}
+                    selectedPlanId={selectedSellingPlanId}
+                    onSelect={setSelectedSellingPlanId}
+                    basePrice={scentPrice}
+                    currencyCode={currencyCode}
+                  />
+
+                  <div className="hidden md:flex gap-4 mt-8">
+                    <button
+                      onClick={() => setCurrentStep(2)}
+                    className="flex-1 min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal hover:border-olive"
+                    >
+                      Back
                     </button>
                     {selectedScent && selectedCase && (
                       <CartForm
@@ -552,7 +635,7 @@ export default function CustomizeDeodorantRoute() {
                         />
                         <button
                           type="submit"
-                          className="flex-1 bg-seafoam hover:bg-seafoam/90 text-white px-8 py-4 rounded-full font-sans text-lg transition-all hover:scale-105 shadow-md w-full"
+                          className="w-full flex-1 min-h-12 rounded-md bg-terracotta px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream transition-colors hover:bg-sage"
                         >
                           Checkout - {formatPrice(totalPrice, currencyCode)}
                         </button>
@@ -578,7 +661,7 @@ export default function CustomizeDeodorantRoute() {
                  className="w-12 h-12 rounded-full border border-charcoal/20 flex items-center justify-center text-charcoal active:bg-charcoal/5"
                  aria-label="Previous step"
                >
-                 ←
+                 Back
                </button>
              )}
 
@@ -586,13 +669,13 @@ export default function CustomizeDeodorantRoute() {
               <button
                 onClick={handleNext}
                 disabled={!canProceed}
-                className={`flex-1 h-12 px-6 rounded-full font-sans font-medium transition-all ${
+                className={`flex-1 h-12 rounded-md px-6 font-sans text-sm font-semibold uppercase tracking-[0.1em] transition-colors ${
                   canProceed
-                    ? 'bg-charcoal text-cream shadow-md active:scale-95'
+                    ? 'bg-charcoal text-cream'
                     : 'bg-charcoal/20 text-charcoal/50 cursor-not-allowed'
                 }`}
               >
-                {currentStep === 1 ? 'Choose Plan' : 'Choose Scent'} →
+                {currentStep === 1 ? 'Choose Scent' : 'Choose Plan'}
               </button>
             ) : (
               selectedScent &&
@@ -620,9 +703,10 @@ export default function CustomizeDeodorantRoute() {
                     />
                     <button
                       type="submit"
-                      className="w-full h-12 px-6 rounded-full font-sans font-medium bg-seafoam text-white shadow-md active:scale-95 transition-all"
+                      className="w-full h-12 rounded-md bg-terracotta px-6 font-sans text-sm font-semibold uppercase tracking-[0.1em] text-cream transition-colors"
                     >
-                      {selectedSellingPlanId ? 'Subscribe' : 'Checkout'}
+                      {selectedSellingPlanId ? 'Subscribe' : 'Checkout'} -{' '}
+                      {formatPrice(totalPrice, currencyCode)}
                     </button>
                   </CartForm>
                 </div>

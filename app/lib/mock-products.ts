@@ -9,21 +9,21 @@ export const MOCK_CASE_PRODUCT = {
         title: 'Midnight Black',
         availableForSale: true,
         price: { amount: '15.00', currencyCode: 'EUR' },
-        image: { url: 'https://placehold.co/400x400/000000/ffffff?text=Midnight+Black', altText: 'Black Case' },
+        image: { url: '/brand-story/artisanal-craft.jpg', altText: 'Black Case' },
       },
       {
         id: 'gid://shopify/ProductVariant/2',
         title: 'Burnt Orange',
         availableForSale: true,
         price: { amount: '15.00', currencyCode: 'EUR' },
-        image: { url: 'https://placehold.co/400x400/cc5500/ffffff?text=Burnt+Orange', altText: 'Orange Case' },
+        image: { url: '/hero-bg.jpg', altText: 'Orange Case' },
       },
       {
         id: 'gid://shopify/ProductVariant/5',
         title: 'Ocean Blue',
         availableForSale: true,
         price: { amount: '15.00', currencyCode: 'EUR' },
-        image: { url: 'https://placehold.co/400x400/004488/ffffff?text=Ocean+Blue', altText: 'Blue Case' },
+        image: { url: '/brand-story/natural-ingredients.jpg', altText: 'Blue Case' },
       },
     ]
   }
@@ -40,21 +40,21 @@ export const MOCK_REFILL_PRODUCT = {
         title: 'Wavy Days',
         availableForSale: true,
         price: { amount: '6.00', currencyCode: 'EUR' },
-        image: { url: 'https://placehold.co/400x400/88ccff/ffffff?text=Wavy+Days', altText: 'Wavy Days Refill' },
+        image: { url: '/ingredients/lavender.jpg', altText: 'Wavy Days Refill' },
       },
       {
         id: 'gid://shopify/ProductVariant/4',
         title: 'Night Tales',
         availableForSale: true,
         price: { amount: '6.00', currencyCode: 'EUR' },
-        image: { url: 'https://placehold.co/400x400/333333/ffffff?text=Night+Tales', altText: 'Night Tales Refill' },
+        image: { url: '/ingredients/rose.jpg', altText: 'Night Tales Refill' },
       },
        {
         id: 'gid://shopify/ProductVariant/6',
         title: 'Sun Scent',
         availableForSale: true,
         price: { amount: '6.00', currencyCode: 'EUR' },
-        image: { url: 'https://placehold.co/400x400/ffaa00/ffffff?text=Sun+Scent', altText: 'Sun Scent Refill' },
+        image: { url: '/ingredients/chamomile.jpg', altText: 'Sun Scent Refill' },
       },
     ]
   }

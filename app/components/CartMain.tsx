@@ -47,9 +47,9 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
           >
             <a
               href={cart?.checkoutUrl}
-              className="block w-full h-12 bg-terracotta hover:bg-terracotta/90 text-cream rounded-full font-sans font-medium text-center leading-[3rem] transition-all active:scale-95 shadow-md"
+              className="block w-full h-12 rounded-md bg-terracotta font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream text-center leading-[3rem] transition-colors hover:bg-sage"
             >
-              Checkout →
+              Checkout
             </a>
           </div>
         )}
@@ -94,12 +94,12 @@ function CartEmpty({
       <div hidden={hidden} className="py-8 text-center">
         <p className="font-sans text-charcoal/70 mb-4">Your cart is empty</p>
         <Link
-          to="/collections"
+          to="/collections/all"
           onClick={close}
           prefetch="viewport"
-          className="inline-block px-6 py-3 bg-charcoal text-cream rounded-full font-sans font-medium hover:bg-charcoal/90 transition-all"
+          className="cart-empty-action"
         >
-          Continue shopping →
+          Continue shopping
         </Link>
       </div>
     );
@@ -113,8 +113,13 @@ function CartEmpty({
         started!
       </p>
       <br />
-      <Link to="/collections" onClick={close} prefetch="viewport">
-        Continue shopping →
+      <Link
+        to="/collections/all"
+        onClick={close}
+        prefetch="viewport"
+        className="cart-empty-action"
+      >
+        Continue shopping
       </Link>
     </div>
   );

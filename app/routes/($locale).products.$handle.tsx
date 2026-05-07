@@ -17,7 +17,7 @@ import {isScentProduct} from '~/lib/scent-utils';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [
-    {title: `Hydrogen | ${data?.product.title ?? ''}`},
+    {title: `Aromaz | ${data?.product.title ?? ''}`},
     {
       rel: 'canonical',
       href: `/products/${data?.product.handle}`,
@@ -109,12 +109,15 @@ export default function Product() {
   const {title, descriptionHtml} = product;
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="product-page min-h-screen bg-cream">
       {/* Mobile Layout */}
       <div className="md:hidden">
         <ProductImage image={selectedVariant?.image} />
         <div className="px-6 py-6">
-          <h1 className="font-serif text-2xl text-charcoal">{title}</h1>
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-olive">
+            Aromaz care
+          </p>
+          <h1 className="mt-2 font-serif text-3xl text-charcoal">{title}</h1>
           {!isScent && (
             <ProductPrice
               price={selectedVariant?.price}
@@ -132,6 +135,7 @@ export default function Product() {
               selectedVariant={selectedVariant}
             />
           )}
+          <ProductTrustNotes />
           {descriptionHtml && (
             <div className="mt-10 pt-8 border-t border-charcoal/10">
               <h2 className="font-serif text-lg text-charcoal mb-4">
@@ -157,7 +161,12 @@ export default function Product() {
 
             {/* Right: Product Info */}
             <div>
-              <h1 className="font-serif text-4xl text-charcoal">{title}</h1>
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-olive">
+                Aromaz care
+              </p>
+              <h1 className="mt-3 font-serif text-5xl leading-tight text-charcoal">
+                {title}
+              </h1>
               {!isScent && (
                 <ProductPrice
                   price={selectedVariant?.price}
@@ -175,6 +184,7 @@ export default function Product() {
                   selectedVariant={selectedVariant}
                 />
               )}
+              <ProductTrustNotes />
               {descriptionHtml && (
                 <div className="mt-12 pt-10 border-t border-charcoal/10">
                   <h2 className="font-serif text-xl text-charcoal mb-4">
@@ -206,6 +216,20 @@ export default function Product() {
           ],
         }}
       />
+    </div>
+  );
+}
+
+function ProductTrustNotes() {
+  return (
+    <div className="mt-8 grid grid-cols-3 gap-3 border-y border-charcoal/10 py-4">
+      {['Natural scent', 'Refill-minded', 'Daily comfort'].map((note) => (
+        <div key={note}>
+          <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.14em] text-olive">
+            {note}
+          </p>
+        </div>
+      ))}
     </div>
   );
 }

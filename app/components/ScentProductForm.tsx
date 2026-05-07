@@ -62,7 +62,7 @@ export function ScentProductForm({
 
     // Use replace to avoid adding to history for variant changes
     // preventScrollReset keeps the page position stable
-    navigate(`?${params.toString()}`, {
+    void navigate(`?${params.toString()}`, {
       replace: true,
       preventScrollReset: true,
     });

@@ -69,7 +69,7 @@ export function Aside({
               aria-label="Close"
               className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-charcoal/5 transition-colors text-charcoal text-2xl"
             >
-              ×
+              x
             </button>
           </header>
           <div className="flex-1 overflow-hidden">{children}</div>
