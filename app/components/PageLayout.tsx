@@ -5,7 +5,7 @@ import type {
   FooterQuery,
   HeaderQuery,
 } from 'storefrontapi.generated';
-import {Aside} from '~/components/Aside';
+import {Aside, useAside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
 import {CartMain} from '~/components/CartMain';
@@ -36,7 +36,11 @@ export function PageLayout({
     <Aside.Provider>
       <CartAside cart={cart} />
       <SearchAside />
-      <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
+      <MobileMenuAside
+        header={header}
+        isLoggedIn={isLoggedIn}
+        publicStoreDomain={publicStoreDomain}
+      />
       {header && (
         <Header
           header={header}
@@ -153,9 +157,11 @@ function SearchAside() {
 
 function MobileMenuAside({
   header,
+  isLoggedIn,
   publicStoreDomain,
 }: {
   header: PageLayoutProps['header'];
+  isLoggedIn: PageLayoutProps['isLoggedIn'];
   publicStoreDomain: PageLayoutProps['publicStoreDomain'];
 }) {
   return (
@@ -168,7 +174,28 @@ function MobileMenuAside({
           primaryDomainUrl={header.shop.primaryDomain.url}
           publicStoreDomain={publicStoreDomain}
         />
+        <MobileMenuAccount isLoggedIn={isLoggedIn} />
       </Aside>
     )
+  );
+}
+
+function MobileMenuAccount({
+  isLoggedIn,
+}: {
+  isLoggedIn: PageLayoutProps['isLoggedIn'];
+}) {
+  const {close} = useAside();
+
+  return (
+    <div className="mobile-menu-account">
+      <Link onClick={close} prefetch="intent" to="/account">
+        <Suspense fallback="Sign in">
+          <Await resolve={isLoggedIn} errorElement="Sign in">
+            {(isLoggedIn) => (isLoggedIn ? 'My account' : 'Sign in')}
+          </Await>
+        </Suspense>
+      </Link>
+    </div>
   );
 }

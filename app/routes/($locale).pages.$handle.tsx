@@ -2,10 +2,98 @@ import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {SocialLinks} from '~/components/SocialLinks';
-import {StockistsPage} from '~/components/StockistsPage';
+import {STOCKIST_LOCATIONS, StockistsPage} from '~/components/StockistsPage';
+import {
+  CUSTOMER_SUPPORT_EMAIL,
+  DEFAULT_STORE_URL,
+  SEO_KEYWORDS,
+  SITE_NAME,
+  getBreadcrumbJsonLd,
+  getCanonicalUrl,
+  getSeoDescription,
+  getStoreUrl,
+} from '~/lib/seo';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `Aromaz | ${data?.page.title ?? ''}`}];
+  const page = data?.page;
+  const storeUrl = data?.storeUrl ?? DEFAULT_STORE_URL;
+  const title = page?.seo?.title || page?.title || 'Aromaz';
+  const fullTitle = title.includes('Aromaz') ? title : `${title} | Aromaz`;
+  const description = getSeoDescription(
+    page?.seo?.description || page?.body,
+    'Explore Aromaz natural deodorant, refillable scent care, natural cosmetics, wholesale information, and Vancouver-area retail partners.',
+  );
+  const canonicalUrl = getCanonicalUrl(
+    `/pages/${page?.handle ?? ''}`,
+    storeUrl,
+  );
+  const isStockists = page?.handle === 'stockists';
+  const isContact = page?.handle === 'contact';
+
+  return [
+    {title: fullTitle},
+    {name: 'description', content: description},
+    {name: 'keywords', content: SEO_KEYWORDS},
+    {property: 'og:type', content: isStockists ? 'place' : 'website'},
+    {property: 'og:site_name', content: SITE_NAME},
+    {property: 'og:title', content: fullTitle},
+    {property: 'og:description', content: description},
+    {property: 'og:url', content: canonicalUrl},
+    {tagName: 'link', rel: 'canonical', href: canonicalUrl},
+    {
+      'script:ld+json': {
+        '@context': 'https://schema.org',
+        '@type': isContact ? 'ContactPage' : 'WebPage',
+        '@id': `${canonicalUrl}#webpage`,
+        name: fullTitle,
+        description,
+        url: canonicalUrl,
+        isPartOf: {
+          '@id': `${getCanonicalUrl('/', storeUrl)}#website`,
+        },
+        ...(isContact
+          ? {
+              mainEntity: {
+                '@type': 'Organization',
+                '@id': `${getCanonicalUrl('/', storeUrl)}#organization`,
+                email: CUSTOMER_SUPPORT_EMAIL,
+              },
+            }
+          : {}),
+      },
+    },
+    {
+      'script:ld+json': getBreadcrumbJsonLd(
+        [
+          {name: 'Home', path: '/'},
+          {name: page?.title ?? 'Page', path: `/pages/${page?.handle ?? ''}`},
+        ],
+        storeUrl,
+      ),
+    },
+    ...(isStockists
+      ? [
+          {
+            'script:ld+json': {
+              '@context': 'https://schema.org',
+              '@type': 'ItemList',
+              name: 'Aromaz Vancouver-area stockists',
+              itemListElement: STOCKIST_LOCATIONS.map((location, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                item: {
+                  '@type': 'Store',
+                  name: location.name,
+                  address: location.address,
+                  url: location.mapUrl,
+                  areaServed: location.city,
+                },
+              })),
+            },
+          },
+        ]
+      : []),
+  ];
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -40,6 +128,7 @@ async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
           title: 'Contact Aromaz',
         },
       },
+      storeUrl: getStoreUrl(request, context.env.PUBLIC_STORE_DOMAIN),
     };
   }
 
@@ -56,6 +145,7 @@ async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
           title: 'Find a Store',
         },
       },
+      storeUrl: getStoreUrl(request, context.env.PUBLIC_STORE_DOMAIN),
     };
   }
 
@@ -76,6 +166,7 @@ async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
 
   return {
     page,
+    storeUrl: getStoreUrl(request, context.env.PUBLIC_STORE_DOMAIN),
   };
 }
 
@@ -115,7 +206,7 @@ function ContactPage() {
       <section className="contact-hero">
         <div className="contact-hero-copy">
           <p>Contact Aromaz</p>
-          <h1>Natural scent care, wholesale stories, and partnership notes.</h1>
+          <h1>Natural scent care support and wholesale partnerships.</h1>
           <span>
             For customer questions, wholesale requests, franchise interest, or
             brochure access, reach the Aromaz team directly.

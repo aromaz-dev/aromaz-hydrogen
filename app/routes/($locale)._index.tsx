@@ -9,9 +9,48 @@ import type {
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/ProductItem';
 import {BROCHURE_PRODUCTS} from '~/lib/brochure-products';
+import {
+  DEFAULT_STORE_URL,
+  SEO_KEYWORDS,
+  SITE_NAME,
+  getCanonicalUrl,
+  getOrganizationJsonLd,
+  getStoreUrl,
+  getWebSiteJsonLd,
+} from '~/lib/seo';
 
-export const meta: Route.MetaFunction = () => {
-  return [{title: 'Aromaz | Artisanal Natural Cosmetics'}];
+const HOME_TITLE =
+  'Natural Deodorant and Clean Cosmetics in Vancouver | Aromaz';
+const HOME_DESCRIPTION =
+  'Shop Aromaz refillable natural deodorant, botanical scent refills, natural loofah soap, and lip care for sensitive daily routines in Vancouver, Canada, and the United States.';
+
+export const meta: Route.MetaFunction = ({data}) => {
+  const storeUrl = data?.storeUrl ?? DEFAULT_STORE_URL;
+  const canonicalUrl = getCanonicalUrl('/', storeUrl);
+  const imageUrl = getCanonicalUrl('/hero-bg.jpg', storeUrl);
+
+  return [
+    {title: HOME_TITLE},
+    {name: 'description', content: HOME_DESCRIPTION},
+    {name: 'keywords', content: SEO_KEYWORDS},
+    {property: 'og:type', content: 'website'},
+    {property: 'og:site_name', content: SITE_NAME},
+    {property: 'og:title', content: HOME_TITLE},
+    {property: 'og:description', content: HOME_DESCRIPTION},
+    {property: 'og:url', content: canonicalUrl},
+    {property: 'og:image', content: imageUrl},
+    {name: 'twitter:card', content: 'summary_large_image'},
+    {name: 'twitter:title', content: HOME_TITLE},
+    {name: 'twitter:description', content: HOME_DESCRIPTION},
+    {name: 'twitter:image', content: imageUrl},
+    {tagName: 'link', rel: 'canonical', href: canonicalUrl},
+    {
+      'script:ld+json': getOrganizationJsonLd(storeUrl),
+    },
+    {
+      'script:ld+json': getWebSiteJsonLd(storeUrl),
+    },
+  ];
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -28,7 +67,7 @@ export async function loader(args: Route.LoaderArgs) {
  * Load data necessary for rendering content above the fold. This is the critical data
  * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
  */
-async function loadCriticalData({context}: Route.LoaderArgs) {
+async function loadCriticalData({context, request}: Route.LoaderArgs) {
   const [{collections}] = await Promise.all([
     context.storefront.query(FEATURED_COLLECTION_QUERY),
     // Add other queries here, so that they are loaded in parallel
@@ -36,6 +75,7 @@ async function loadCriticalData({context}: Route.LoaderArgs) {
 
   return {
     featuredCollection: collections.nodes[0],
+    storeUrl: getStoreUrl(request, context.env.PUBLIC_STORE_DOMAIN),
   };
 }
 
@@ -170,11 +210,12 @@ function Hero() {
             Natural refillable deodorant
           </p>
           <h1 className="mt-5 font-serif text-5xl leading-[0.98] text-cream md:text-7xl lg:text-8xl">
-            Daily scent care, made cleaner.
+            Natural deodorant, made cleaner.
           </h1>
           <p className="mt-6 max-w-xl font-sans text-lg leading-relaxed text-cream/85 md:text-xl">
             Build a refillable deodorant ritual with a durable case, botanical
-            scents, and flexible refill plans.
+            scents, and flexible refill plans for sensitive daily routines in
+            Vancouver, Canada, and across the United States.
           </p>
           <div
             className="home-hero-actions mt-9 flex flex-col gap-3 sm:flex-row"
@@ -250,7 +291,10 @@ function BrandStory() {
         const rect = row.getBoundingClientRect();
         const progress = Math.min(
           1,
-          Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)),
+          Math.max(
+            0,
+            (viewportHeight - rect.top) / (viewportHeight + rect.height),
+          ),
         );
 
         const copyY = -74 + progress * 160;
@@ -285,7 +329,7 @@ function BrandStory() {
     {
       title: 'A refined refill ritual',
       description:
-        'Aromaz should feel calm, capable, and personal: a store where customers understand the deodorant system in seconds and trust the product before they add it to cart.',
+        'Aromaz pairs refillable deodorant cases with botanical scent refills, creating a simple routine that looks polished on the shelf and feels easy to keep using.',
       image: '/brand-story/artisanal-craft.jpg',
       imageAlt: 'Amber bottle with natural personal care ingredients',
       imageLeft: true,
@@ -293,7 +337,7 @@ function BrandStory() {
     {
       title: 'Ingredient clarity',
       description:
-        'Use warm product photography, short benefit-led copy, and visible proof points so natural does not feel vague. Every section should answer what it is, why it works, and what to do next.',
+        'Clear scent notes, natural ingredients, and straightforward product details help you choose confidently without guessing what belongs in your daily care routine.',
       image: '/brand-story/natural-ingredients.jpg',
       imageAlt: 'Natural ingredients in their pure state',
       imageLeft: false,
@@ -301,7 +345,7 @@ function BrandStory() {
     {
       title: 'Less waste, more polish',
       description:
-        'The refillable case is the brand anchor. Lead with the system, then support it with scent discovery, refill cadence, and understated sustainability cues.',
+        'A durable case and replaceable refills help reduce single-use packaging while keeping the experience refined, practical, and ready for everyday use.',
       image: '/brand-story/mediterranean-landscape.jpg',
       imageAlt: 'Mediterranean landscape and sustainable farming',
       imageLeft: true,
@@ -329,34 +373,34 @@ function BrandStory() {
             }`}
           >
             <div className="mx-auto max-w-7xl">
-            <div
-              className={`home-story-row grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center ${
-                story.imageLeft ? '' : 'md:grid-flow-dense'
-              }`}
-            >
-              <div className={story.imageLeft ? 'md:order-1' : 'md:order-2'}>
-                <div className="home-story-media aspect-square rounded-lg overflow-hidden shadow-lg group">
-                  <img
-                    src={story.image}
-                    alt={story.imageAlt}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
               <div
-                className={`home-story-copy ${
-                  story.imageLeft ? 'md:order-2' : 'md:order-1'
+                className={`home-story-row grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center ${
+                  story.imageLeft ? '' : 'md:grid-flow-dense'
                 }`}
               >
-                <h3 className="font-serif text-3xl md:text-5xl text-charcoal mb-5 leading-tight">
-                  {story.title}
-                </h3>
-                <p className="font-sans text-lg md:text-xl text-charcoal/80 leading-relaxed">
-                  {story.description}
-                </p>
+                <div className={story.imageLeft ? 'md:order-1' : 'md:order-2'}>
+                  <div className="home-story-media aspect-square rounded-lg overflow-hidden shadow-lg group">
+                    <img
+                      src={story.image}
+                      alt={story.imageAlt}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+                <div
+                  className={`home-story-copy ${
+                    story.imageLeft ? 'md:order-2' : 'md:order-1'
+                  }`}
+                >
+                  <h3 className="font-serif text-3xl md:text-5xl text-charcoal mb-5 leading-tight">
+                    {story.title}
+                  </h3>
+                  <p className="font-sans text-lg md:text-xl text-charcoal/80 leading-relaxed">
+                    {story.description}
+                  </p>
+                </div>
               </div>
-            </div>
             </div>
           </div>
         ))}
@@ -418,8 +462,8 @@ function IngredientsShowcase() {
             </h2>
           </div>
           <p className="font-sans text-base md:text-lg text-charcoal/70">
-            Keep scent discovery concise and tactile: enough detail to choose,
-            never so much that the customer stops moving.
+            Explore botanical notes chosen for gentle daily freshness, from soft
+            florals to herbal comfort and warm, grounded scent families.
           </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 md:gap-6">
@@ -499,7 +543,10 @@ function RecommendedProducts({
       const viewportHeight = window.innerHeight || 1;
       const progress = Math.min(
         1,
-        Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)),
+        Math.max(
+          0,
+          (viewportHeight - rect.top) / (viewportHeight + rect.height),
+        ),
       );
       const entrance = Math.min(1, progress * 1.55);
 
@@ -559,7 +606,8 @@ function RecommendedProducts({
             {(response) => {
               const products = response?.products?.nodes ?? [];
               const soapIndex = products.findIndex((product) => {
-                const productName = `${product.title} ${product.handle}`.toLowerCase();
+                const productName =
+                  `${product.title} ${product.handle}`.toLowerCase();
                 return (
                   productName.includes('soap') ||
                   productName.includes('loofah') ||
@@ -568,39 +616,36 @@ function RecommendedProducts({
               });
               const featuredProducts =
                 soapIndex > -1
-                  ? [
-                      ...products.slice(0, 4),
-                      products[soapIndex],
-                    ].filter(
+                  ? [...products.slice(0, 4), products[soapIndex]].filter(
                       (product, index, list) =>
                         product &&
                         list.findIndex((item) => item.id === product.id) ===
-                        index,
+                          index,
                     )
                   : products.slice(0, 5);
               const fallbackCards = getHomeShopFallbackCards(featuredProducts);
 
               return (
-              <div
-                className="home-shop-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 md:gap-6"
-                ref={shopGridRef}
-              >
-                {featuredProducts.length > 0 ? (
-                  <>
-                    {featuredProducts.map((product) => (
-                      <ProductItem key={product.id} product={product} />
-                    ))}
-                    {fallbackCards.map((product) => (
-                      <HomeShopFallbackCard
-                        key={product.name}
-                        product={product}
-                      />
-                    ))}
-                  </>
-                ) : (
-                  <HomeShopFallbackCards />
-                )}
-              </div>
+                <div
+                  className="home-shop-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 md:gap-6"
+                  ref={shopGridRef}
+                >
+                  {featuredProducts.length > 0 ? (
+                    <>
+                      {featuredProducts.map((product) => (
+                        <ProductItem key={product.id} product={product} />
+                      ))}
+                      {fallbackCards.map((product) => (
+                        <HomeShopFallbackCard
+                          key={product.name}
+                          product={product}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <HomeShopFallbackCards />
+                  )}
+                </div>
               );
             }}
           </Await>
@@ -624,14 +669,14 @@ const HOME_SHOP_FALLBACK_PRODUCTS = [
     category: 'Refill',
     price: 'CA$16.85',
     image: '/aromaz-products/deodorant-refill.png',
-    href: '/products/beauty-example-product-3',
+    href: '/products/natural-deodorant-refill',
   },
   {
     name: 'Deodorant Eco-Case',
     category: 'Deodorant',
     price: 'CA$8.64',
     image: '/aromaz-products/deodorant-eco-case.png',
-    href: '/products/beauty-example-product-4',
+    href: '/products/refillable-deodorant-case',
   },
   {
     name: 'Natural Loofah Soap',
@@ -652,7 +697,7 @@ const HOME_SHOP_FALLBACK_PRODUCTS = [
     category: 'Deodorant',
     price: 'CA$12.40',
     image: '/aromaz-products/mini-deodorant.png',
-    href: '/products/beauty-example-product-2',
+    href: '/products/mini-natural-deodorant',
   },
 ] satisfies HomeShopFallbackProduct[];
 

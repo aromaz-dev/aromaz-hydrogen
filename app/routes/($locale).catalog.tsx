@@ -2,14 +2,75 @@ import {Link} from 'react-router';
 import type {CSSProperties} from 'react';
 import type {Route} from './+types/catalog';
 import {BROCHURE_PRODUCTS} from '~/lib/brochure-products';
+import {
+  DEFAULT_STORE_URL,
+  SEO_KEYWORDS,
+  SITE_NAME,
+  getBreadcrumbJsonLd,
+  getCanonicalUrl,
+} from '~/lib/seo';
+
+const CATALOG_TITLE =
+  'Aromaz Catalog | Refillable Natural Deodorant and Cosmetics';
+const CATALOG_DESCRIPTION =
+  'Explore the Aromaz catalog with refillable natural deodorant scents, sensitive skin deodorant refills, natural loofah soap, and lip care essentials.';
 
 export const meta: Route.MetaFunction = () => {
+  const canonicalUrl = getCanonicalUrl('/catalog', DEFAULT_STORE_URL);
+
   return [
-    {title: 'Aromaz Product Catalog | Refillable Natural Scent Care'},
+    {title: CATALOG_TITLE},
     {
       name: 'description',
-      content:
-        'Explore the Aromaz product catalog with refillable deodorant scents, natural loofah soap, and lip care essentials.',
+      content: CATALOG_DESCRIPTION,
+    },
+    {name: 'keywords', content: SEO_KEYWORDS},
+    {property: 'og:type', content: 'website'},
+    {property: 'og:site_name', content: SITE_NAME},
+    {property: 'og:title', content: CATALOG_TITLE},
+    {property: 'og:description', content: CATALOG_DESCRIPTION},
+    {property: 'og:url', content: canonicalUrl},
+    {tagName: 'link', rel: 'canonical', href: canonicalUrl},
+    {
+      'script:ld+json': {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: 'Aromaz product catalog',
+        itemListElement: BROCHURE_PRODUCTS.map((product, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          url: getCanonicalUrl(product.href, DEFAULT_STORE_URL),
+          item: {
+            '@type': 'Product',
+            name: product.name,
+            description: product.description,
+            image: getCanonicalUrl(product.image, DEFAULT_STORE_URL),
+            brand: {
+              '@type': 'Brand',
+              name: SITE_NAME,
+            },
+            offers: {
+              '@type': 'Offer',
+              price: product.price.replace(/[^0-9.]/g, ''),
+              priceCurrency: 'CAD',
+              availability: 'https://schema.org/InStock',
+              url: getCanonicalUrl(product.href, DEFAULT_STORE_URL),
+              seller: {
+                '@id': `${getCanonicalUrl('/', DEFAULT_STORE_URL)}#organization`,
+              },
+            },
+          },
+        })),
+      },
+    },
+    {
+      'script:ld+json': getBreadcrumbJsonLd(
+        [
+          {name: 'Home', path: '/'},
+          {name: 'Catalog', path: '/catalog'},
+        ],
+        DEFAULT_STORE_URL,
+      ),
     },
   ];
 };
@@ -35,8 +96,8 @@ export default function CatalogRoute() {
           <h1>Aromaz Collection</h1>
           <span>
             Refill-led deodorant scents, natural loofah soap, and daily lip care
-            essentials from the Aromaz brochure, rebuilt as a scrollable store
-            experience.
+            essentials organized for easy scent discovery, wholesale review, and
+            checkout.
           </span>
           <div className="catalog-hero-actions">
             <Link to="/products/refillable-deodorant/customize">

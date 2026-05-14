@@ -6,12 +6,35 @@
  */
 
 export const PRODUCT_HANDLES = {
+  NATURAL_LOOFAH_SOAP: 'beauty-example-product-1',
+  MINI_DEODORANT: 'beauty-example-product-2',
   /**
    * Refillable Deodorant Products
    */
   DEODORANT_CASE: 'beauty-example-product-4',
   DEODORANT_REFILL: 'beauty-example-product-3',
 } as const;
+
+const SHOPIFY_TO_PUBLIC_PRODUCT_HANDLES: Record<string, string> = {
+  [PRODUCT_HANDLES.NATURAL_LOOFAH_SOAP]: 'natural-loofah-soap',
+  [PRODUCT_HANDLES.MINI_DEODORANT]: 'mini-natural-deodorant',
+  [PRODUCT_HANDLES.DEODORANT_REFILL]: 'natural-deodorant-refill',
+  [PRODUCT_HANDLES.DEODORANT_CASE]: 'refillable-deodorant-case',
+};
+
+const PUBLIC_TO_SHOPIFY_PRODUCT_HANDLES = Object.fromEntries(
+  Object.entries(SHOPIFY_TO_PUBLIC_PRODUCT_HANDLES).map(
+    ([shopifyHandle, publicHandle]) => [publicHandle, shopifyHandle],
+  ),
+);
+
+export function getPublicProductHandle(handle: string) {
+  return SHOPIFY_TO_PUBLIC_PRODUCT_HANDLES[handle] ?? handle;
+}
+
+export function getShopifyProductHandle(handle: string) {
+  return PUBLIC_TO_SHOPIFY_PRODUCT_HANDLES[handle] ?? handle;
+}
 
 /**
  * Product Metafield Namespaces

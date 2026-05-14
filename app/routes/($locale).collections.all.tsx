@@ -4,9 +4,103 @@ import {getPaginationVariables} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {ProductItem} from '~/components/ProductItem';
 import type {CollectionItemFragment} from 'storefrontapi.generated';
+import {
+  DEFAULT_STORE_URL,
+  SEO_KEYWORDS,
+  SITE_NAME,
+  getBreadcrumbJsonLd,
+  getCanonicalUrl,
+  getStoreUrl,
+} from '~/lib/seo';
+import {getPublicProductHandle} from '~/config/products';
 
-export const meta: Route.MetaFunction = () => {
-  return [{title: `Aromaz | Shop Natural Scent Care`}];
+const SHOP_TITLE = 'Shop Natural Deodorant, Loofah Soap and Lip Care | Aromaz';
+const SHOP_DESCRIPTION =
+  'Shop Aromaz refillable natural deodorant, botanical deodorant refills, natural loofah soap, and lip care for sensitive skin in Vancouver, Canada, and the United States.';
+
+export const meta: Route.MetaFunction = ({data}) => {
+  const storeUrl = data?.storeUrl ?? DEFAULT_STORE_URL;
+  const canonicalUrl = getCanonicalUrl('/collections/all', storeUrl);
+  const products = data?.products?.nodes ?? [];
+
+  return [
+    {title: SHOP_TITLE},
+    {name: 'description', content: SHOP_DESCRIPTION},
+    {name: 'keywords', content: SEO_KEYWORDS},
+    {property: 'og:type', content: 'website'},
+    {property: 'og:site_name', content: SITE_NAME},
+    {property: 'og:title', content: SHOP_TITLE},
+    {property: 'og:description', content: SHOP_DESCRIPTION},
+    {property: 'og:url', content: canonicalUrl},
+    {property: 'og:image', content: getCanonicalUrl('/hero-bg.jpg', storeUrl)},
+    {name: 'twitter:card', content: 'summary_large_image'},
+    {name: 'twitter:title', content: SHOP_TITLE},
+    {name: 'twitter:description', content: SHOP_DESCRIPTION},
+    {tagName: 'link', rel: 'canonical', href: canonicalUrl},
+    {
+      'script:ld+json': {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        '@id': `${canonicalUrl}#collection`,
+        name: SHOP_TITLE,
+        description: SHOP_DESCRIPTION,
+        url: canonicalUrl,
+        isPartOf: {
+          '@id': `${getCanonicalUrl('/', storeUrl)}#website`,
+        },
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: products
+            .slice(0, 12)
+            .map((product: CollectionItemFragment, index: number) => {
+              const productUrl = getCanonicalUrl(
+                `/products/${getPublicProductHandle(product.handle)}`,
+                storeUrl,
+              );
+              const image = product.featuredImage?.url;
+
+              return {
+                '@type': 'ListItem',
+                position: index + 1,
+                url: productUrl,
+                item: {
+                  '@type': 'Product',
+                  '@id': `${productUrl}#product`,
+                  name: product.title,
+                  url: productUrl,
+                  category: 'Natural personal care',
+                  ...(image ? {image} : {}),
+                  brand: {
+                    '@type': 'Brand',
+                    name: SITE_NAME,
+                  },
+                  offers: {
+                    '@type': 'Offer',
+                    price: product.priceRange.minVariantPrice.amount,
+                    priceCurrency:
+                      product.priceRange.minVariantPrice.currencyCode,
+                    availability: 'https://schema.org/InStock',
+                    url: productUrl,
+                    seller: {
+                      '@id': `${getCanonicalUrl('/', storeUrl)}#organization`,
+                    },
+                  },
+                },
+              };
+            }),
+        },
+      },
+    },
+    {
+      'script:ld+json': getBreadcrumbJsonLd(
+        [
+          {name: 'Home', path: '/'},
+          {name: 'Shop', path: '/collections/all'},
+        ],
+        storeUrl,
+      ),
+    },
+  ];
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -35,7 +129,10 @@ async function loadCriticalData({context, request}: Route.LoaderArgs) {
     }),
     // Add other queries here, so that they are loaded in parallel
   ]);
-  return {products};
+  return {
+    products,
+    storeUrl: getStoreUrl(request, context.env.PUBLIC_STORE_DOMAIN),
+  };
 }
 
 /**
@@ -58,8 +155,8 @@ export default function Collection() {
           <p>Shop Aromaz</p>
           <h1>Natural scent care for refillable daily routines.</h1>
           <span>
-            Explore deodorant refills, reusable cases, loofah soap, and lip
-            care with clear product imagery and simple paths to buy.
+            Explore refillable natural deodorant, reusable cases, botanical
+            scent refills, loofah soap, and lip care made for everyday comfort.
           </span>
           <div className="shop-hero-actions">
             <Link to="/products/refillable-deodorant/customize">
@@ -95,8 +192,8 @@ export default function Collection() {
             <h2>Shop the collection</h2>
           </div>
           <span>
-            Product-first cards with prices, clear imagery, and quick paths to
-            the items that matter most.
+            Find deodorant refills, natural cosmetics, gentle body care, and
+            checkout-ready essentials in one organized shop.
           </span>
         </div>
         <PaginatedResourceSection<CollectionItemFragment>
