@@ -1032,6 +1032,17 @@ img {
   transition: gap 180ms ease;
 }
 
+.header-account {
+  border: 1px solid rgba(32, 35, 34, 0.14);
+  border-radius: 999px;
+  min-height: 2.35rem;
+  padding: 0 0.82rem;
+}
+
+.header-account:hover {
+  border-color: rgba(88, 104, 67, 0.42);
+}
+
 .header-build-link {
   border: 1px solid rgba(178, 68, 30, 0.28);
   border-radius: 6px;
@@ -1116,10 +1127,21 @@ img {
   padding: 0 0.65rem;
 }
 
+.header--scrolled .header-account {
+  min-height: 2rem;
+  padding: 0 0.66rem;
+}
+
 .header--scrolled:hover .header-build-link {
   margin-left: 0;
   min-height: 2.4rem;
   padding: 0 0.85rem;
+}
+
+.header--scrolled:hover .header-account,
+.header--scrolled .header-account:hover {
+  min-height: 2.35rem;
+  padding: 0 0.82rem;
 }
 
 .header--scrolled .header-build-link:hover {
@@ -1849,12 +1871,19 @@ aside header {
 }
 
 .catalog-panel {
+  --catalog-panel-box-height: min(76svh, 760px);
+  --catalog-panel-box-width: min(100%, 560px);
   min-height: 150svh;
   overflow: clip;
   position: relative;
+  view-timeline-axis: block;
+  view-timeline-name: --catalog-panel-progress;
 }
 
 .catalog-panel-backdrop {
+  animation: catalog-backdrop-exit linear both;
+  animation-range: cover 66% exit 100%;
+  animation-timeline: --catalog-panel-progress;
   background-image:
     linear-gradient(
       90deg,
@@ -1871,6 +1900,8 @@ aside header {
   position: sticky;
   top: 0;
   transform: scale(1.04);
+  transform-origin: center;
+  will-change: transform, filter;
   width: 100%;
 }
 
@@ -1878,45 +1909,58 @@ aside header {
   align-items: start;
   display: grid;
   gap: clamp(2rem, 5vw, 5rem);
-  grid-template-columns: minmax(320px, 0.8fr) minmax(0, 0.72fr);
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  justify-items: center;
   min-height: 150svh;
   padding: clamp(5rem, 9vw, 9rem) clamp(1.5rem, 5vw, 5rem);
   position: relative;
 }
 
 .catalog-panel-product {
+  animation: catalog-product-drift linear both;
+  animation-range: entry 0% exit 100%;
+  animation-timeline: --catalog-panel-progress;
   display: grid;
   min-height: 78svh;
   place-items: center;
   position: sticky;
   top: calc(var(--header-height) + 2rem);
+  width: var(--catalog-panel-box-width);
+  will-change: transform;
 }
 
 .catalog-panel-product img {
-  animation: catalog-product-drift linear both;
-  animation-range: entry 0% exit 100%;
-  animation-timeline: view();
   filter: drop-shadow(0 40px 70px rgba(32, 35, 34, 0.38));
-  max-height: min(76svh, 760px);
-  max-width: min(100%, 620px);
-  object-fit: contain;
-  transform: translateY(4svh) scale(0.96);
+  height: var(--catalog-panel-box-height);
+  max-width: none;
+  object-fit: cover;
+  transform: none;
   width: 100%;
 }
 
 .catalog-panel-card {
+  animation: catalog-card-drift linear both;
+  animation-range: entry 2% exit 100%;
+  animation-timeline: --catalog-panel-progress;
   align-self: start;
   backdrop-filter: blur(20px);
   background: rgba(249, 244, 238, 0.9);
   border: 1px solid rgba(249, 244, 238, 0.7);
   border-radius: 8px;
+  box-sizing: border-box;
   box-shadow: 0 34px 90px rgba(32, 35, 34, 0.24);
   color: var(--color-charcoal);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: var(--catalog-panel-box-height);
   margin-top: 16svh;
-  max-width: 560px;
+  max-width: none;
   padding: clamp(1.4rem, 3vw, 2.35rem);
   position: sticky;
   top: calc(var(--header-height) + 5rem);
+  width: var(--catalog-panel-box-width);
+  will-change: transform;
 }
 
 .catalog-panel-card > p {
@@ -1958,15 +2002,41 @@ aside header {
 
 @keyframes catalog-product-drift {
   0% {
-    transform: translateY(8svh) scale(0.94);
+    transform: translateY(7svh);
   }
 
   48% {
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 
   100% {
-    transform: translateY(-10svh) scale(1.04);
+    transform: translateY(-8svh);
+  }
+}
+
+@keyframes catalog-card-drift {
+  0% {
+    transform: translateY(6svh);
+  }
+
+  50% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-7svh);
+  }
+}
+
+@keyframes catalog-backdrop-exit {
+  0% {
+    filter: blur(0) saturate(1);
+    transform: scale(1.04);
+  }
+
+  100% {
+    filter: blur(10px) saturate(1.08);
+    transform: scale(1.16);
   }
 }
 
@@ -2316,10 +2386,12 @@ aside header {
 
   .catalog-panel-product,
   .catalog-panel-card {
+    animation: none;
     margin-top: 0;
     min-height: auto;
     position: relative;
     top: auto;
+    transform: none;
   }
 
   .catalog-panel-product {
@@ -2327,7 +2399,6 @@ aside header {
   }
 
   .catalog-panel-product img {
-    animation: none;
     max-height: 45svh;
     max-width: min(84vw, 460px);
     transform: none;
@@ -2398,9 +2469,17 @@ aside header {
     background-attachment: scroll;
   }
 
+  .catalog-panel-product,
+  .catalog-panel-card,
   .catalog-panel-product img {
     animation: none;
     transform: none;
+  }
+
+  .catalog-panel-backdrop {
+    animation: none;
+    filter: none;
+    transform: scale(1.04);
   }
 
   .parallax-product::before {
@@ -2514,16 +2593,16 @@ aside header {
     url("/brochure/bg-mystic-earth-sunny.png") center / cover fixed;
   color: var(--color-cream);
   display: grid;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  grid-template-columns: minmax(0, 0.82fr) minmax(280px, 0.62fr);
-  min-height: min(560px, calc(78svh - var(--header-height)));
+  gap: clamp(0.85rem, 2.4vw, 1.75rem);
+  grid-template-columns: minmax(0, 0.72fr) minmax(220px, 0.48fr);
+  min-height: min(310px, calc(46svh - var(--header-height)));
   overflow: hidden;
-  padding: clamp(2.75rem, 6vw, 5rem) clamp(1.5rem, 5vw, 5rem);
+  padding: clamp(1.35rem, 3.4vw, 2.6rem) clamp(1rem, 4vw, 3rem);
   position: relative;
 }
 
 .shop-hero-copy {
-  max-width: 620px;
+  max-width: 430px;
   position: relative;
   z-index: 1;
 }
@@ -2531,35 +2610,35 @@ aside header {
 .shop-hero-copy p,
 .shop-grid-heading p {
   color: var(--color-clay);
-  font-size: 0.72rem;
+  font-size: 0.56rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
-  margin: 0 0 0.8rem;
+  letter-spacing: 0.14em;
+  margin: 0 0 0.45rem;
   text-transform: uppercase;
 }
 
 .shop-hero-copy h1 {
   font-family: var(--font-serif);
-  font-size: clamp(2.7rem, 6vw, 5.35rem);
-  line-height: 0.94;
+  font-size: clamp(1.45rem, 3.2vw, 2.8rem);
+  line-height: 1;
   margin: 0;
-  max-width: 680px;
+  max-width: 420px;
 }
 
 .shop-hero-copy span {
   color: rgba(249, 244, 238, 0.78);
   display: block;
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  line-height: 1.7;
-  margin-top: 1.25rem;
-  max-width: 620px;
+  font-size: clamp(0.74rem, 1.25vw, 0.88rem);
+  line-height: 1.5;
+  margin-top: 0.7rem;
+  max-width: 420px;
 }
 
 .shop-hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 2rem;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 .shop-hero-actions a,
@@ -2567,12 +2646,12 @@ aside header {
   align-items: center;
   border-radius: 6px;
   display: inline-flex;
-  font-size: 0.72rem;
+  font-size: 0.58rem;
   font-weight: 700;
   justify-content: center;
-  letter-spacing: 0.14em;
-  min-height: 44px;
-  padding: 0.85rem 1.1rem;
+  letter-spacing: 0.1em;
+  min-height: 34px;
+  padding: 0.55rem 0.75rem;
   text-transform: uppercase;
   transition:
     background-color 160ms ease,
@@ -2603,9 +2682,9 @@ aside header {
 .shop-hero-media {
   align-items: end;
   display: grid;
-  gap: clamp(0.75rem, 2vw, 1.2rem);
+  gap: clamp(0.45rem, 1.2vw, 0.8rem);
   grid-template-columns: 1.1fr 0.75fr 0.65fr;
-  min-height: 320px;
+  min-height: 180px;
   position: relative;
 }
 
@@ -2613,8 +2692,8 @@ aside header {
   animation: shop-product-float linear both;
   animation-range: entry 0% exit 100%;
   animation-timeline: view();
-  filter: drop-shadow(0 34px 60px rgba(32, 35, 34, 0.34));
-  max-height: 380px;
+  filter: drop-shadow(0 18px 36px rgba(32, 35, 34, 0.3));
+  max-height: 210px;
   object-fit: contain;
   width: 100%;
   will-change: transform;
@@ -2634,9 +2713,9 @@ aside header {
   background: var(--color-charcoal);
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
+  gap: 0.45rem;
   justify-content: center;
-  padding: 1rem clamp(1.5rem, 4vw, 4rem);
+  padding: 0.55rem clamp(1rem, 3vw, 2.5rem);
 }
 
 .shop-filter-band a {
@@ -2645,29 +2724,29 @@ aside header {
 }
 
 .shop-grid-shell {
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 4rem);
+  padding: clamp(1.45rem, 3.2vw, 2.6rem) clamp(1rem, 4vw, 3rem);
 }
 
 .shop-grid-heading {
   align-items: end;
   display: grid;
-  gap: 1.5rem;
+  gap: 0.9rem;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.52fr);
-  margin: 0 auto 2rem;
+  margin: 0 auto 1rem;
   max-width: 1280px;
 }
 
 .shop-grid-heading h2 {
   font-family: var(--font-serif);
-  font-size: clamp(2.4rem, 6vw, 5.25rem);
-  line-height: 0.95;
+  font-size: clamp(1.45rem, 3.4vw, 2.7rem);
+  line-height: 1;
   margin: 0;
 }
 
 .shop-grid-heading span {
   color: rgba(32, 35, 34, 0.68);
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: 0.82rem;
+  line-height: 1.5;
 }
 
 .shop-products-grid {
@@ -2939,36 +3018,36 @@ aside header {
 @media (max-width: 1100px) {
   .shop-hero {
     background-attachment: scroll;
-    gap: clamp(1.25rem, 4vw, 2rem);
+    gap: clamp(0.8rem, 2.5vw, 1.25rem);
     grid-template-columns: 1fr;
     min-height: auto;
     overflow: visible;
-    padding: clamp(2rem, 6vw, 3.5rem) clamp(1.25rem, 5vw, 3rem);
+    padding: clamp(1rem, 3.4vw, 1.8rem) clamp(1rem, 4vw, 2rem);
   }
 
   .shop-hero-copy {
-    max-width: min(760px, 100%);
+    max-width: min(520px, 100%);
   }
 
   .shop-hero-copy h1 {
-    font-size: clamp(2.6rem, 10vw, 4.4rem);
-    max-width: 14ch;
+    font-size: clamp(1.45rem, 5.5vw, 2.45rem);
+    max-width: 16ch;
   }
 
   .shop-hero-copy span {
-    max-width: 42rem;
+    max-width: 30rem;
   }
 
   .shop-hero-media {
     align-items: end;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-top: 0.5rem;
+    margin-top: 0.1rem;
     min-height: auto;
   }
 
   .shop-hero-media img {
     animation: none;
-    max-height: min(26svh, 220px);
+    max-height: min(16svh, 120px);
     transform: none;
   }
 
@@ -3039,27 +3118,39 @@ aside header {
 @media (max-width: 640px) {
   .shop-hero,
   .contact-hero {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
   }
 
-  .shop-hero-copy h1,
+  .shop-hero-copy h1 {
+    font-size: clamp(1.35rem, 6.4vw, 1.9rem);
+    max-width: 100%;
+  }
+
   .contact-hero-copy h1 {
     font-size: clamp(2.15rem, 10vw, 3.05rem);
     max-width: 100%;
   }
 
-  .shop-hero-copy span,
+  .shop-hero-copy span {
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+
   .contact-hero-copy span {
     font-size: 1rem;
     line-height: 1.55;
   }
 
   .shop-hero-actions {
-    flex-direction: column;
+    flex-direction: row;
   }
 
-  .shop-hero-actions a,
+  .shop-hero-actions a {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
   .contact-hero-copy a {
     width: 100%;
   }
@@ -3071,7 +3162,7 @@ aside header {
 
   .shop-hero-media img,
   .contact-hero-products img {
-    max-height: min(21svh, 160px);
+    max-height: min(13svh, 96px);
   }
 }
 
@@ -3832,16 +3923,21 @@ aside header {
 
 @media (max-width: 640px) {
   .shop-grid-shell {
-    padding: 2rem 0.85rem 2.5rem;
+    padding: 1.15rem 0.85rem 2rem;
   }
 
   .shop-grid-heading {
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
+    gap: 0.45rem;
+    margin-bottom: 0.75rem;
   }
 
   .shop-grid-heading h2 {
-    font-size: clamp(2rem, 9vw, 2.75rem);
+    font-size: clamp(1.35rem, 6.2vw, 1.95rem);
+  }
+
+  .shop-grid-heading span {
+    font-size: 0.76rem;
+    line-height: 1.45;
   }
 
   .products-grid,
@@ -3882,5 +3978,154 @@ aside header {
   .product-card-footer small {
     font-size: 0.58rem;
     letter-spacing: 0.08em;
+  }
+}
+
+/*
+* --------------------------------------------------
+* Compact scale for non-home editorial pages
+* --------------------------------------------------
+*/
+.catalog-hero {
+  min-height: min(360px, calc(52svh - var(--header-height)));
+  padding: clamp(1.4rem, 3.4vw, 2.6rem) clamp(1rem, 4vw, 3rem);
+}
+
+.catalog-hero-inner {
+  max-width: 480px;
+}
+
+.catalog-hero-logo {
+  margin-bottom: clamp(0.7rem, 2vw, 1.2rem);
+  max-width: min(180px, 48vw);
+  padding: 0.45rem 0.55rem;
+}
+
+.catalog-hero p,
+.contact-hero-copy p,
+.collection-hero p {
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.45rem;
+}
+
+.catalog-hero h1 {
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  line-height: 1;
+  margin: 0.35rem 0 0.7rem;
+}
+
+.catalog-hero span {
+  font-size: clamp(0.76rem, 1.35vw, 0.9rem);
+  line-height: 1.5;
+}
+
+.catalog-hero-actions {
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.catalog-hero-actions a,
+.contact-hero-copy a {
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  min-height: 34px;
+  padding: 0.55rem 0.75rem;
+}
+
+.contact-hero {
+  gap: clamp(0.9rem, 2.8vw, 2rem);
+  min-height: min(390px, calc(56svh - var(--header-height)));
+  padding: clamp(1.35rem, 3.4vw, 2.7rem) clamp(1rem, 4vw, 3rem);
+}
+
+.contact-hero {
+  grid-template-columns: minmax(0, 0.62fr) minmax(220px, 0.32fr);
+}
+
+.contact-hero-copy {
+  max-width: 460px;
+}
+
+.contact-hero-copy h1 {
+  font-size: clamp(1.55rem, 3.5vw, 3rem);
+  line-height: 1;
+  max-width: 15ch;
+}
+
+.contact-hero-copy span {
+  font-size: clamp(0.76rem, 1.35vw, 0.9rem);
+  line-height: 1.5;
+  margin-top: 0.7rem;
+  max-width: 420px;
+}
+
+.contact-hero-copy a {
+  margin-top: 1rem;
+}
+
+.contact-hero-products {
+  gap: 0.45rem;
+  max-width: min(260px, 100%);
+}
+
+.contact-hero-products img {
+  filter: drop-shadow(0 18px 36px rgba(32, 35, 34, 0.3));
+  max-height: clamp(74px, 10vw, 135px);
+}
+
+.collection-hero {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 900px) {
+  .catalog-hero,
+  .contact-hero {
+    min-height: auto;
+    padding: 0.95rem 0.85rem;
+  }
+
+  .contact-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-hero-products {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: none;
+    min-height: auto;
+  }
+
+  .contact-hero-products img,
+  .contact-hero-products img:first-child,
+  .contact-hero-products img:nth-child(2),
+  .contact-hero-products img:nth-child(3) {
+    grid-column: auto;
+    max-height: 72px;
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 640px) {
+  .catalog-hero h1,
+  .contact-hero-copy h1,
+  .collection-hero h1 {
+    font-size: clamp(1.28rem, 6vw, 1.85rem);
+    max-width: 100%;
+  }
+
+  .catalog-hero span,
+  .contact-hero-copy span,
+  .collection-description {
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+
+  .catalog-hero-actions {
+    gap: 0.75rem;
+  }
+
+  .contact-hero-copy a {
+    width: 100%;
   }
 }
