@@ -9,6 +9,7 @@ import {
   DEFAULT_STORE_URL,
   SEO_KEYWORDS,
   SITE_NAME,
+  getBreadcrumbJsonLd,
   getCanonicalUrl,
   getSeoDescription,
   getStoreUrl,
@@ -44,9 +45,13 @@ export const meta: Route.MetaFunction = ({data}) => {
       'script:ld+json': {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
+        '@id': `${canonicalUrl}#collection`,
         name: collection?.title ?? 'Aromaz collection',
         description,
         url: canonicalUrl,
+        isPartOf: {
+          '@id': `${getCanonicalUrl('/', storeUrl)}#website`,
+        },
         mainEntity: {
           '@type': 'ItemList',
           itemListElement: (collection?.products.nodes ?? [])
@@ -64,8 +69,10 @@ export const meta: Route.MetaFunction = ({data}) => {
                 url: productUrl,
                 item: {
                   '@type': 'Product',
+                  '@id': `${productUrl}#product`,
                   name: product.title,
                   url: productUrl,
+                  category: 'Natural personal care',
                   ...(image ? {image} : {}),
                   brand: {
                     '@type': 'Brand',
@@ -78,12 +85,28 @@ export const meta: Route.MetaFunction = ({data}) => {
                       product.priceRange.minVariantPrice.currencyCode,
                     availability: 'https://schema.org/InStock',
                     url: productUrl,
+                    seller: {
+                      '@id': `${getCanonicalUrl('/', storeUrl)}#organization`,
+                    },
                   },
                 },
               };
             }),
         },
       },
+    },
+    {
+      'script:ld+json': getBreadcrumbJsonLd(
+        [
+          {name: 'Home', path: '/'},
+          {name: 'Shop', path: '/collections/all'},
+          {
+            name: collection?.title ?? 'Collection',
+            path: `/collections/${collection?.handle ?? ''}`,
+          },
+        ],
+        storeUrl,
+      ),
     },
   ];
 };

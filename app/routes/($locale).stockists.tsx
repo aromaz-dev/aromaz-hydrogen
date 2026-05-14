@@ -3,10 +3,12 @@ import {
   DEFAULT_STORE_URL,
   SEO_KEYWORDS,
   SITE_NAME,
+  getBreadcrumbJsonLd,
   getCanonicalUrl,
 } from '~/lib/seo';
 
-const STOCKISTS_TITLE = 'Aromaz Stockists in Vancouver and Burnaby | Find a Store';
+const STOCKISTS_TITLE =
+  'Aromaz Stockists in Vancouver and Burnaby | Find a Store';
 const STOCKISTS_DESCRIPTION =
   'Find Aromaz natural deodorant, refillable scent care, and natural cosmetics at Vancouver-area retail partners in West Vancouver, Burnaby, and Vancouver.';
 
@@ -29,6 +31,19 @@ export const meta = () => {
     {
       'script:ld+json': {
         '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': `${canonicalUrl}#webpage`,
+        name: STOCKISTS_TITLE,
+        description: STOCKISTS_DESCRIPTION,
+        url: canonicalUrl,
+        isPartOf: {
+          '@id': `${getCanonicalUrl('/', DEFAULT_STORE_URL)}#website`,
+        },
+      },
+    },
+    {
+      'script:ld+json': {
+        '@context': 'https://schema.org',
         '@type': 'ItemList',
         name: 'Aromaz Vancouver-area stockists',
         itemListElement: STOCKIST_LOCATIONS.map((location, index) => ({
@@ -43,6 +58,15 @@ export const meta = () => {
           },
         })),
       },
+    },
+    {
+      'script:ld+json': getBreadcrumbJsonLd(
+        [
+          {name: 'Home', path: '/'},
+          {name: 'Find a Store', path: '/stockists'},
+        ],
+        DEFAULT_STORE_URL,
+      ),
     },
   ];
 };

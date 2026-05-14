@@ -6,7 +6,18 @@ import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `Hydrogen | ${data?.blog.title ?? ''} blog`}];
+  const title = data?.blog.title
+    ? `${data.blog.title} | Aromaz Journal`
+    : 'Aromaz Journal';
+
+  return [
+    {title},
+    {
+      name: 'description',
+      content:
+        'Explore Aromaz journal articles about natural personal care, refillable deodorant, botanical scent routines, and cleaner daily rituals.',
+    },
+  ];
 };
 
 export async function loader(args: Route.LoaderArgs) {

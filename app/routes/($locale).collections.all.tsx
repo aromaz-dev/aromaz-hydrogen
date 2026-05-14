@@ -8,13 +8,13 @@ import {
   DEFAULT_STORE_URL,
   SEO_KEYWORDS,
   SITE_NAME,
+  getBreadcrumbJsonLd,
   getCanonicalUrl,
   getStoreUrl,
 } from '~/lib/seo';
 import {getPublicProductHandle} from '~/config/products';
 
-const SHOP_TITLE =
-  'Shop Natural Deodorant, Loofah Soap and Lip Care | Aromaz';
+const SHOP_TITLE = 'Shop Natural Deodorant, Loofah Soap and Lip Care | Aromaz';
 const SHOP_DESCRIPTION =
   'Shop Aromaz refillable natural deodorant, botanical deodorant refills, natural loofah soap, and lip care for sensitive skin in Vancouver, Canada, and the United States.';
 
@@ -41,9 +41,13 @@ export const meta: Route.MetaFunction = ({data}) => {
       'script:ld+json': {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
+        '@id': `${canonicalUrl}#collection`,
         name: SHOP_TITLE,
         description: SHOP_DESCRIPTION,
         url: canonicalUrl,
+        isPartOf: {
+          '@id': `${getCanonicalUrl('/', storeUrl)}#website`,
+        },
         mainEntity: {
           '@type': 'ItemList',
           itemListElement: products
@@ -61,8 +65,10 @@ export const meta: Route.MetaFunction = ({data}) => {
                 url: productUrl,
                 item: {
                   '@type': 'Product',
+                  '@id': `${productUrl}#product`,
                   name: product.title,
                   url: productUrl,
+                  category: 'Natural personal care',
                   ...(image ? {image} : {}),
                   brand: {
                     '@type': 'Brand',
@@ -75,12 +81,24 @@ export const meta: Route.MetaFunction = ({data}) => {
                       product.priceRange.minVariantPrice.currencyCode,
                     availability: 'https://schema.org/InStock',
                     url: productUrl,
+                    seller: {
+                      '@id': `${getCanonicalUrl('/', storeUrl)}#organization`,
+                    },
                   },
                 },
               };
             }),
         },
       },
+    },
+    {
+      'script:ld+json': getBreadcrumbJsonLd(
+        [
+          {name: 'Home', path: '/'},
+          {name: 'Shop', path: '/collections/all'},
+        ],
+        storeUrl,
+      ),
     },
   ];
 };

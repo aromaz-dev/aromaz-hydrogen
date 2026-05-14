@@ -7,7 +7,14 @@ import type {BlogsQuery} from 'storefrontapi.generated';
 type BlogNode = BlogsQuery['blogs']['nodes'][0];
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: `Hydrogen | Blogs`}];
+  return [
+    {title: 'Natural Personal Care Journal | Aromaz'},
+    {
+      name: 'description',
+      content:
+        'Read Aromaz notes on refillable natural deodorant, botanical scent care, loofah soap, lip care, and thoughtful daily routines.',
+    },
+  ];
 };
 
 export async function loader(args: Route.LoaderArgs) {

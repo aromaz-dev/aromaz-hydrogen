@@ -14,7 +14,9 @@ import {
   SEO_KEYWORDS,
   SITE_NAME,
   getCanonicalUrl,
+  getOrganizationJsonLd,
   getStoreUrl,
+  getWebSiteJsonLd,
 } from '~/lib/seo';
 
 const HOME_TITLE =
@@ -43,31 +45,10 @@ export const meta: Route.MetaFunction = ({data}) => {
     {name: 'twitter:image', content: imageUrl},
     {tagName: 'link', rel: 'canonical', href: canonicalUrl},
     {
-      'script:ld+json': {
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: SITE_NAME,
-        url: canonicalUrl,
-        logo: getCanonicalUrl('/favicon.png', storeUrl),
-        sameAs: [
-          'https://www.instagram.com/aromaz_cosmetics',
-          'https://www.tiktok.com/@aromaz873',
-        ],
-        areaServed: ['Vancouver', 'Canada', 'United States'],
-      },
+      'script:ld+json': getOrganizationJsonLd(storeUrl),
     },
     {
-      'script:ld+json': {
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        name: SITE_NAME,
-        url: canonicalUrl,
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: `${canonicalUrl}/search?q={search_term_string}`,
-          'query-input': 'required name=search_term_string',
-        },
-      },
+      'script:ld+json': getWebSiteJsonLd(storeUrl),
     },
   ];
 };
@@ -232,9 +213,9 @@ function Hero() {
             Natural deodorant, made cleaner.
           </h1>
           <p className="mt-6 max-w-xl font-sans text-lg leading-relaxed text-cream/85 md:text-xl">
-            Build a refillable deodorant ritual with a durable case,
-            botanical scents, and flexible refill plans for sensitive daily
-            routines in Vancouver, Canada, and across the United States.
+            Build a refillable deodorant ritual with a durable case, botanical
+            scents, and flexible refill plans for sensitive daily routines in
+            Vancouver, Canada, and across the United States.
           </p>
           <div
             className="home-hero-actions mt-9 flex flex-col gap-3 sm:flex-row"
@@ -310,7 +291,10 @@ function BrandStory() {
         const rect = row.getBoundingClientRect();
         const progress = Math.min(
           1,
-          Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)),
+          Math.max(
+            0,
+            (viewportHeight - rect.top) / (viewportHeight + rect.height),
+          ),
         );
 
         const copyY = -74 + progress * 160;
@@ -389,34 +373,34 @@ function BrandStory() {
             }`}
           >
             <div className="mx-auto max-w-7xl">
-            <div
-              className={`home-story-row grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center ${
-                story.imageLeft ? '' : 'md:grid-flow-dense'
-              }`}
-            >
-              <div className={story.imageLeft ? 'md:order-1' : 'md:order-2'}>
-                <div className="home-story-media aspect-square rounded-lg overflow-hidden shadow-lg group">
-                  <img
-                    src={story.image}
-                    alt={story.imageAlt}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
               <div
-                className={`home-story-copy ${
-                  story.imageLeft ? 'md:order-2' : 'md:order-1'
+                className={`home-story-row grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center ${
+                  story.imageLeft ? '' : 'md:grid-flow-dense'
                 }`}
               >
-                <h3 className="font-serif text-3xl md:text-5xl text-charcoal mb-5 leading-tight">
-                  {story.title}
-                </h3>
-                <p className="font-sans text-lg md:text-xl text-charcoal/80 leading-relaxed">
-                  {story.description}
-                </p>
+                <div className={story.imageLeft ? 'md:order-1' : 'md:order-2'}>
+                  <div className="home-story-media aspect-square rounded-lg overflow-hidden shadow-lg group">
+                    <img
+                      src={story.image}
+                      alt={story.imageAlt}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+                <div
+                  className={`home-story-copy ${
+                    story.imageLeft ? 'md:order-2' : 'md:order-1'
+                  }`}
+                >
+                  <h3 className="font-serif text-3xl md:text-5xl text-charcoal mb-5 leading-tight">
+                    {story.title}
+                  </h3>
+                  <p className="font-sans text-lg md:text-xl text-charcoal/80 leading-relaxed">
+                    {story.description}
+                  </p>
+                </div>
               </div>
-            </div>
             </div>
           </div>
         ))}
@@ -478,8 +462,8 @@ function IngredientsShowcase() {
             </h2>
           </div>
           <p className="font-sans text-base md:text-lg text-charcoal/70">
-            Explore botanical notes chosen for gentle daily freshness, from
-            soft florals to herbal comfort and warm, grounded scent families.
+            Explore botanical notes chosen for gentle daily freshness, from soft
+            florals to herbal comfort and warm, grounded scent families.
           </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 md:gap-6">
@@ -559,7 +543,10 @@ function RecommendedProducts({
       const viewportHeight = window.innerHeight || 1;
       const progress = Math.min(
         1,
-        Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)),
+        Math.max(
+          0,
+          (viewportHeight - rect.top) / (viewportHeight + rect.height),
+        ),
       );
       const entrance = Math.min(1, progress * 1.55);
 
@@ -619,7 +606,8 @@ function RecommendedProducts({
             {(response) => {
               const products = response?.products?.nodes ?? [];
               const soapIndex = products.findIndex((product) => {
-                const productName = `${product.title} ${product.handle}`.toLowerCase();
+                const productName =
+                  `${product.title} ${product.handle}`.toLowerCase();
                 return (
                   productName.includes('soap') ||
                   productName.includes('loofah') ||
@@ -628,39 +616,36 @@ function RecommendedProducts({
               });
               const featuredProducts =
                 soapIndex > -1
-                  ? [
-                      ...products.slice(0, 4),
-                      products[soapIndex],
-                    ].filter(
+                  ? [...products.slice(0, 4), products[soapIndex]].filter(
                       (product, index, list) =>
                         product &&
                         list.findIndex((item) => item.id === product.id) ===
-                        index,
+                          index,
                     )
                   : products.slice(0, 5);
               const fallbackCards = getHomeShopFallbackCards(featuredProducts);
 
               return (
-              <div
-                className="home-shop-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 md:gap-6"
-                ref={shopGridRef}
-              >
-                {featuredProducts.length > 0 ? (
-                  <>
-                    {featuredProducts.map((product) => (
-                      <ProductItem key={product.id} product={product} />
-                    ))}
-                    {fallbackCards.map((product) => (
-                      <HomeShopFallbackCard
-                        key={product.name}
-                        product={product}
-                      />
-                    ))}
-                  </>
-                ) : (
-                  <HomeShopFallbackCards />
-                )}
-              </div>
+                <div
+                  className="home-shop-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 md:gap-6"
+                  ref={shopGridRef}
+                >
+                  {featuredProducts.length > 0 ? (
+                    <>
+                      {featuredProducts.map((product) => (
+                        <ProductItem key={product.id} product={product} />
+                      ))}
+                      {fallbackCards.map((product) => (
+                        <HomeShopFallbackCard
+                          key={product.name}
+                          product={product}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <HomeShopFallbackCards />
+                  )}
+                </div>
               );
             }}
           </Await>

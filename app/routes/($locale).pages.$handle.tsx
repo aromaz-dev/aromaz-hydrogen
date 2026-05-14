@@ -4,9 +4,11 @@ import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {SocialLinks} from '~/components/SocialLinks';
 import {STOCKIST_LOCATIONS, StockistsPage} from '~/components/StockistsPage';
 import {
+  CUSTOMER_SUPPORT_EMAIL,
   DEFAULT_STORE_URL,
   SEO_KEYWORDS,
   SITE_NAME,
+  getBreadcrumbJsonLd,
   getCanonicalUrl,
   getSeoDescription,
   getStoreUrl,
@@ -26,6 +28,7 @@ export const meta: Route.MetaFunction = ({data}) => {
     storeUrl,
   );
   const isStockists = page?.handle === 'stockists';
+  const isContact = page?.handle === 'contact';
 
   return [
     {title: fullTitle},
@@ -37,6 +40,37 @@ export const meta: Route.MetaFunction = ({data}) => {
     {property: 'og:description', content: description},
     {property: 'og:url', content: canonicalUrl},
     {tagName: 'link', rel: 'canonical', href: canonicalUrl},
+    {
+      'script:ld+json': {
+        '@context': 'https://schema.org',
+        '@type': isContact ? 'ContactPage' : 'WebPage',
+        '@id': `${canonicalUrl}#webpage`,
+        name: fullTitle,
+        description,
+        url: canonicalUrl,
+        isPartOf: {
+          '@id': `${getCanonicalUrl('/', storeUrl)}#website`,
+        },
+        ...(isContact
+          ? {
+              mainEntity: {
+                '@type': 'Organization',
+                '@id': `${getCanonicalUrl('/', storeUrl)}#organization`,
+                email: CUSTOMER_SUPPORT_EMAIL,
+              },
+            }
+          : {}),
+      },
+    },
+    {
+      'script:ld+json': getBreadcrumbJsonLd(
+        [
+          {name: 'Home', path: '/'},
+          {name: page?.title ?? 'Page', path: `/pages/${page?.handle ?? ''}`},
+        ],
+        storeUrl,
+      ),
+    },
     ...(isStockists
       ? [
           {

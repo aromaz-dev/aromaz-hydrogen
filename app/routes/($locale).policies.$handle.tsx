@@ -8,7 +8,23 @@ type SelectedPolicies = keyof Pick<
 >;
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `Hydrogen | ${data?.policy.title ?? ''}`}];
+  const title = data?.policy.title
+    ? `${data.policy.title} | Aromaz`
+    : 'Aromaz Policy';
+
+  return [
+    {title},
+    {
+      name: 'description',
+      content:
+        data?.policy.body
+          ?.replace(/<[^>]*>/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, 155) ||
+        'Review Aromaz store policies for shipping, returns, privacy, and terms of service.',
+    },
+  ];
 };
 
 export async function loader({params, context}: Route.LoaderArgs) {

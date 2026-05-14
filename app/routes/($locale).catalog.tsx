@@ -6,6 +6,7 @@ import {
   DEFAULT_STORE_URL,
   SEO_KEYWORDS,
   SITE_NAME,
+  getBreadcrumbJsonLd,
   getCanonicalUrl,
 } from '~/lib/seo';
 
@@ -54,10 +55,22 @@ export const meta: Route.MetaFunction = () => {
               priceCurrency: 'CAD',
               availability: 'https://schema.org/InStock',
               url: getCanonicalUrl(product.href, DEFAULT_STORE_URL),
+              seller: {
+                '@id': `${getCanonicalUrl('/', DEFAULT_STORE_URL)}#organization`,
+              },
             },
           },
         })),
       },
+    },
+    {
+      'script:ld+json': getBreadcrumbJsonLd(
+        [
+          {name: 'Home', path: '/'},
+          {name: 'Catalog', path: '/catalog'},
+        ],
+        DEFAULT_STORE_URL,
+      ),
     },
   ];
 };
@@ -83,8 +96,8 @@ export default function CatalogRoute() {
           <h1>Aromaz Collection</h1>
           <span>
             Refill-led deodorant scents, natural loofah soap, and daily lip care
-            essentials organized for easy scent discovery, wholesale review,
-            and checkout.
+            essentials organized for easy scent discovery, wholesale review, and
+            checkout.
           </span>
           <div className="catalog-hero-actions">
             <Link to="/products/refillable-deodorant/customize">

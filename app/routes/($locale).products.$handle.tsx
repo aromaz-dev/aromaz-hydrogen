@@ -18,6 +18,7 @@ import {
   DEFAULT_STORE_URL,
   SEO_KEYWORDS,
   SITE_NAME,
+  getBreadcrumbJsonLd,
   getCanonicalUrl,
   getSeoDescription,
   getStoreUrl,
@@ -26,6 +27,159 @@ import {
   getPublicProductHandle,
   getShopifyProductHandle,
 } from '~/config/products';
+
+type ProductVariantJsonLdInput = {
+  id?: string | null;
+  title?: string | null;
+  sku?: string | null;
+  availableForSale?: boolean | null;
+  image?: {url?: string | null} | null;
+  price?: {amount?: string | null; currencyCode?: string | null} | null;
+  selectedOptions?: Array<{name?: string | null; value?: string | null}> | null;
+};
+
+function getSchemaId(value?: string | null) {
+  return encodeURIComponent(
+    (value || 'item')
+      .replace(/^gid:\/\/shopify\/[^/]+\//, '')
+      .replace(/[^a-z0-9]+/gi, '-')
+      .replace(/^-|-$/g, '')
+      .toLowerCase(),
+  );
+}
+
+function getProductCategory(title?: string | null) {
+  const value = title?.toLowerCase() ?? '';
+
+  if (value.includes('deodorant') || value.includes('refill')) {
+    return 'Natural deodorant';
+  }
+
+  if (value.includes('loofah') || value.includes('soap')) {
+    return 'Natural loofah soap';
+  }
+
+  if (value.includes('balm') || value.includes('lip')) {
+    return 'Natural lip care';
+  }
+
+  return 'Natural cosmetics';
+}
+
+function getOptionJsonLd(
+  selectedOptions?: ProductVariantJsonLdInput['selectedOptions'],
+) {
+  const schemaProperties: Record<string, string> = {};
+  const additionalProperty: Array<Record<string, string>> = [];
+
+  selectedOptions?.forEach((option) => {
+    if (!option.name || !option.value) return;
+
+    const name = option.name.toLowerCase();
+
+    if (name.includes('color') || name.includes('colour')) {
+      schemaProperties.color = option.value;
+      return;
+    }
+
+    if (name.includes('size')) {
+      schemaProperties.size = option.value;
+      return;
+    }
+
+    if (name.includes('material')) {
+      schemaProperties.material = option.value;
+      return;
+    }
+
+    if (name.includes('pattern')) {
+      schemaProperties.pattern = option.value;
+      return;
+    }
+
+    additionalProperty.push({
+      '@type': 'PropertyValue',
+      name: option.name,
+      value: option.value,
+    });
+  });
+
+  return {schemaProperties, additionalProperty};
+}
+
+function getOfferJsonLd({
+  variant,
+  canonicalUrl,
+  storeUrl,
+}: {
+  variant?: ProductVariantJsonLdInput | null;
+  canonicalUrl: string;
+  storeUrl: string;
+}) {
+  return {
+    '@type': 'Offer',
+    '@id': `${canonicalUrl}#offer-${getSchemaId(variant?.sku || variant?.id)}`,
+    url: canonicalUrl,
+    price: variant?.price?.amount ?? '0',
+    priceCurrency: variant?.price?.currencyCode ?? 'CAD',
+    availability: variant?.availableForSale
+      ? 'https://schema.org/InStock'
+      : 'https://schema.org/OutOfStock',
+    itemCondition: 'https://schema.org/NewCondition',
+    seller: {
+      '@id': `${getCanonicalUrl('/', storeUrl)}#organization`,
+    },
+  };
+}
+
+function getVariantJsonLd({
+  productTitle,
+  variant,
+  description,
+  canonicalUrl,
+  storeUrl,
+  fallbackImage,
+  productGroupID,
+}: {
+  productTitle: string;
+  variant: ProductVariantJsonLdInput;
+  description: string;
+  canonicalUrl: string;
+  storeUrl: string;
+  fallbackImage?: string | null;
+  productGroupID: string;
+}) {
+  const variantTitle =
+    variant.title && variant.title !== 'Default Title'
+      ? `${productTitle} - ${variant.title}`
+      : productTitle;
+  const {schemaProperties, additionalProperty} = getOptionJsonLd(
+    variant.selectedOptions,
+  );
+  const image = variant.image?.url || fallbackImage;
+
+  return {
+    '@type': 'Product',
+    '@id': `${canonicalUrl}#variant-${getSchemaId(
+      variant.sku || variant.id || variant.title,
+    )}`,
+    name: variantTitle,
+    description,
+    sku: variant.sku || variant.id,
+    inProductGroupWithID: productGroupID,
+    ...(image ? {image: [image]} : {}),
+    ...schemaProperties,
+    additionalProperty: [
+      ...additionalProperty,
+      {
+        '@type': 'PropertyValue',
+        name: 'Shopping region',
+        value: 'Canada and United States',
+      },
+    ],
+    offers: getOfferJsonLd({variant, canonicalUrl, storeUrl}),
+  };
+}
 
 export const meta: Route.MetaFunction = ({data}) => {
   const product = data?.product;
@@ -42,6 +196,77 @@ export const meta: Route.MetaFunction = ({data}) => {
   );
   const selectedVariant = product?.selectedOrFirstAvailableVariant;
   const image = selectedVariant?.image?.url;
+  const productGroupID = product?.id ?? product?.handle ?? canonicalUrl;
+  const variants = product?.variants.nodes ?? [];
+  const productSchema =
+    product && variants.length > 1
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'ProductGroup',
+          '@id': `${canonicalUrl}#product-group`,
+          name: product.title,
+          description,
+          url: canonicalUrl,
+          productGroupID,
+          category: getProductCategory(product.title),
+          brand: {
+            '@type': 'Brand',
+            name: SITE_NAME,
+          },
+          manufacturer: {
+            '@id': `${getCanonicalUrl('/', storeUrl)}#organization`,
+          },
+          hasVariant: variants
+            .slice(0, 50)
+            .map((variant: ProductVariantJsonLdInput) =>
+              getVariantJsonLd({
+                productTitle: product.title,
+                variant,
+                description,
+                canonicalUrl,
+                storeUrl,
+                fallbackImage: image,
+                productGroupID,
+              }),
+            ),
+          additionalProperty: [
+            {
+              '@type': 'PropertyValue',
+              name: 'Product focus',
+              value: 'Refillable natural personal care',
+            },
+          ],
+        }
+      : {
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          '@id': `${canonicalUrl}#product`,
+          name: product?.title ?? 'Aromaz product',
+          description,
+          sku: selectedVariant?.sku || product?.handle,
+          url: canonicalUrl,
+          category: getProductCategory(product?.title),
+          ...(image ? {image: [image]} : {}),
+          brand: {
+            '@type': 'Brand',
+            name: SITE_NAME,
+          },
+          manufacturer: {
+            '@id': `${getCanonicalUrl('/', storeUrl)}#organization`,
+          },
+          additionalProperty: [
+            {
+              '@type': 'PropertyValue',
+              name: 'Shopping region',
+              value: 'Canada and United States',
+            },
+          ],
+          offers: getOfferJsonLd({
+            variant: selectedVariant,
+            canonicalUrl,
+            storeUrl,
+          }),
+        };
 
   return [
     {title: fullTitle},
@@ -63,29 +288,20 @@ export const meta: Route.MetaFunction = ({data}) => {
       href: canonicalUrl,
     },
     {
-      'script:ld+json': {
-        '@context': 'https://schema.org',
-        '@type': 'Product',
-        name: product?.title ?? 'Aromaz product',
-        description,
-        sku: selectedVariant?.sku || product?.handle,
-        url: canonicalUrl,
-        ...(image ? {image: [image]} : {}),
-        brand: {
-          '@type': 'Brand',
-          name: SITE_NAME,
-        },
-        offers: {
-          '@type': 'Offer',
-          url: canonicalUrl,
-          price: selectedVariant?.price.amount ?? '0',
-          priceCurrency: selectedVariant?.price.currencyCode ?? 'CAD',
-          availability: selectedVariant?.availableForSale
-            ? 'https://schema.org/InStock'
-            : 'https://schema.org/OutOfStock',
-          itemCondition: 'https://schema.org/NewCondition',
-        },
-      },
+      'script:ld+json': productSchema,
+    },
+    {
+      'script:ld+json': getBreadcrumbJsonLd(
+        [
+          {name: 'Home', path: '/'},
+          {name: 'Shop', path: '/collections/all'},
+          {
+            name: product?.title ?? 'Product',
+            path: `/products/${product ? getPublicProductHandle(product.handle) : ''}`,
+          },
+        ],
+        storeUrl,
+      ),
     },
   ];
 };

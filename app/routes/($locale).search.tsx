@@ -14,7 +14,15 @@ import type {
 } from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: `Hydrogen | Search`}];
+  return [
+    {title: 'Search Natural Deodorant and Cosmetics | Aromaz'},
+    {
+      name: 'description',
+      content:
+        'Search Aromaz for refillable natural deodorant, botanical scent refills, natural loofah soap, and lip care.',
+    },
+    {name: 'robots', content: 'noindex,follow'},
+  ];
 };
 
 export async function loader({request, context}: Route.LoaderArgs) {
