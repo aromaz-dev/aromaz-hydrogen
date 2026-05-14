@@ -5,9 +5,87 @@ import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
 import type {ProductItemFragment} from 'storefrontapi.generated';
+import {
+  DEFAULT_STORE_URL,
+  SEO_KEYWORDS,
+  SITE_NAME,
+  getCanonicalUrl,
+  getSeoDescription,
+  getStoreUrl,
+} from '~/lib/seo';
+import {getPublicProductHandle} from '~/config/products';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `Aromaz | ${data?.collection.title ?? ''}`}];
+  const collection = data?.collection;
+  const storeUrl = data?.storeUrl ?? DEFAULT_STORE_URL;
+  const title = collection
+    ? `${collection.title} | Natural Cosmetics by Aromaz`
+    : 'Aromaz Natural Cosmetics Collection';
+  const description = getSeoDescription(
+    collection?.description,
+    'Shop Aromaz natural deodorant, refillable scent care, loofah soap, and lip care for sensitive daily routines.',
+  );
+  const canonicalUrl = getCanonicalUrl(
+    `/collections/${collection?.handle ?? ''}`,
+    storeUrl,
+  );
+
+  return [
+    {title},
+    {name: 'description', content: description},
+    {name: 'keywords', content: SEO_KEYWORDS},
+    {property: 'og:type', content: 'website'},
+    {property: 'og:site_name', content: SITE_NAME},
+    {property: 'og:title', content: title},
+    {property: 'og:description', content: description},
+    {property: 'og:url', content: canonicalUrl},
+    {tagName: 'link', rel: 'canonical', href: canonicalUrl},
+    {
+      'script:ld+json': {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: collection?.title ?? 'Aromaz collection',
+        description,
+        url: canonicalUrl,
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: (collection?.products.nodes ?? [])
+            .slice(0, 12)
+            .map((product: ProductItemFragment, index: number) => {
+              const productUrl = getCanonicalUrl(
+                `/products/${getPublicProductHandle(product.handle)}`,
+                storeUrl,
+              );
+              const image = product.featuredImage?.url;
+
+              return {
+                '@type': 'ListItem',
+                position: index + 1,
+                url: productUrl,
+                item: {
+                  '@type': 'Product',
+                  name: product.title,
+                  url: productUrl,
+                  ...(image ? {image} : {}),
+                  brand: {
+                    '@type': 'Brand',
+                    name: SITE_NAME,
+                  },
+                  offers: {
+                    '@type': 'Offer',
+                    price: product.priceRange.minVariantPrice.amount,
+                    priceCurrency:
+                      product.priceRange.minVariantPrice.currencyCode,
+                    availability: 'https://schema.org/InStock',
+                    url: productUrl,
+                  },
+                },
+              };
+            }),
+        },
+      },
+    },
+  ];
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -53,6 +131,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
 
   return {
     collection,
+    storeUrl: getStoreUrl(request, context.env.PUBLIC_STORE_DOMAIN),
   };
 }
 

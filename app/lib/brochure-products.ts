@@ -69,7 +69,7 @@ export const BROCHURE_PRODUCTS = [
       'A cleansing and gentle polishing ritual with natural loofah texture and a sunny lavender mood.',
     background: '/brochure/bg-loofah-lavender-sunny.png',
     image: '/brochure/natural-loofah-soap-catalog.png',
-    href: '/products/beauty-example-product-1',
+    href: '/products/natural-loofah-soap',
   },
   {
     name: 'Cooling Lip Balm',

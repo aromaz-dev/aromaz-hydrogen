@@ -1,6 +1,7 @@
 import {useLocation} from 'react-router';
 import type {SelectedOption} from '@shopify/hydrogen/storefront-api-types';
 import {useMemo} from 'react';
+import {getPublicProductHandle} from '~/config/products';
 
 export function useVariantUrl(
   handle: string,
@@ -32,9 +33,10 @@ export function getVariantUrl({
   const match = /(\/[a-zA-Z]{2}-[a-zA-Z]{2}\/)/g.exec(pathname);
   const isLocalePathname = match && match.length > 0;
 
+  const publicHandle = getPublicProductHandle(handle);
   const path = isLocalePathname
-    ? `${match![0]}products/${handle}`
-    : `/products/${handle}`;
+    ? `${match![0]}products/${publicHandle}`
+    : `/products/${publicHandle}`;
 
   selectedOptions?.forEach((option) => {
     searchParams.set(option.name, option.value);

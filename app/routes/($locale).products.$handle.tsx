@@ -14,13 +14,78 @@ import {ProductForm} from '~/components/ProductForm';
 import {ScentProductForm} from '~/components/ScentProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {isScentProduct} from '~/lib/scent-utils';
+import {
+  DEFAULT_STORE_URL,
+  SEO_KEYWORDS,
+  SITE_NAME,
+  getCanonicalUrl,
+  getSeoDescription,
+  getStoreUrl,
+} from '~/lib/seo';
+import {
+  getPublicProductHandle,
+  getShopifyProductHandle,
+} from '~/config/products';
 
 export const meta: Route.MetaFunction = ({data}) => {
+  const product = data?.product;
+  const storeUrl = data?.storeUrl ?? DEFAULT_STORE_URL;
+  const title = product?.seo?.title || product?.title || 'Aromaz product';
+  const fullTitle = title.includes('Aromaz') ? title : `${title} | Aromaz`;
+  const description = getSeoDescription(
+    product?.seo?.description || product?.description,
+    'Shop Aromaz natural deodorant, refillable scent care, botanical cosmetics, loofah soap, and lip care.',
+  );
+  const canonicalUrl = getCanonicalUrl(
+    `/products/${product ? getPublicProductHandle(product.handle) : ''}`,
+    storeUrl,
+  );
+  const selectedVariant = product?.selectedOrFirstAvailableVariant;
+  const image = selectedVariant?.image?.url;
+
   return [
-    {title: `Aromaz | ${data?.product.title ?? ''}`},
+    {title: fullTitle},
+    {name: 'description', content: description},
+    {name: 'keywords', content: SEO_KEYWORDS},
+    {property: 'og:type', content: 'product'},
+    {property: 'og:site_name', content: SITE_NAME},
+    {property: 'og:title', content: fullTitle},
+    {property: 'og:description', content: description},
+    {property: 'og:url', content: canonicalUrl},
+    ...(image ? [{property: 'og:image', content: image}] : []),
+    {name: 'twitter:card', content: 'summary_large_image'},
+    {name: 'twitter:title', content: fullTitle},
+    {name: 'twitter:description', content: description},
+    ...(image ? [{name: 'twitter:image', content: image}] : []),
     {
+      tagName: 'link',
       rel: 'canonical',
-      href: `/products/${data?.product.handle}`,
+      href: canonicalUrl,
+    },
+    {
+      'script:ld+json': {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product?.title ?? 'Aromaz product',
+        description,
+        sku: selectedVariant?.sku || product?.handle,
+        url: canonicalUrl,
+        ...(image ? {image: [image]} : {}),
+        brand: {
+          '@type': 'Brand',
+          name: SITE_NAME,
+        },
+        offers: {
+          '@type': 'Offer',
+          url: canonicalUrl,
+          price: selectedVariant?.price.amount ?? '0',
+          priceCurrency: selectedVariant?.price.currencyCode ?? 'CAD',
+          availability: selectedVariant?.availableForSale
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/OutOfStock',
+          itemCondition: 'https://schema.org/NewCondition',
+        },
+      },
     },
   ];
 };
@@ -47,9 +112,14 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
     throw new Error('Expected product handle to be defined');
   }
 
+  const storefrontHandle = getShopifyProductHandle(handle);
+
   const [{product}] = await Promise.all([
     storefront.query(PRODUCT_QUERY, {
-      variables: {handle, selectedOptions: getSelectedProductOptions(request)},
+      variables: {
+        handle: storefrontHandle,
+        selectedOptions: getSelectedProductOptions(request),
+      },
     }),
     // Add other queries here, so that they are loaded in parallel
   ]);
@@ -58,11 +128,23 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
     throw new Response(null, {status: 404});
   }
 
-  // The API handle might be localized, so redirect to the localized handle
-  redirectIfHandleIsLocalized(request, {handle, data: product});
+  const publicHandle = getPublicProductHandle(product.handle);
+
+  if (handle === product.handle && publicHandle !== product.handle) {
+    const url = new URL(request.url);
+    url.pathname = url.pathname.replace(handle, publicHandle);
+    throw redirect(url.toString());
+  }
+
+  // The API handle might be localized, so redirect to the localized handle.
+  // Public Aromaz aliases intentionally stay on the customer-facing URL.
+  if (handle === storefrontHandle) {
+    redirectIfHandleIsLocalized(request, {handle, data: product});
+  }
 
   return {
     product,
+    storeUrl: getStoreUrl(request, context.env.PUBLIC_STORE_DOMAIN),
   };
 }
 

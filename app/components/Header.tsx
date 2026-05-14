@@ -275,8 +275,12 @@ function HeaderMenuMobileToggle() {
 function SearchToggle() {
   const {open} = useAside();
   return (
-    <button className="reset header-link" onClick={() => open('search')}>
-      Search
+    <button
+      className="reset header-link header-search"
+      onClick={() => open('search')}
+      aria-label="Open search"
+    >
+      <span className="header-action-text">Search</span>
     </button>
   );
 }
@@ -289,6 +293,7 @@ function CartBadge({count}: {count: number | null}) {
     <a
       className="header-cart"
       href="/cart"
+      aria-label={`Open cart${count === null ? '' : `, ${count} items`}`}
       onClick={(e) => {
         e.preventDefault();
         open('cart');
@@ -300,7 +305,8 @@ function CartBadge({count}: {count: number | null}) {
         } as CartViewPayload);
       }}
     >
-      Cart <span>{count === null ? '' : count}</span>
+      <span className="header-cart-label">Cart</span>
+      <span className="header-cart-count">{count === null ? '' : count}</span>
     </a>
   );
 }

@@ -2,7 +2,7 @@ import {type PointerEvent, useEffect, useMemo, useRef, useState} from 'react';
 
 const STOCKIST_CATEGORIES = ['All', 'Retail', 'Refill', 'Wholesale'];
 
-const STOCKIST_LOCATIONS = [
+export const STOCKIST_LOCATIONS = [
   {
     name: 'Shop Makers Park Royal',
     type: 'Retail',
