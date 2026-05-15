@@ -1697,7 +1697,7 @@ aside header {
   margin-top: clamp(-10rem, -14vw, -6rem);
   padding: 0 clamp(1.5rem, 4vw, 4rem) clamp(4rem, 8vw, 6rem);
   position: relative;
-  z-index: 5;
+  z-index: 20;
 }
 
 .home-shop-shell {
@@ -1708,7 +1708,7 @@ aside header {
   box-shadow: 0 34px 90px rgba(32, 35, 34, 0.16);
   margin: 0 auto;
   max-width: 1280px;
-  padding: clamp(1.35rem, 3vw, 2.5rem);
+  padding: clamp(0.45rem, 1vw, 0.75rem) clamp(1.2rem, 3vw, 2.2rem);
 }
 
 .home-shop-heading,
@@ -1716,13 +1716,38 @@ aside header {
   will-change: transform, opacity;
 }
 
+.home-shop-heading {
+  margin-bottom: clamp(0.65rem, 1.2vw, 1rem);
+}
+
 .home-shop-cta {
+  align-items: center;
+  background: var(--color-terracotta);
+  border: 1px solid var(--color-terracotta);
+  border-radius: 6px;
+  box-shadow: 0 18px 42px rgba(178, 68, 30, 0.22);
   color: var(--color-cream);
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  justify-content: center;
+  letter-spacing: 0.14em;
+  min-height: 52px;
+  padding: 0.95rem 1.4rem;
+  text-transform: uppercase;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
   white-space: nowrap;
 }
 
 .home-shop-cta:hover {
-  color: var(--color-cream);
+  background: var(--color-amber);
+  border-color: var(--color-amber);
+  color: var(--color-charcoal);
+  transform: translateY(-1px);
 }
 
 .home-shop-grid .product-card {
@@ -1798,8 +1823,8 @@ aside header {
 }
 
 .catalog-panel-card a:hover {
-  background: var(--color-sage);
-  color: var(--color-cream);
+  background: var(--color-amber);
+  color: var(--color-charcoal);
   transform: translateY(-1px);
 }
 
@@ -1850,20 +1875,21 @@ aside header {
 }
 
 .catalog-hero-actions a:first-child {
-  background: var(--color-cream);
-  box-shadow: 0 18px 42px rgba(32, 35, 34, 0.24);
-  color: var(--color-charcoal);
+  background: var(--color-terracotta);
+  box-shadow: 0 18px 42px rgba(178, 68, 30, 0.28);
+  color: var(--color-cream);
 }
 
 .catalog-hero-actions a:last-child {
-  border: 1px solid rgba(249, 244, 238, 0.48);
+  background: rgba(178, 68, 30, 0.18);
+  border: 1px solid rgba(178, 68, 30, 0.72);
   color: var(--color-cream);
 }
 
 .catalog-hero-actions a:hover {
-  background: var(--color-terracotta);
-  border-color: var(--color-terracotta);
-  color: var(--color-cream);
+  background: var(--color-amber);
+  border-color: var(--color-amber);
+  color: var(--color-charcoal);
 }
 
 .catalog-parallax {
@@ -1921,8 +1947,8 @@ aside header {
   animation-range: entry 0% exit 100%;
   animation-timeline: --catalog-panel-progress;
   display: grid;
-  min-height: 78svh;
-  place-items: center;
+  min-height: var(--catalog-panel-box-height);
+  place-items: start center;
   position: sticky;
   top: calc(var(--header-height) + 2rem);
   width: var(--catalog-panel-box-width);
@@ -1940,7 +1966,7 @@ aside header {
 
 .catalog-panel-card {
   animation: catalog-card-drift linear both;
-  animation-range: entry 2% exit 100%;
+  animation-range: entry 0% exit 100%;
   animation-timeline: --catalog-panel-progress;
   align-self: start;
   backdrop-filter: blur(20px);
@@ -1952,13 +1978,13 @@ aside header {
   color: var(--color-charcoal);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: var(--catalog-panel-box-height);
-  margin-top: 16svh;
+  margin-top: 0;
   max-width: none;
   padding: clamp(1.4rem, 3vw, 2.35rem);
   position: sticky;
-  top: calc(var(--header-height) + 5rem);
+  top: calc(var(--header-height) + 2rem);
   width: var(--catalog-panel-box-width);
   will-change: transform;
 }
@@ -1979,6 +2005,7 @@ aside header {
   color: var(--color-terracotta);
   display: block;
   font-size: 1rem;
+  margin-top: auto;
   margin-bottom: 1.25rem;
 }
 
@@ -1995,22 +2022,22 @@ aside header {
 }
 
 .catalog-panel-card a {
-  background: var(--color-charcoal);
+  background: var(--color-terracotta);
   color: var(--color-cream);
   margin-top: 1.5rem;
 }
 
 @keyframes catalog-product-drift {
   0% {
-    transform: translateY(7svh);
+    transform: translateY(6svh);
   }
 
-  48% {
+  55% {
     transform: translateY(0);
   }
 
   100% {
-    transform: translateY(-8svh);
+    transform: translateY(-6svh);
   }
 }
 
@@ -2019,12 +2046,12 @@ aside header {
     transform: translateY(6svh);
   }
 
-  50% {
+  55% {
     transform: translateY(0);
   }
 
   100% {
-    transform: translateY(-7svh);
+    transform: translateY(-5svh);
   }
 }
 
@@ -2309,6 +2336,8 @@ aside header {
   }
 
   .home-shop-cta {
+    min-height: 46px;
+    padding: 0.8rem 1rem;
     width: 100%;
   }
 
@@ -2827,8 +2856,8 @@ aside header {
 }
 
 .contact-hero-copy a {
-  background: var(--color-cream);
-  color: var(--color-charcoal);
+  background: var(--color-terracotta);
+  color: var(--color-cream);
   margin-top: 2rem;
 }
 
@@ -2906,7 +2935,7 @@ aside header {
 }
 
 .contact-info-band a {
-  background: var(--color-charcoal);
+  background: var(--color-terracotta);
   color: var(--color-cream);
   margin-top: auto;
 }
@@ -2942,8 +2971,8 @@ aside header {
 .contact-hero-copy a:hover,
 .contact-info-band a:hover,
 .contact-brochure a:hover {
-  background: var(--color-sage);
-  color: var(--color-cream);
+  background: var(--color-amber);
+  color: var(--color-charcoal);
   transform: translateY(-1px);
 }
 
@@ -2974,8 +3003,8 @@ aside header {
 }
 
 .contact-brochure a {
-  background: var(--color-cream);
-  color: var(--color-charcoal);
+  background: var(--color-terracotta);
+  color: var(--color-cream);
   white-space: nowrap;
 }
 
@@ -3217,9 +3246,9 @@ aside header {
 
 .stockists-hero-copy a {
   align-items: center;
-  background: var(--color-cream);
+  background: var(--color-terracotta);
   border-radius: 6px;
-  color: var(--color-charcoal);
+  color: var(--color-cream);
   display: inline-flex;
   font-size: 0.72rem;
   font-weight: 700;
@@ -3236,8 +3265,8 @@ aside header {
 }
 
 .stockists-hero-copy a:hover {
-  background: var(--color-terracotta);
-  color: var(--color-cream);
+  background: var(--color-amber);
+  color: var(--color-charcoal);
   transform: translateY(-1px);
 }
 
@@ -3335,13 +3364,21 @@ aside header {
 
 .stockists-map-pin:hover,
 .stockists-map-pin:focus-visible {
-  background: var(--color-charcoal);
+  background: var(--color-amber);
+  color: var(--color-charcoal);
   transform: translate(-50%, calc(-100% - 2px));
 }
 
 .stockists-map-pin--selected {
-  background: var(--color-charcoal);
+  background: var(--color-amber);
+  color: var(--color-charcoal);
   z-index: 5;
+}
+
+.stockists-map-pin:hover span,
+.stockists-map-pin:focus-visible span,
+.stockists-map-pin--selected span {
+  color: var(--color-charcoal);
 }
 
 .stockists-map-info {
@@ -3407,29 +3444,29 @@ aside header {
 }
 
 .stockists-map-info a {
-  background: var(--color-charcoal);
-  border: 1px solid var(--color-charcoal);
+  background: var(--color-terracotta);
+  border: 1px solid var(--color-terracotta);
   color: var(--color-cream);
 }
 
 .stockists-map-info-actions button {
   background: transparent;
-  border: 1px solid rgba(32, 35, 34, 0.18);
-  color: var(--color-charcoal);
+  border: 1px solid rgba(178, 68, 30, 0.34);
+  color: var(--color-terracotta);
   cursor: pointer;
 }
 
 .stockists-map-info a:hover,
 .stockists-map-info-actions button:hover {
-  background: var(--color-terracotta);
-  border-color: var(--color-terracotta);
-  color: var(--color-cream);
+  background: var(--color-amber);
+  border-color: var(--color-amber);
+  color: var(--color-charcoal);
   text-decoration: none;
 }
 
 .stockists-map-info-close {
   align-items: center;
-  background: var(--color-charcoal);
+  background: var(--color-terracotta);
   border: 0;
   border-radius: 999px;
   color: var(--color-cream);
@@ -3474,7 +3511,7 @@ aside header {
 
 .stockists-map-reset span {
   align-items: center;
-  background: var(--color-charcoal);
+  background: var(--color-terracotta);
   border-radius: 999px;
   color: var(--color-cream);
   display: inline-flex;
@@ -3486,8 +3523,8 @@ aside header {
 }
 
 .stockists-map-reset:hover {
-  background: var(--color-terracotta);
-  color: var(--color-cream);
+  background: var(--color-amber);
+  color: var(--color-charcoal);
   transform: translateY(-1px);
 }
 
@@ -3568,8 +3605,8 @@ aside header {
 
 .stockists-map-caption button {
   align-items: center;
-  background: var(--color-charcoal);
-  border: 1px solid var(--color-charcoal);
+  background: var(--color-terracotta);
+  border: 1px solid var(--color-terracotta);
   border-radius: 6px;
   color: var(--color-cream);
   cursor: pointer;
@@ -3591,8 +3628,9 @@ aside header {
 }
 
 .stockists-map-caption button:hover {
-  background: var(--color-terracotta);
-  border-color: var(--color-terracotta);
+  background: var(--color-amber);
+  border-color: var(--color-amber);
+  color: var(--color-charcoal);
   transform: translateY(-1px);
 }
 
@@ -3647,7 +3685,8 @@ aside header {
 
 .stockists-filters button:first-child,
 .stockists-filters button:hover {
-  background: var(--color-charcoal);
+  background: var(--color-terracotta);
+  border-color: var(--color-terracotta);
   color: var(--color-cream);
 }
 
@@ -3663,6 +3702,8 @@ aside header {
   background: var(--color-off-white);
   border: 1px solid rgba(32, 35, 34, 0.08);
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
   padding: clamp(1.25rem, 3vw, 1.8rem);
   transition:
     border-color 160ms ease,
@@ -3714,13 +3755,15 @@ aside header {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
+  margin-top: auto;
+  padding-top: 0.4rem;
 }
 
 .stockists-list a,
 .stockists-list button {
   align-items: center;
-  background: var(--color-charcoal);
-  border: 1px solid var(--color-charcoal);
+  background: var(--color-terracotta);
+  border: 1px solid var(--color-terracotta);
   border-radius: 6px;
   color: var(--color-cream);
   cursor: pointer;
@@ -3740,15 +3783,15 @@ aside header {
 
 .stockists-list a {
   background: transparent;
-  border-color: rgba(32, 35, 34, 0.2);
-  color: var(--color-charcoal);
+  border-color: rgba(178, 68, 30, 0.34);
+  color: var(--color-terracotta);
 }
 
 .stockists-list a:hover,
 .stockists-list button:hover {
-  background: var(--color-terracotta);
-  border-color: var(--color-terracotta);
-  color: var(--color-cream);
+  background: var(--color-amber);
+  border-color: var(--color-amber);
+  color: var(--color-charcoal);
   transform: translateY(-1px);
 }
 
@@ -3945,6 +3988,14 @@ aside header {
   .home-shop-grid {
     gap: 0.75rem;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-shop-cta {
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    min-height: 40px;
+    padding: 0.65rem 0.85rem;
+    white-space: normal;
   }
 
   .product-card-body {

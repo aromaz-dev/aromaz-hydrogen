@@ -596,7 +596,7 @@ function RecommendedProducts({
           </div>
           <Link
             to="/products/refillable-deodorant/customize"
-            className="home-shop-cta inline-flex min-h-14 items-center justify-center rounded-md bg-charcoal px-8 font-sans text-sm font-bold uppercase tracking-[0.14em] text-cream shadow-xl shadow-charcoal/20 transition-colors hover:bg-terracotta"
+            className="home-shop-cta"
           >
             Build your deodorant
           </Link>

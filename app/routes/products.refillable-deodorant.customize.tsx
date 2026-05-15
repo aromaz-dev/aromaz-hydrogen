@@ -192,6 +192,14 @@ export default function CustomizeDeodorantRoute() {
     isDemoOrPlaceholderImage(variant?.image?.url)
       ? LOCAL_IMAGE_FALLBACKS.scent
       : variant.image.url;
+  const showScentPreview = currentStep === 2 || currentStep === 3;
+  const previewVariant = showScentPreview ? selectedScent : selectedCase;
+  const previewImageUrl = previewVariant
+    ? showScentPreview
+      ? getScentImageUrl(previewVariant)
+      : getCaseImageUrl(previewVariant)
+    : null;
+  const previewAlt = previewVariant?.title || 'Aromaz deodorant selection';
 
   return (
     <div className="customizer-page min-h-screen bg-cream md:pb-0 relative">
@@ -421,18 +429,18 @@ export default function CustomizeDeodorantRoute() {
             {/* Left: Product Preview (Desktop Only) */}
             <div className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
               <div className="customizer-preview">
-                {selectedCase?.image ? (
+                {previewImageUrl ? (
                   <div className="aspect-square overflow-hidden rounded-md bg-cream mb-6">
                     <img
-                      src={getCaseImageUrl(selectedCase)}
-                      alt={selectedCase.title}
+                      src={previewImageUrl}
+                      alt={previewAlt}
                       className="w-full h-full object-cover"
                     />
                   </div>
                 ) : (
                   <div className="aspect-square bg-cream rounded-lg flex items-center justify-center mb-6">
                     <p className="font-sans text-base text-charcoal/40 text-center">
-                      Select a case
+                      {showScentPreview ? 'Select a scent' : 'Select a case'}
                     </p>
                   </div>
                 )}
@@ -449,11 +457,6 @@ export default function CustomizeDeodorantRoute() {
                     <p className="font-sans text-sm text-sage">
                       {getPlanDisplayName()}
                     </p>
-                    {totalPrice > 0 && (
-                      <p className="font-serif text-3xl text-terracotta mt-4">
-                        {formatPrice(totalPrice, currencyCode)}
-                      </p>
-                    )}
                   </div>
                   <div className="customizer-summary">
                     <div>
