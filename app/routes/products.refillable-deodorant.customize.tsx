@@ -1,7 +1,7 @@
 'use client';
-// v3: Direct checkout via CartForm
+// v4: Add-to-cart builder flow via CartForm
 
-import {useLoaderData, data, useSearchParams} from 'react-router';
+import {Link, useLoaderData, data, useSearchParams} from 'react-router';
 import type {Route} from './+types/products.refillable-deodorant.customize';
 import {PRODUCT_HANDLES} from '~/config/products';
 import {CUSTOMIZE_FLOW_DATA_QUERY} from '~/graphql/customize-flow';
@@ -182,6 +182,9 @@ export default function CustomizeDeodorantRoute() {
     if (selectedSellingPlanId === null) return 'One-Time Purchase';
     return selectedPlan?.name || 'Subscription';
   };
+  const summaryScent =
+    currentStep > 1 && selectedScent ? getScentName(selectedScent.title) : '--';
+  const summaryPlan = currentStep > 2 ? getPlanDisplayName() : '--';
 
   const getCaseImageUrl = (variant: any) =>
     isDemoOrPlaceholderImage(variant?.image?.url)
@@ -192,6 +195,14 @@ export default function CustomizeDeodorantRoute() {
     isDemoOrPlaceholderImage(variant?.image?.url)
       ? LOCAL_IMAGE_FALLBACKS.scent
       : variant.image.url;
+  const showScentPreview = currentStep === 2 || currentStep === 3;
+  const previewVariant = showScentPreview ? selectedScent : selectedCase;
+  const previewImageUrl = previewVariant
+    ? showScentPreview
+      ? getScentImageUrl(previewVariant)
+      : getCaseImageUrl(previewVariant)
+    : null;
+  const previewAlt = previewVariant?.title || 'Aromaz deodorant selection';
 
   return (
     <div className="customizer-page min-h-screen bg-cream md:pb-0 relative">
@@ -421,18 +432,18 @@ export default function CustomizeDeodorantRoute() {
             {/* Left: Product Preview (Desktop Only) */}
             <div className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
               <div className="customizer-preview">
-                {selectedCase?.image ? (
+                {previewImageUrl ? (
                   <div className="aspect-square overflow-hidden rounded-md bg-cream mb-6">
                     <img
-                      src={getCaseImageUrl(selectedCase)}
-                      alt={selectedCase.title}
+                      src={previewImageUrl}
+                      alt={previewAlt}
                       className="w-full h-full object-cover"
                     />
                   </div>
                 ) : (
                   <div className="aspect-square bg-cream rounded-lg flex items-center justify-center mb-6">
                     <p className="font-sans text-base text-charcoal/40 text-center">
-                      Select a case
+                      {showScentPreview ? 'Select a scent' : 'Select a case'}
                     </p>
                   </div>
                 )}
@@ -446,12 +457,9 @@ export default function CustomizeDeodorantRoute() {
                         {selectedScent.title} Scent
                       </p>
                     )}
-                    <p className="font-sans text-sm text-sage">
-                      {getPlanDisplayName()}
-                    </p>
-                    {totalPrice > 0 && (
-                      <p className="font-serif text-3xl text-terracotta mt-4">
-                        {formatPrice(totalPrice, currencyCode)}
+                    {currentStep > 2 && (
+                      <p className="font-sans text-sm text-sage">
+                        {getPlanDisplayName()}
                       </p>
                     )}
                   </div>
@@ -462,15 +470,11 @@ export default function CustomizeDeodorantRoute() {
                     </div>
                     <div>
                       <span>Scent</span>
-                      <strong>
-                        {selectedScent
-                          ? getScentName(selectedScent.title)
-                          : 'Select a scent'}
-                      </strong>
+                      <strong>{summaryScent}</strong>
                     </div>
                     <div>
                       <span>Plan</span>
-                      <strong>{getPlanDisplayName()}</strong>
+                      <strong>{summaryPlan}</strong>
                     </div>
                   </div>
                 </div>
@@ -605,10 +609,10 @@ export default function CustomizeDeodorantRoute() {
                     currencyCode={currencyCode}
                   />
 
-                  <div className="hidden md:flex gap-4 mt-8">
+                  <div className="customizer-final-actions hidden md:grid mt-8">
                     <button
                       onClick={() => setCurrentStep(2)}
-                    className="flex-1 min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal hover:border-olive"
+                      className="customizer-final-back min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal hover:border-olive"
                     >
                       Back
                     </button>
@@ -628,19 +632,28 @@ export default function CustomizeDeodorantRoute() {
                           ],
                         }}
                       >
-                        <input
-                          type="hidden"
-                          name="redirectTo"
-                          value="/checkout-redirect"
-                        />
-                        <button
-                          type="submit"
-                          className="w-full flex-1 min-h-12 rounded-md bg-terracotta px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream transition-colors hover:bg-sage"
-                        >
-                          Checkout - {formatPrice(totalPrice, currencyCode)}
-                        </button>
+                        {(fetcher) => (
+                          <button
+                            type="submit"
+                            disabled={fetcher.state !== 'idle'}
+                            className="customizer-final-add w-full min-h-12 rounded-md bg-terracotta px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream transition-colors hover:bg-sage disabled:cursor-wait disabled:opacity-70"
+                          >
+                            {fetcher.state === 'idle'
+                              ? `Add to Cart - ${formatPrice(
+                                  totalPrice,
+                                  currencyCode,
+                                )}`
+                              : 'Adding...'}
+                          </button>
+                        )}
                       </CartForm>
                     )}
+                    <Link
+                      to="/collections/all"
+                      className="customizer-final-shop min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition-colors hover:border-olive hover:text-olive inline-flex items-center justify-center"
+                    >
+                      Continue shopping
+                    </Link>
                   </div>
                 </div>
               )}
@@ -680,7 +693,7 @@ export default function CustomizeDeodorantRoute() {
             ) : (
               selectedScent &&
               selectedCase && (
-                <div className="flex-1">
+                <div className="flex-1 grid gap-2">
                   <CartForm
                     route="/cart"
                     action={CartForm.ACTIONS.LinesAdd}
@@ -696,19 +709,27 @@ export default function CustomizeDeodorantRoute() {
                       ],
                     }}
                   >
-                    <input
-                      type="hidden"
-                      name="redirectTo"
-                      value="/checkout-redirect"
-                    />
-                    <button
-                      type="submit"
-                      className="w-full h-12 rounded-md bg-terracotta px-6 font-sans text-sm font-semibold uppercase tracking-[0.1em] text-cream transition-colors"
-                    >
-                      {selectedSellingPlanId ? 'Subscribe' : 'Checkout'} -{' '}
-                      {formatPrice(totalPrice, currencyCode)}
-                    </button>
+                    {(fetcher) => (
+                      <button
+                        type="submit"
+                        disabled={fetcher.state !== 'idle'}
+                        className="w-full h-12 rounded-md bg-terracotta px-6 font-sans text-sm font-semibold uppercase tracking-[0.1em] text-cream transition-colors disabled:cursor-wait disabled:opacity-70"
+                      >
+                        {fetcher.state === 'idle'
+                          ? `Add to Cart - ${formatPrice(
+                              totalPrice,
+                              currencyCode,
+                            )}`
+                          : 'Adding...'}
+                      </button>
+                    )}
                   </CartForm>
+                  <Link
+                    to="/collections/all"
+                    className="w-full h-11 rounded-md border border-charcoal/20 px-6 font-sans text-xs font-semibold uppercase tracking-[0.1em] text-charcoal transition-colors active:bg-charcoal/5 inline-flex items-center justify-center"
+                  >
+                    Continue shopping
+                  </Link>
                 </div>
               )
             )}

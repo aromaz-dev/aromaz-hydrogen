@@ -27,7 +27,7 @@ const HOME_DESCRIPTION =
 export const meta: Route.MetaFunction = ({data}) => {
   const storeUrl = data?.storeUrl ?? DEFAULT_STORE_URL;
   const canonicalUrl = getCanonicalUrl('/', storeUrl);
-  const imageUrl = getCanonicalUrl('/hero-bg.jpg', storeUrl);
+  const imageUrl = getCanonicalUrl('/brand-story/heade-home.png', storeUrl);
 
   return [
     {title: HOME_TITLE},
@@ -111,149 +111,54 @@ export default function Homepage() {
 }
 
 function Hero() {
-  const heroRef = useRef<HTMLElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-  const copyRef = useRef<HTMLDivElement>(null);
-  const actionsRef = useRef<HTMLDivElement>(null);
-  const proofRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const hero = heroRef.current;
-    const image = imageRef.current;
-    const copy = copyRef.current;
-    const actions = actionsRef.current;
-    const proof = proofRef.current;
-    const reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
-
-    if (!hero || !image || !copy || !actions || !proof || reduceMotion) {
-      return;
-    }
-
-    let frame = 0;
-
-    const updateParallax = () => {
-      frame = 0;
-      const heroTop = hero.offsetTop;
-      const heroHeight = hero.offsetHeight || window.innerHeight;
-      const progress = Math.min(
-        1,
-        Math.max(0, (window.scrollY - heroTop) / heroHeight),
-      );
-      const isCompact = window.matchMedia('(max-width: 900px)').matches;
-
-      image.style.transform = `translate3d(0, ${-10 + progress * 24}%, 0) scale(${
-        1.08 + progress * 0.18
-      })`;
-      copy.style.transform = `translate3d(0, ${progress * -32}px, 0)`;
-      copy.style.opacity = `${1 - progress * 0.12}`;
-
-      const actionsStopY = Math.max(
-        0,
-        heroHeight -
-          copy.offsetTop -
-          actions.offsetTop -
-          actions.offsetHeight -
-          Math.min(220, heroHeight * 0.24),
-      );
-      const actionY = Math.min(actionsStopY, progress * actionsStopY * 2.1);
-      actions.style.transform = `translate3d(0, ${actionY}px, 0)`;
-      actions.style.opacity = `${Math.max(0, 1 - Math.max(0, progress - 0.76) / 0.24)}`;
-
-      if (isCompact) {
-        proof.style.transform = `translate3d(0, ${actionY}px, 0)`;
-        proof.style.opacity = '1';
-      } else {
-        const proofY = Math.max(-120, progress * -220);
-        proof.style.transform = `translate3d(0, ${proofY}px, 0)`;
-        proof.style.opacity = `${Math.max(0, 1 - Math.max(0, progress - 0.34) / 0.18)}`;
-      }
-    };
-
-    const requestUpdate = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(updateParallax);
-    };
-
-    updateParallax();
-    window.addEventListener('scroll', requestUpdate, {passive: true});
-    window.addEventListener('resize', requestUpdate);
-
-    return () => {
-      if (frame) window.cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', requestUpdate);
-      window.removeEventListener('resize', requestUpdate);
-    };
-  }, []);
-
   return (
-    <section className="home-hero home-hero-parallax" ref={heroRef}>
-      <div className="home-hero-media absolute inset-0 z-0">
-        <img
-          ref={imageRef}
-          src="/hero-bg.jpg"
-          alt="Aromaz refillable natural personal care products"
-          className="home-hero-image w-full h-full object-cover"
-          loading="eager"
-          fetchPriority="high"
-        />
-        <div
-          className="absolute inset-0 bg-[linear-gradient(90deg,rgba(32,35,34,0.78),rgba(32,35,34,0.42),rgba(249,244,238,0.12))]"
-          aria-hidden="true"
-        />
-      </div>
-
-      <div className="home-hero-content relative z-10 mx-auto flex min-h-[calc(100svh-64px)] max-w-7xl items-center px-6 py-16 md:px-10 lg:px-16">
-        <div className="home-hero-copy max-w-2xl" ref={copyRef}>
-          <p className="font-sans text-xs font-semibold uppercase tracking-[0.24em] text-clay">
-            Natural refillable deodorant
-          </p>
-          <h1 className="mt-5 font-serif text-5xl leading-[0.98] text-cream md:text-7xl lg:text-8xl">
-            Natural deodorant, made cleaner.
+    <section className="home-hero home-hero-sample">
+      <div className="home-hero-sample-content">
+        <div className="home-hero-copy">
+          <p className="home-hero-eyebrow">Natural scent care</p>
+          <h1>
+            Feel confident{' '}
+            <br />
+            with natural{' '}
+            <br />
+            care
           </h1>
-          <p className="mt-6 max-w-xl font-sans text-lg leading-relaxed text-cream/85 md:text-xl">
-            Build a refillable deodorant ritual with a durable case, botanical
-            scents, and flexible refill plans for sensitive daily routines in
-            Vancouver, Canada, and across the United States.
+          <p>
+            Explore refillable natural deodorant, reusable cases, botanical
+            scent refills, loofah soap, and lip care made for everyday comfort.
           </p>
-          <div
-            className="home-hero-actions mt-9 flex flex-col gap-3 sm:flex-row"
-            ref={actionsRef}
-          >
+          <div className="home-hero-actions">
             <Link
               to="/products/refillable-deodorant/customize"
-              className="inline-flex min-h-14 items-center justify-center rounded-md bg-cream px-8 font-sans text-sm font-bold uppercase tracking-[0.12em] text-charcoal shadow-xl shadow-charcoal/30 transition-colors hover:bg-terracotta hover:text-cream"
+              className="home-primary-cta"
             >
-              Build your deodorant
+              Build deodorant
             </Link>
-            <Link
-              to="/collections/all"
-              className="home-hero-secondary-cta inline-flex min-h-14 items-center justify-center rounded-md px-8 font-sans text-sm font-bold uppercase tracking-[0.12em]"
-            >
-              Shop all
+            <Link to="/catalog" className="home-secondary-cta">
+              View catalog
             </Link>
+          </div>
+          <div className="home-proof-strip home-proof-strip--sample">
+            <div className="home-proof-grid">
+              <div className="home-proof">
+                <span>Natural ingredients</span>
+              </div>
+              <div className="home-proof">
+                <span>Refillable & reusable</span>
+              </div>
+              <div className="home-proof">
+                <span>Gentle & safe for everyday</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div
-          className="home-proof-strip absolute bottom-6 left-6 right-6 z-10 text-cream/90 md:left-auto md:right-10 md:w-[440px]"
-          ref={proofRef}
-        >
-          <div className="home-proof-grid">
-            <div className="home-proof">
-              <span>Refillable</span>
-              <small>Less single-use packaging</small>
-            </div>
-            <div className="home-proof">
-              <span>Botanical</span>
-              <small>Scent-forward formulas</small>
-            </div>
-            <div className="home-proof">
-              <span>Flexible</span>
-              <small>One-time or subscribe</small>
-            </div>
-          </div>
+        <div className="home-hero-sample-media">
+          <img
+            src="/brand-story/heade-home.png"
+            alt="Aromaz refillable natural deodorant lineup with botanical ingredients"
+            loading="eager"
+          />
         </div>
       </div>
     </section>
@@ -274,10 +179,35 @@ function BrandStory() {
     const rows = Array.from(
       section.querySelectorAll<HTMLElement>('.home-story-row'),
     );
+    const mobileQuery = window.matchMedia('(max-width: 767px)');
     let frame = 0;
+
+    const resetStoryParallax = () => {
+      rows.forEach((row) => {
+        const copy = row.querySelector<HTMLElement>('.home-story-copy');
+        const media = row.querySelector<HTMLElement>('.home-story-media');
+        const image = row.querySelector<HTMLImageElement>(
+          '.home-story-media img',
+        );
+
+        if (copy) {
+          copy.style.opacity = '';
+          copy.style.transform = '';
+        }
+
+        if (media) media.style.transform = '';
+        if (image) image.style.transform = '';
+      });
+    };
 
     const updateStoryParallax = () => {
       frame = 0;
+
+      if (mobileQuery.matches) {
+        resetStoryParallax();
+        return;
+      }
+
       const viewportHeight = window.innerHeight || 1;
 
       rows.forEach((row) => {
@@ -317,11 +247,14 @@ function BrandStory() {
     updateStoryParallax();
     window.addEventListener('scroll', requestUpdate, {passive: true});
     window.addEventListener('resize', requestUpdate);
+    mobileQuery.addEventListener('change', requestUpdate);
 
     return () => {
       if (frame) window.cancelAnimationFrame(frame);
+      resetStoryParallax();
       window.removeEventListener('scroll', requestUpdate);
       window.removeEventListener('resize', requestUpdate);
+      mobileQuery.removeEventListener('change', requestUpdate);
     };
   }, []);
 
@@ -596,7 +529,7 @@ function RecommendedProducts({
           </div>
           <Link
             to="/products/refillable-deodorant/customize"
-            className="home-shop-cta inline-flex min-h-14 items-center justify-center rounded-md bg-charcoal px-8 font-sans text-sm font-bold uppercase tracking-[0.14em] text-cream shadow-xl shadow-charcoal/20 transition-colors hover:bg-terracotta"
+            className="home-shop-cta"
           >
             Build your deodorant
           </Link>

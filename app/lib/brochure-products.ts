@@ -2,62 +2,67 @@ export const BROCHURE_PRODUCTS = [
   {
     name: 'Rosa',
     category: 'Deodorant Scent Family',
-    price: 'Refill CA$16.85',
+    price: 'Deodorant CA$25.49',
     description:
-      'A rosy floral refill profile with bright freshness and an easy feel-good daily routine.',
+      'A rosy floral deodorant profile with bright freshness and an easy feel-good daily routine.',
     detail:
       'A soft floral scent story for everyday confidence that feels light, pretty, and naturally expressive rather than overpowering.',
     background: '/brochure/bg-rosa-sunny.png',
-    image: '/brochure/rosa-catalog.png',
-    href: '/products/refillable-deodorant/customize?scent=Rosa&strength=Strong',
+    image:
+      'https://cdn.shopify.com/s/files/1/0684/2548/2342/files/6ED34BC7-E8BA-47FF-9B9B-2FEB25DB0E98.png?v=1778797276',
+    href: '/products/natural-and-refillable-deodorant?Scent=Rosa',
   },
   {
-    name: 'Mystic Earth',
+    name: 'Mystique Earth',
     category: 'Deodorant Scent Family',
-    price: 'Refill CA$16.85',
+    price: 'Deodorant CA$25.49',
     description:
       'Grounding earthy freshness with a sunlit natural mood that feels steady, clean, and centered.',
     detail:
       'A rooted, calm profile for customers drawn to warm earth notes and balanced wellness energy.',
     background: '/brochure/bg-mystic-earth-sunny.png',
-    image: '/brochure/mystic-earth-catalog.png',
-    href: '/products/refillable-deodorant/customize?scent=Mystic%20Earth&strength=Strong',
+    image:
+      'https://cdn.shopify.com/s/files/1/0684/2548/2342/files/B2CB5984-9204-4314-AA54-41548A42E41F.png?v=1778797154',
+    href: '/products/natural-and-refillable-deodorant?Scent=Mystique+Earth',
   },
   {
     name: 'Sacred Santal',
     category: 'Deodorant Scent Family',
-    price: 'Refill CA$16.85',
+    price: 'Deodorant CA$25.49',
     description:
       'Creamy wood warmth with a refined natural character and a relaxed premium feel.',
     detail:
       'A meditative scent profile with smooth wood-inspired warmth and a clean refill-first routine.',
     background: '/brochure/bg-sacred-santal-sunny.png',
-    image: '/brochure/sacred-santal-catalog.png',
-    href: '/products/refillable-deodorant/customize?scent=Sacred%20Santal&strength=Strong',
+    image:
+      'https://cdn.shopify.com/s/files/1/0684/2548/2342/files/04B0BEB3-315D-4E19-AAFE-E07555C36181.png?v=1778797251',
+    href: '/products/natural-and-refillable-deodorant?Scent=Sacred+Santal',
   },
   {
     name: 'Golden Tropique',
     category: 'Deodorant Scent Family',
-    price: 'Refill CA$16.85',
+    price: 'Deodorant CA$25.49',
     description:
       'Sunny tropical energy with juicy brightness and a carefree vacation-inspired freshness.',
     detail:
       'A happy, sun-filled scent direction built around warm uplift, tropical optimism, and daily freshness.',
     background: '/brochure/bg-golden-tropique-sunny.png',
-    image: '/brochure/golden-tropique-catalog.png',
-    href: '/products/refillable-deodorant/customize?scent=Golden%20Tropique&strength=Strong',
+    image:
+      'https://cdn.shopify.com/s/files/1/0684/2548/2342/files/50C5D863-8B07-4B85-9E1D-12D54B1E62D2.png?v=1778797154',
+    href: '/products/natural-and-refillable-deodorant?Scent=Golden+Tropique',
   },
   {
     name: 'Creamy Delight',
     category: 'Deodorant Scent Family',
-    price: 'Refill CA$16.85',
+    price: 'Deodorant CA$25.49',
     description:
       'Comforting creamy freshness with a soft, smooth, cocooning everyday feel.',
     detail:
       'A gentle comfort scent for customers who prefer softness and calm over sharp freshness.',
     background: '/brochure/bg-creamy-delight-sunny.png',
-    image: '/brochure/creamy-delight-catalog.png',
-    href: '/products/refillable-deodorant/customize?scent=Creamy%20Delight&strength=Strong',
+    image:
+      'https://cdn.shopify.com/s/files/1/0684/2548/2342/files/03173765-77CC-4A8F-A761-9CCBD181B78D.png?v=1778797154',
+    href: '/products/natural-and-refillable-deodorant?Scent=Creamy+Delight',
   },
   {
     name: 'Natural Loofah Soap',

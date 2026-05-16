@@ -15,6 +15,12 @@ const CATALOG_TITLE =
 const CATALOG_DESCRIPTION =
   'Explore the Aromaz catalog with refillable natural deodorant scents, sensitive skin deodorant refills, natural loofah soap, and lip care essentials.';
 
+function getCatalogImageUrl(image: string) {
+  return /^https?:\/\//.test(image)
+    ? image
+    : getCanonicalUrl(image, DEFAULT_STORE_URL);
+}
+
 export const meta: Route.MetaFunction = () => {
   const canonicalUrl = getCanonicalUrl('/catalog', DEFAULT_STORE_URL);
 
@@ -44,7 +50,7 @@ export const meta: Route.MetaFunction = () => {
             '@type': 'Product',
             name: product.name,
             description: product.description,
-            image: getCanonicalUrl(product.image, DEFAULT_STORE_URL),
+            image: getCatalogImageUrl(product.image),
             brand: {
               '@type': 'Brand',
               name: SITE_NAME,
@@ -133,11 +139,7 @@ export default function CatalogRoute() {
                   <p>{product.description}</p>
                   <p>{product.detail}</p>
                 </div>
-                <Link to={product.href}>
-                  {product.category.includes('Deodorant')
-                    ? `Build ${product.name}`
-                    : 'Add to cart'}
-                </Link>
+                <Link to={product.href}>Add to cart</Link>
               </div>
             </div>
           </article>
