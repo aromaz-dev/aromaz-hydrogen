@@ -6032,6 +6032,13 @@ aside header {
   transform: translateY(-1px);
 }
 
+.stockists-map-pin,
+.stockists-map-pin:hover,
+.stockists-map-pin:focus-visible,
+.stockists-map-pin--selected {
+  transform: translate(-50%, -100%) !important;
+}
+
 /*
 * --------------------------------------------------
 * Final polish for hero contrast and customizer theme
@@ -6448,5 +6455,77 @@ aside header {
     margin-left: 0;
     margin-right: 0;
     width: 100%;
+  }
+}
+
+/*
+* --------------------------------------------------
+* Home mobile scroll stability and proof-box parallax
+* --------------------------------------------------
+*/
+@keyframes home-proof-soft-parallax {
+  0% {
+    opacity: 0.94;
+    transform: translate3d(0, var(--home-proof-start, 10px), 0);
+  }
+
+  45% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    opacity: 0.96;
+    transform: translate3d(0, var(--home-proof-end, -12px), 0);
+  }
+}
+
+.home-hero-sample .home-proof:nth-child(1) {
+  --home-proof-start: 7px;
+  --home-proof-end: -8px;
+}
+
+.home-hero-sample .home-proof:nth-child(2) {
+  --home-proof-start: 11px;
+  --home-proof-end: -10px;
+}
+
+.home-hero-sample .home-proof:nth-child(3) {
+  --home-proof-start: 9px;
+  --home-proof-end: -13px;
+}
+
+@supports (animation-timeline: view()) {
+  .home-hero-sample .home-proof {
+    animation: home-proof-soft-parallax linear both;
+    animation-range: entry -8% exit 92%;
+    animation-timeline: view(block);
+    will-change: transform, opacity;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-story-copy,
+  .home-story-media,
+  .home-story-media img {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-hero-sample .home-proof:nth-child(1) {
+    --home-proof-start: 4px;
+    --home-proof-end: -5px;
+  }
+
+  .home-hero-sample .home-proof:nth-child(2) {
+    --home-proof-start: 6px;
+    --home-proof-end: -6px;
+  }
+
+  .home-hero-sample .home-proof:nth-child(3) {
+    --home-proof-start: 5px;
+    --home-proof-end: -7px;
   }
 }

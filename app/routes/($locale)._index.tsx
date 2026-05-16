@@ -179,10 +179,35 @@ function BrandStory() {
     const rows = Array.from(
       section.querySelectorAll<HTMLElement>('.home-story-row'),
     );
+    const mobileQuery = window.matchMedia('(max-width: 767px)');
     let frame = 0;
+
+    const resetStoryParallax = () => {
+      rows.forEach((row) => {
+        const copy = row.querySelector<HTMLElement>('.home-story-copy');
+        const media = row.querySelector<HTMLElement>('.home-story-media');
+        const image = row.querySelector<HTMLImageElement>(
+          '.home-story-media img',
+        );
+
+        if (copy) {
+          copy.style.opacity = '';
+          copy.style.transform = '';
+        }
+
+        if (media) media.style.transform = '';
+        if (image) image.style.transform = '';
+      });
+    };
 
     const updateStoryParallax = () => {
       frame = 0;
+
+      if (mobileQuery.matches) {
+        resetStoryParallax();
+        return;
+      }
+
       const viewportHeight = window.innerHeight || 1;
 
       rows.forEach((row) => {
@@ -222,11 +247,14 @@ function BrandStory() {
     updateStoryParallax();
     window.addEventListener('scroll', requestUpdate, {passive: true});
     window.addEventListener('resize', requestUpdate);
+    mobileQuery.addEventListener('change', requestUpdate);
 
     return () => {
       if (frame) window.cancelAnimationFrame(frame);
+      resetStoryParallax();
       window.removeEventListener('scroll', requestUpdate);
       window.removeEventListener('resize', requestUpdate);
+      mobileQuery.removeEventListener('change', requestUpdate);
     };
   }, []);
 
