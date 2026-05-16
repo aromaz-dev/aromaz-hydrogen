@@ -5899,8 +5899,275 @@ aside header {
     display: none;
   }
 
-  .header-account,
-  .header-menu-mobile-toggle {
-    padding: 0 0.58rem;
+.header-account,
+.header-menu-mobile-toggle {
+  padding: 0 0.58rem;
+  }
+}
+
+/*
+* --------------------------------------------------
+* Final olive button theme guard
+* --------------------------------------------------
+*/
+.home-shop-cta,
+.home-hero-sample .home-primary-cta,
+.shop-hero-actions a:first-child,
+.catalog-hero-actions a:first-child,
+.catalog-panel-card a,
+.contact-hero-copy a,
+.contact-info-band a,
+.contact-brochure a,
+.stockists-hero-copy a,
+.stockists-map-info a,
+.stockists-map-info-close,
+.stockists-map-caption button,
+.stockists-filters button:first-child,
+.stockists-list button,
+.stockists-map-reset,
+.stockists-map-pin {
+  background: #566d37 !important;
+  border-color: #566d37 !important;
+  border-radius: 999px !important;
+  color: var(--color-off-white) !important;
+  box-shadow: 0 14px 32px rgba(86, 109, 55, 0.24) !important;
+}
+
+.home-hero-sample .home-secondary-cta,
+.shop-hero-actions a:last-child,
+.shop-filter-band a,
+.catalog-hero-actions a:last-child,
+.stockists-map-info-actions button,
+.stockists-list a,
+.stockists-map-zoom button {
+  background: rgba(253, 252, 250, 0.92) !important;
+  border-color: rgba(253, 252, 250, 0.95) !important;
+  border-radius: 999px !important;
+  color: #202322 !important;
+  box-shadow: 0 12px 28px rgba(32, 35, 34, 0.12) !important;
+}
+
+.home-shop-cta:hover,
+.shop-hero-actions a:hover,
+.shop-filter-band a:hover,
+.catalog-hero-actions a:hover,
+.catalog-panel-card a:hover,
+.contact-hero-copy a:hover,
+.contact-info-band a:hover,
+.contact-brochure a:hover,
+.stockists-hero-copy a:hover,
+.stockists-map-info a:hover,
+.stockists-map-info-actions button:hover,
+.stockists-map-info-close:hover,
+.stockists-map-caption button:hover,
+.stockists-filters button:hover,
+.stockists-list a:hover,
+.stockists-list button:hover,
+.stockists-map-reset:hover,
+.stockists-map-zoom button:hover,
+.stockists-map-pin:hover,
+.stockists-map-pin:focus-visible,
+.stockists-map-pin--selected {
+  background: #7f936d !important;
+  border-color: #7f936d !important;
+  color: var(--color-off-white) !important;
+  box-shadow: 0 14px 32px rgba(86, 109, 55, 0.2) !important;
+  transform: translateY(-1px);
+}
+
+/*
+* --------------------------------------------------
+* Final polish for hero contrast and customizer theme
+* --------------------------------------------------
+*/
+.home-hero-sample .home-secondary-cta {
+  background: rgba(253, 252, 250, 0.92) !important;
+  border-color: rgba(253, 252, 250, 0.95) !important;
+  border-radius: 999px !important;
+  color: #202322 !important;
+  box-shadow: 0 12px 28px rgba(32, 35, 34, 0.12) !important;
+}
+
+.home-hero-sample .home-secondary-cta:hover {
+  background: #7f936d !important;
+  border-color: #7f936d !important;
+  color: var(--color-off-white) !important;
+}
+
+.shop-hero,
+.contact-hero,
+.stockists-hero {
+  isolation: isolate;
+  position: relative;
+}
+
+.shop-hero::before,
+.contact-hero::before,
+.stockists-hero::before {
+  backdrop-filter: blur(4px) saturate(0.86);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(253, 252, 250, 0.46) 0%,
+      rgba(253, 252, 250, 0.28) 48%,
+      rgba(253, 252, 250, 0.16) 100%
+    ),
+    rgba(247, 240, 230, 0.12);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.shop-hero > *,
+.contact-hero > *,
+.stockists-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.customizer-page .bg-terracotta,
+.customizer-page .hover\:bg-terracotta:hover {
+  background-color: #566d37 !important;
+}
+
+.customizer-page .bg-terracotta\/5 {
+  background-color: rgba(86, 109, 55, 0.08) !important;
+}
+
+.customizer-page .bg-terracotta\/10 {
+  background-color: rgba(86, 109, 55, 0.12) !important;
+}
+
+.customizer-page .text-terracotta,
+.customizer-page .hover\:text-terracotta:hover {
+  color: #566d37 !important;
+}
+
+.customizer-page .border-terracotta,
+.customizer-page .hover\:border-terracotta:hover {
+  border-color: #566d37 !important;
+}
+
+.customizer-page .ring-terracotta {
+  --tw-ring-color: #566d37 !important;
+}
+
+.customizer-page button.bg-charcoal.text-cream {
+  background-color: #566d37 !important;
+}
+
+.customizer-page button.bg-charcoal.text-cream:hover,
+.customizer-page button.bg-terracotta:hover {
+  background-color: #7f936d !important;
+}
+
+.customizer-step-panel > button,
+.customizer-step-panel > div.hidden.md\:flex button,
+.customizer-step-panel > div.hidden.md\:flex a,
+.customizer-final-back,
+.customizer-final-add,
+.customizer-final-shop {
+  border-radius: 999px !important;
+}
+
+.customizer-step-panel > button.bg-terracotta,
+.customizer-step-panel > div.hidden.md\:flex button.bg-terracotta,
+.customizer-step-panel > div.hidden.md\:flex button.text-cream,
+.customizer-final-add {
+  background-color: #566d37 !important;
+  border-color: #566d37 !important;
+  box-shadow: 0 14px 32px rgba(86, 109, 55, 0.24) !important;
+  color: var(--color-off-white) !important;
+}
+
+.customizer-step-panel > button.bg-terracotta:hover,
+.customizer-step-panel > div.hidden.md\:flex button.bg-terracotta:hover,
+.customizer-step-panel > div.hidden.md\:flex button.text-cream:hover,
+.customizer-final-add:hover {
+  background-color: #7f936d !important;
+  border-color: #7f936d !important;
+}
+
+.customizer-step-panel > div.hidden.md\:flex button.border,
+.customizer-final-back,
+.customizer-final-shop {
+  background: rgba(253, 252, 250, 0.92) !important;
+  border-color: rgba(32, 35, 34, 0.16) !important;
+  box-shadow: 0 12px 28px rgba(32, 35, 34, 0.1) !important;
+  color: #202322 !important;
+}
+
+.customizer-step-panel > div.hidden.md\:flex button.border:hover,
+.customizer-final-back:hover,
+.customizer-final-shop:hover {
+  background: #dfe7d8 !important;
+  border-color: #dfe7d8 !important;
+  color: #202322 !important;
+}
+
+.customizer-final-actions {
+  align-items: stretch;
+  gap: clamp(0.65rem, 1.4vw, 1rem);
+  grid-template-columns:
+    minmax(5.75rem, 0.58fr)
+    minmax(13.5rem, 1.45fr)
+    minmax(11rem, 0.95fr);
+}
+
+.customizer-final-actions form {
+  display: block;
+  min-width: 0;
+}
+
+.customizer-final-back,
+.customizer-final-add,
+.customizer-final-shop {
+  align-items: center;
+  border-radius: 999px !important;
+  display: inline-flex;
+  justify-content: center;
+  min-width: 0;
+  padding-left: clamp(0.75rem, 1.7vw, 2rem);
+  padding-right: clamp(0.75rem, 1.7vw, 2rem);
+  text-align: center;
+}
+
+.customizer-final-add {
+  white-space: nowrap;
+}
+
+.customizer-final-shop {
+  line-height: 1.2;
+  white-space: normal;
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .customizer-final-actions {
+    grid-template-columns:
+      minmax(4.75rem, 0.5fr)
+      minmax(11rem, 1.38fr)
+      minmax(8.5rem, 0.92fr);
+  }
+
+  .customizer-final-back,
+  .customizer-final-add,
+  .customizer-final-shop {
+    font-size: clamp(0.68rem, 1.25vw, 0.82rem);
+    letter-spacing: clamp(0.06em, 0.45vw, 0.1em);
+    min-height: 46px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 880px) {
+  .customizer-final-actions {
+    gap: 0.55rem;
+    grid-template-columns: minmax(4.4rem, 0.45fr) minmax(0, 1.42fr) minmax(7rem, 0.88fr);
+  }
+
+  .customizer-final-add {
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
   }
 }
