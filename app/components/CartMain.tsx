@@ -47,7 +47,7 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
           >
             <a
               href={cart?.checkoutUrl}
-              className="block w-full h-12 rounded-md bg-terracotta font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream text-center leading-[3rem] transition-colors hover:bg-sage"
+              className="cart-checkout-button block w-full h-12 rounded-md bg-terracotta font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream text-center leading-[3rem] transition-colors hover:bg-sage"
             >
               Checkout
             </a>

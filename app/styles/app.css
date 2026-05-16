@@ -391,6 +391,23 @@ button.reset:hover:not(:has(> *)) {
   color: inherit;
   margin: 0;
 }
+
+.cart-summary-page a,
+.cart-checkout-button {
+  background: #566d37 !important;
+  border: 1px solid #566d37 !important;
+  border-radius: 999px !important;
+  box-shadow: 0 14px 32px rgba(86, 109, 55, 0.24) !important;
+  color: var(--color-off-white) !important;
+}
+
+.cart-summary-page a:hover,
+.cart-checkout-button:hover {
+  background: #7f936d !important;
+  border-color: #7f936d !important;
+  color: var(--color-off-white) !important;
+  text-decoration: none;
+}
 /*
 * --------------------------------------------------
 * components/Search
@@ -3824,6 +3841,46 @@ aside header {
 
   .stockists-slippy-map {
     min-height: 340px;
+  }
+
+  .stockists-map-caption {
+    bottom: 0.75rem;
+    gap: 0.16rem;
+    left: 0.75rem;
+    max-width: min(18rem, calc(100% - 1.5rem));
+    padding: 0.62rem 0.72rem;
+  }
+
+  .stockists-map-caption strong {
+    font-size: clamp(1.05rem, 5vw, 1.35rem);
+    line-height: 1;
+  }
+
+  .stockists-map-caption small {
+    font-size: clamp(0.54rem, 2.45vw, 0.64rem);
+    letter-spacing: 0.08em;
+    line-height: 1.28;
+  }
+}
+
+@media (max-width: 420px) {
+  .stockists-slippy-map {
+    min-height: 300px;
+  }
+
+  .stockists-map-caption {
+    bottom: 0.55rem;
+    left: 0.55rem;
+    max-width: min(15.5rem, calc(100% - 1.1rem));
+    padding: 0.5rem 0.58rem;
+  }
+
+  .stockists-map-caption strong {
+    font-size: clamp(0.95rem, 5.5vw, 1.12rem);
+  }
+
+  .stockists-map-caption small {
+    font-size: clamp(0.5rem, 2.65vw, 0.56rem);
   }
 }
 
