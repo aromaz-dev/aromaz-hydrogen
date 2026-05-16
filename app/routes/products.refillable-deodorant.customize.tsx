@@ -182,6 +182,9 @@ export default function CustomizeDeodorantRoute() {
     if (selectedSellingPlanId === null) return 'One-Time Purchase';
     return selectedPlan?.name || 'Subscription';
   };
+  const summaryScent =
+    currentStep > 1 && selectedScent ? getScentName(selectedScent.title) : '--';
+  const summaryPlan = currentStep > 2 ? getPlanDisplayName() : '--';
 
   const getCaseImageUrl = (variant: any) =>
     isDemoOrPlaceholderImage(variant?.image?.url)
@@ -465,15 +468,11 @@ export default function CustomizeDeodorantRoute() {
                     </div>
                     <div>
                       <span>Scent</span>
-                      <strong>
-                        {selectedScent
-                          ? getScentName(selectedScent.title)
-                          : 'Select a scent'}
-                      </strong>
+                      <strong>{summaryScent}</strong>
                     </div>
                     <div>
                       <span>Plan</span>
-                      <strong>{getPlanDisplayName()}</strong>
+                      <strong>{summaryPlan}</strong>
                     </div>
                   </div>
                 </div>
