@@ -6063,6 +6063,97 @@ aside header {
   background-color: #7f936d !important;
 }
 
+/*
+* --------------------------------------------------
+* Mobile framed home hero and khaki box polish
+* --------------------------------------------------
+*/
+.home-shop-shell {
+  background: rgba(224, 215, 188, 0.74);
+  border-color: rgba(160, 148, 110, 0.26);
+}
+
+.home-hero-sample .home-proof,
+.home-theme .home-proof {
+  background: rgba(224, 215, 188, 0.72);
+  border-color: rgba(160, 148, 110, 0.22);
+}
+
+@media (max-width: 640px) {
+  html {
+    background: #202322;
+  }
+
+  body {
+    border-left: 4px solid #202322;
+    border-right: 4px solid #202322;
+    box-shadow: 0 0 0 1px rgba(253, 252, 250, 0.22) inset;
+    overflow-x: hidden;
+  }
+
+  .home-hero-sample {
+    min-height: min(560px, calc(100svh - var(--header-height)));
+    padding: 0.72rem 0.65rem 1rem;
+  }
+
+  .home-hero-sample::before {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 253, 248, 0.82) 0%,
+        rgba(255, 253, 248, 0.58) 34%,
+        rgba(255, 253, 248, 0.18) 64%,
+        rgba(255, 253, 248, 0.04) 100%
+      ),
+      radial-gradient(
+        ellipse 96% 58% at 34% 18%,
+        rgba(255, 253, 248, 0.82) 0%,
+        rgba(255, 253, 248, 0.36) 54%,
+        rgba(255, 253, 248, 0) 100%
+      );
+  }
+
+  .home-hero-sample .home-hero-copy h1 {
+    font-size: clamp(1.78rem, 7.6vw, 2.2rem);
+    line-height: 1.02;
+    max-width: 12ch;
+  }
+
+  .home-hero-sample .home-hero-copy > p:not(.home-hero-eyebrow) {
+    font-size: 0.88rem;
+    line-height: 1.48;
+    max-width: 31rem;
+  }
+
+  .home-hero-sample-media::before {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 253, 248, 0.7) 0%,
+        rgba(255, 253, 248, 0.34) 36%,
+        rgba(255, 253, 248, 0.06) 68%,
+        rgba(255, 253, 248, 0.02) 100%
+      );
+  }
+
+  .home-hero-sample-media img {
+    max-width: 610px;
+    opacity: 1;
+    top: 0;
+    width: 154vw;
+  }
+
+  .home-hero-sample .home-proof {
+    background: rgba(224, 215, 188, 0.78);
+    border-color: rgba(160, 148, 110, 0.28);
+  }
+
+  .home-shop-shell {
+    background: rgba(224, 215, 188, 0.86);
+    border-color: rgba(160, 148, 110, 0.34);
+  }
+}
+
 .customizer-step-panel > button,
 .customizer-step-panel > div.hidden.md\:flex button,
 .customizer-step-panel > div.hidden.md\:flex a,
@@ -6199,5 +6290,106 @@ aside header {
     letter-spacing: 0.06em;
     padding-left: 0.65rem;
     padding-right: 0.65rem;
+  }
+}
+
+/*
+* --------------------------------------------------
+* Product pages and mobile edge alignment
+* --------------------------------------------------
+*/
+.product-page {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(224, 215, 188, 0.36), transparent 28%),
+    var(--color-cream);
+}
+
+.product-page #add-to-cart button[type="submit"] {
+  background: #566d37 !important;
+  border-radius: 999px !important;
+  box-shadow: 0 14px 32px rgba(86, 109, 55, 0.24) !important;
+  color: var(--color-off-white) !important;
+}
+
+.product-page #add-to-cart button[type="submit"]:hover {
+  background: #7f936d !important;
+}
+
+.product-page .product-options-grid a,
+.product-page .product-options-grid button {
+  border-radius: 999px !important;
+}
+
+.product-page .product-options-grid .border-terracotta {
+  background: rgba(86, 109, 55, 0.08) !important;
+  border-color: #566d37 !important;
+}
+
+@media (min-width: 768px) {
+  .product-page .hidden.md\:block > .max-w-6xl {
+    background: rgba(224, 215, 188, 0.54);
+    border: 1px solid rgba(160, 148, 110, 0.22);
+    border-radius: 8px;
+    box-shadow: 0 28px 74px rgba(32, 35, 34, 0.08);
+    padding: clamp(1.25rem, 2.2vw, 2rem);
+  }
+
+  .product-page .sticky > div,
+  .product-page .sticky img {
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 767px) {
+  .product-page .md\:hidden {
+    padding: 1rem;
+  }
+
+  .product-page .md\:hidden > div:first-child,
+  .product-page .md\:hidden > div:first-child img {
+    border-radius: 8px;
+  }
+
+  .product-page .md\:hidden > div:first-child {
+    overflow: hidden;
+  }
+
+  .product-page .md\:hidden > div:nth-child(2) {
+    background: rgba(224, 215, 188, 0.82);
+    border: 1px solid rgba(160, 148, 110, 0.28);
+    border-radius: 8px;
+    margin-top: 1rem;
+    padding: 1.15rem;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    border-left-width: 6px;
+    border-right-width: 6px;
+  }
+
+  .home-hero-sample {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 1.05rem;
+    padding-right: 1.05rem;
+    width: 100%;
+  }
+
+  .home-hero-sample .home-hero-copy,
+  .home-hero-sample .home-proof-strip {
+    max-width: none;
+  }
+
+  .home-shop-overlap {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .home-shop-shell {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
   }
 }

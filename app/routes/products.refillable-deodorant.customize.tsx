@@ -457,9 +457,11 @@ export default function CustomizeDeodorantRoute() {
                         {selectedScent.title} Scent
                       </p>
                     )}
-                    <p className="font-sans text-sm text-sage">
-                      {getPlanDisplayName()}
-                    </p>
+                    {currentStep > 2 && (
+                      <p className="font-sans text-sm text-sage">
+                        {getPlanDisplayName()}
+                      </p>
+                    )}
                   </div>
                   <div className="customizer-summary">
                     <div>

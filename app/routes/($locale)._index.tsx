@@ -117,11 +117,11 @@ function Hero() {
         <div className="home-hero-copy">
           <p className="home-hero-eyebrow">Natural scent care</p>
           <h1>
-            Natural scent care{' '}
+            Feel confident{' '}
             <br />
-            for refillable{' '}
+            with natural{' '}
             <br />
-            daily routines.
+            care
           </h1>
           <p>
             Explore refillable natural deodorant, reusable cases, botanical
