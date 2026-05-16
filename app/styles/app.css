@@ -6107,13 +6107,40 @@ aside header {
   color: #202322 !important;
 }
 
+.customizer-step-panel > div.hidden.md\:flex:not(.customizer-final-actions) {
+  display: grid !important;
+  gap: clamp(0.7rem, 1.5vw, 1rem);
+  grid-template-columns: minmax(8rem, 0.9fr) minmax(13.5rem, 1.1fr);
+}
+
+.customizer-step-panel > div.hidden.md\:flex:not(.customizer-final-actions) button {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) and (max-width: 980px) {
+  .customizer-step-panel > div.hidden.md\:flex:not(.customizer-final-actions) {
+    grid-template-columns: minmax(7rem, 0.82fr) minmax(12rem, 1.18fr);
+  }
+
+  .customizer-step-panel > div.hidden.md\:flex:not(.customizer-final-actions) button {
+    font-size: clamp(0.66rem, 1.22vw, 0.8rem);
+    letter-spacing: clamp(0.055em, 0.45vw, 0.09em);
+    padding-left: clamp(0.7rem, 1.4vw, 1.4rem);
+    padding-right: clamp(0.7rem, 1.4vw, 1.4rem);
+  }
+}
+
 .customizer-final-actions {
   align-items: stretch;
   gap: clamp(0.65rem, 1.4vw, 1rem);
   grid-template-columns:
-    minmax(5.75rem, 0.58fr)
-    minmax(13.5rem, 1.45fr)
-    minmax(11rem, 0.95fr);
+    minmax(5.5rem, 0.48fr)
+    minmax(13.5rem, 1.38fr)
+    minmax(12.75rem, 1.08fr);
 }
 
 .customizer-final-actions form {
@@ -6140,15 +6167,15 @@ aside header {
 
 .customizer-final-shop {
   line-height: 1.2;
-  white-space: normal;
+  white-space: nowrap;
 }
 
 @media (min-width: 768px) and (max-width: 1100px) {
   .customizer-final-actions {
     grid-template-columns:
-      minmax(4.75rem, 0.5fr)
-      minmax(11rem, 1.38fr)
-      minmax(8.5rem, 0.92fr);
+      minmax(4.5rem, 0.42fr)
+      minmax(10.75rem, 1.24fr)
+      minmax(11.5rem, 1fr);
   }
 
   .customizer-final-back,
@@ -6163,10 +6190,13 @@ aside header {
 @media (min-width: 768px) and (max-width: 880px) {
   .customizer-final-actions {
     gap: 0.55rem;
-    grid-template-columns: minmax(4.4rem, 0.45fr) minmax(0, 1.42fr) minmax(7rem, 0.88fr);
+    grid-template-columns: minmax(4rem, 0.38fr) minmax(9.75rem, 1.12fr) minmax(10.25rem, 1fr);
   }
 
-  .customizer-final-add {
+  .customizer-final-add,
+  .customizer-final-shop {
+    font-size: clamp(0.62rem, 1.18vw, 0.72rem);
+    letter-spacing: 0.06em;
     padding-left: 0.65rem;
     padding-right: 0.65rem;
   }
