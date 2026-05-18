@@ -102,7 +102,8 @@ export function getDiscountPercentage(
   priceAdjustments: PriceAdjustment[],
 ): number | null {
   const percentageAdjustment = priceAdjustments.find(
-    (a) => a.adjustmentValue.__typename === 'SellingPlanPercentagePriceAdjustment',
+    (a) =>
+      a.adjustmentValue.__typename === 'SellingPlanPercentagePriceAdjustment',
   );
   if (
     percentageAdjustment &&

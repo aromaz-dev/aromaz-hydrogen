@@ -13,12 +13,14 @@ export function isDemoOrPlaceholderImage(url?: string | null) {
   if (!url) return true;
 
   return (
-    url.includes('placehold.co') ||
-    url.includes('/s/files/1/0688/1755/1382/')
+    url.includes('placehold.co') || url.includes('/s/files/1/0688/1755/1382/')
   );
 }
 
-export function getLocalProductImage(title?: string | null, handle?: string | null) {
+export function getLocalProductImage(
+  title?: string | null,
+  handle?: string | null,
+) {
   const value = `${title ?? ''} ${handle ?? ''}`.toLowerCase();
 
   if (value.includes('refill')) return LOCAL_IMAGE_FALLBACKS.refill;
@@ -31,7 +33,10 @@ export function getLocalProductImage(title?: string | null, handle?: string | nu
   return LOCAL_IMAGE_FALLBACKS.product;
 }
 
-export function getLocalCollectionImage(title?: string | null, handle?: string | null) {
+export function getLocalCollectionImage(
+  title?: string | null,
+  handle?: string | null,
+) {
   const value = `${title ?? ''} ${handle ?? ''}`.toLowerCase();
 
   if (value.includes('deodorant') || value.includes('refill')) {

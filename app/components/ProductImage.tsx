@@ -1,6 +1,9 @@
 import type {ProductVariantFragment} from 'storefrontapi.generated';
 import {Image} from '@shopify/hydrogen';
-import {LOCAL_IMAGE_FALLBACKS, isDemoOrPlaceholderImage} from '~/lib/local-images';
+import {
+  LOCAL_IMAGE_FALLBACKS,
+  isDemoOrPlaceholderImage,
+} from '~/lib/local-images';
 
 export function ProductImage({
   image,

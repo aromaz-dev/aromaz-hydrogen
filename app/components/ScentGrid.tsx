@@ -3,7 +3,10 @@
 import {Money} from '@shopify/hydrogen';
 import {getScentName} from '~/lib/scent-utils';
 import type {MoneyV2} from '@shopify/hydrogen/storefront-api-types';
-import {LOCAL_IMAGE_FALLBACKS, isDemoOrPlaceholderImage} from '~/lib/local-images';
+import {
+  LOCAL_IMAGE_FALLBACKS,
+  isDemoOrPlaceholderImage,
+} from '~/lib/local-images';
 
 /**
  * ScentGrid - Grid of scent options with circular images
@@ -46,10 +49,24 @@ export function ScentGrid({
   className = '',
 }: ScentGridProps) {
   if (layout === 'card') {
-    return <ScentCardGrid scents={scents} selectedId={selectedId} onSelect={onSelect} className={className} />;
+    return (
+      <ScentCardGrid
+        scents={scents}
+        selectedId={selectedId}
+        onSelect={onSelect}
+        className={className}
+      />
+    );
   }
 
-  return <ScentCircularGrid scents={scents} selectedId={selectedId} onSelect={onSelect} className={className} />;
+  return (
+    <ScentCircularGrid
+      scents={scents}
+      selectedId={selectedId}
+      onSelect={onSelect}
+      className={className}
+    />
+  );
 }
 
 /**
@@ -76,20 +93,18 @@ function ScentCircularGrid({
             type="button"
             onClick={() => onSelect(variant)}
             className={`group cursor-pointer transition-all duration-300 flex flex-col items-center gap-2 ${
-              isSelected
-                ? ''
-                : 'opacity-80 hover:opacity-100'
+              isSelected ? '' : 'opacity-80 hover:opacity-100'
             }`}
           >
             <div
-              className={`p-1 rounded-full transition-all ${
+              className={`p-[3px] rounded-full transition-all w-full ${
                 isSelected
                   ? 'border-2 border-terracotta shadow-md'
                   : 'border-2 border-transparent'
               }`}
             >
               {imageUrl ? (
-                <div className="aspect-square w-20 h-20 rounded-full overflow-hidden bg-off-white">
+                <div className="aspect-square w-full rounded-full overflow-hidden bg-off-white">
                   <img
                     src={imageUrl}
                     alt={variant.image.altText || scentName}
@@ -97,7 +112,7 @@ function ScentCircularGrid({
                   />
                 </div>
               ) : (
-                <div className="aspect-square w-20 h-20 rounded-full bg-charcoal/10" />
+                <div className="aspect-square w-full rounded-full bg-charcoal/10" />
               )}
             </div>
             <div className="text-center">
@@ -129,7 +144,9 @@ function ScentCardGrid({
   className,
 }: Omit<ScentGridProps, 'layout'>) {
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 ${className}`}>
+    <div
+      className={`grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 ${className}`}
+    >
       {scents.map((variant) => {
         const isSelected = selectedId === variant.id;
         const scentName = getScentName(variant.title);

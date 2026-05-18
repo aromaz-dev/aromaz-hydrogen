@@ -25,7 +25,11 @@ type SocialLinksProps = {
 
 export function SocialLinks({compact = false}: SocialLinksProps) {
   return (
-    <div className={compact ? 'social-links social-links--compact' : 'social-links'}>
+    <div
+      className={
+        compact ? 'social-links social-links--compact' : 'social-links'
+      }
+    >
       {SOCIAL_LINKS.map((link) => (
         <a
           aria-label={`${link.name} ${link.handle}`}

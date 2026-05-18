@@ -1,6 +1,11 @@
 import type {CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
 import type {CartLayout} from '~/components/CartMain';
-import {CartForm, Image, Money, type OptimisticCartLine} from '@shopify/hydrogen';
+import {
+  CartForm,
+  Image,
+  Money,
+  type OptimisticCartLine,
+} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
 import {Link} from 'react-router';
 import {useAside} from './Aside';
@@ -89,11 +94,7 @@ export function CartLineItem({
       )}
 
       <div>
-        <Link
-          prefetch="intent"
-          to={lineItemUrl}
-          onClick={close}
-        >
+        <Link prefetch="intent" to={lineItemUrl} onClick={close}>
           <p>
             <strong>{product.title}</strong>
           </p>
@@ -155,7 +156,11 @@ function CartLineQuantityAside({line}: {line: CartLine}) {
         </CartLineUpdateButton>
       </div>
 
-      <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} aside />
+      <CartLineRemoveButton
+        lineIds={[lineId]}
+        disabled={!!isOptimistic}
+        aside
+      />
     </div>
   );
 }

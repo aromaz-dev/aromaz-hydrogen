@@ -60,22 +60,11 @@ function projectLatLng({
 
   return {
     x: ((lng + 180) / 360) * scale,
-    y:
-      (0.5 -
-        Math.log((1 + sinLat) / (1 - sinLat)) / (4 * Math.PI)) *
-      scale,
+    y: (0.5 - Math.log((1 + sinLat) / (1 - sinLat)) / (4 * Math.PI)) * scale,
   };
 }
 
-function unprojectPoint({
-  x,
-  y,
-  zoom,
-}: {
-  x: number;
-  y: number;
-  zoom: number;
-}) {
+function unprojectPoint({x, y, zoom}: {x: number; y: number; zoom: number}) {
   const scale = TILE_SIZE * 2 ** zoom;
   const lng = (x / scale) * 360 - 180;
   const n = Math.PI - (2 * Math.PI * y) / scale;
@@ -91,9 +80,9 @@ function googleDirectionsUrl(location: StockistLocation) {
 }
 
 export function StockistsPage() {
-  const [selectedLocationName, setSelectedLocationName] = useState<string | null>(
-    null,
-  );
+  const [selectedLocationName, setSelectedLocationName] = useState<
+    string | null
+  >(null);
   const mapAreaRef = useRef<HTMLDivElement>(null);
   const selectedLocation = STOCKIST_LOCATIONS.find(
     (location) => location.name === selectedLocationName,
@@ -267,7 +256,13 @@ function StockistsMap({
     }
 
     return nextTiles;
-  }, [centerPoint.x, centerPoint.y, mapSize.height, mapSize.width, mapView.zoom]);
+  }, [
+    centerPoint.x,
+    centerPoint.y,
+    mapSize.height,
+    mapSize.width,
+    mapView.zoom,
+  ]);
 
   const markerPositions = locations.map((location) => {
     const point = projectLatLng({...location.coordinates, zoom: mapView.zoom});
@@ -280,10 +275,7 @@ function StockistsMap({
   });
 
   const startDrag = (event: PointerEvent<HTMLDivElement>) => {
-    if (
-      event.target instanceof Element &&
-      event.target.closest('button, a')
-    ) {
+    if (event.target instanceof Element && event.target.closest('button, a')) {
       return;
     }
 
@@ -298,8 +290,12 @@ function StockistsMap({
     if (!dragRef.current) return;
 
     const nextPoint = {
-      x: dragRef.current.centerPoint.x - (event.clientX - dragRef.current.pointer.x),
-      y: dragRef.current.centerPoint.y - (event.clientY - dragRef.current.pointer.y),
+      x:
+        dragRef.current.centerPoint.x -
+        (event.clientX - dragRef.current.pointer.x),
+      y:
+        dragRef.current.centerPoint.y -
+        (event.clientY - dragRef.current.pointer.y),
     };
     const nextCenter = unprojectPoint({...nextPoint, zoom: mapView.zoom});
 
@@ -322,7 +318,10 @@ function StockistsMap({
   };
 
   return (
-    <div className="stockists-map-card" aria-label="Interactive Aromaz stockist map">
+    <div
+      className="stockists-map-card"
+      aria-label="Interactive Aromaz stockist map"
+    >
       <div
         className="stockists-slippy-map"
         onPointerDown={startDrag}
