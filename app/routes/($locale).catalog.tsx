@@ -15,6 +15,16 @@ const CATALOG_TITLE =
 const CATALOG_DESCRIPTION =
   'Explore the Aromaz catalog with refillable natural deodorant scents, sensitive skin deodorant refills, natural loofah soap, and lip care essentials.';
 
+const CATALOG_HERO_OVERLAY =
+  'linear-gradient(90deg, rgba(32, 35, 34, 0.86), rgba(32, 35, 34, 0.38))';
+
+const CATALOG_PANEL_OVERLAY =
+  'linear-gradient(90deg, rgba(32, 35, 34, 0.82), rgba(32, 35, 34, 0.32) 48%, rgba(32, 35, 34, 0.74))';
+
+function getCssBackgroundImage(image: string, overlay: string) {
+  return `${overlay}, url("${image}")`;
+}
+
 function getCatalogImageUrl(image: string) {
   return /^https?:\/\//.test(image)
     ? image
@@ -88,7 +98,10 @@ export default function CatalogRoute() {
         className="catalog-hero"
         style={
           {
-            '--catalog-hero-bg': `url(${BROCHURE_PRODUCTS[1].background})`,
+            backgroundImage: getCssBackgroundImage(
+              BROCHURE_PRODUCTS[1].background,
+              CATALOG_HERO_OVERLAY,
+            ),
           } as CSSProperties
         }
       >
@@ -116,16 +129,19 @@ export default function CatalogRoute() {
 
       <section className="catalog-parallax" aria-label="Aromaz catalog items">
         {BROCHURE_PRODUCTS.map((product, index) => (
-          <article
-            className="catalog-panel"
-            key={product.name}
-            style={
-              {
-                '--catalog-panel-bg': `url(${product.background})`,
-              } as CSSProperties
-            }
-          >
-            <div className="catalog-panel-backdrop" aria-hidden="true" />
+          <article className="catalog-panel" key={product.name}>
+            <div
+              className="catalog-panel-backdrop"
+              style={
+                {
+                  backgroundImage: getCssBackgroundImage(
+                    product.background,
+                    CATALOG_PANEL_OVERLAY,
+                  ),
+                } as CSSProperties
+              }
+              aria-hidden="true"
+            />
             <div className="catalog-panel-content">
               <div className="catalog-panel-product" aria-hidden="true">
                 <img src={product.image} alt="" loading="lazy" />
