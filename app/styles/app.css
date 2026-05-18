@@ -6408,14 +6408,14 @@ aside header {
     var(--color-cream);
 }
 
-.product-page #add-to-cart button[type="submit"] {
+.product-page button[type="submit"].bg-terracotta {
   background: #566d37 !important;
   border-radius: 999px !important;
   box-shadow: 0 14px 32px rgba(86, 109, 55, 0.24) !important;
   color: var(--color-off-white) !important;
 }
 
-.product-page #add-to-cart button[type="submit"]:hover {
+.product-page button[type="submit"].bg-terracotta:hover {
   background: #7f936d !important;
 }
 
