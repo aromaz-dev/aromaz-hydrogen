@@ -75,10 +75,10 @@ function ScentCircularGrid({
             key={variant.id}
             type="button"
             onClick={() => onSelect(variant)}
-            className={`group cursor-pointer transition-all duration-300 flex flex-col items-center gap-2 transform ${
+            className={`group cursor-pointer transition-all duration-300 flex flex-col items-center gap-2 ${
               isSelected
-                ? 'scale-105 z-10'
-                : 'opacity-80 scale-95 hover:opacity-100'
+                ? ''
+                : 'opacity-80 hover:opacity-100'
             }`}
           >
             <div
@@ -151,7 +151,7 @@ function ScentCardGrid({
               </h3>
               {isSelected && (
                 <div
-                  className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-terracotta flex-shrink-0"
+                  className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#566d37] flex-shrink-0"
                   aria-label="Selected"
                 />
               )}

@@ -1856,7 +1856,7 @@ aside header {
     linear-gradient(90deg, rgba(32, 35, 34, 0.86), rgba(32, 35, 34, 0.38)),
     var(--catalog-hero-bg);
   background-attachment: fixed;
-  background-position: center center;
+  background-position: center 68%;
   background-size: cover;
   display: grid;
   min-height: calc(100svh - var(--header-height));
@@ -2420,8 +2420,9 @@ aside header {
   }
 
   .catalog-hero {
-    background-position: center center;
+    background-position: center 65%;
     background-size: cover;
+    min-height: 280px;
   }
 
   .catalog-panel,
@@ -4135,7 +4136,8 @@ aside header {
 * --------------------------------------------------
 */
 .catalog-hero {
-  min-height: min(360px, calc(52svh - var(--header-height)));
+  background-position: center 68%;
+  min-height: min(420px, calc(58svh - var(--header-height)));
   padding: clamp(1.4rem, 3.4vw, 2.6rem) clamp(1rem, 4vw, 3rem);
 }
 
@@ -4227,7 +4229,11 @@ aside header {
 }
 
 @media (max-width: 900px) {
-  .catalog-hero,
+  .catalog-hero {
+    min-height: 280px;
+    padding: 0.95rem 0.85rem;
+  }
+
   .contact-hero {
     min-height: auto;
     padding: 0.95rem 0.85rem;
@@ -6408,14 +6414,14 @@ aside header {
     var(--color-cream);
 }
 
-.product-page #add-to-cart button[type="submit"] {
+.product-page button[type="submit"].bg-terracotta {
   background: #566d37 !important;
   border-radius: 999px !important;
   box-shadow: 0 14px 32px rgba(86, 109, 55, 0.24) !important;
   color: var(--color-off-white) !important;
 }
 
-.product-page #add-to-cart button[type="submit"]:hover {
+.product-page button[type="submit"].bg-terracotta:hover {
   background: #7f936d !important;
 }
 
