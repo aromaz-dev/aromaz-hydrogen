@@ -1,12 +1,12 @@
 'use client';
 // v4: Add-to-cart builder flow via CartForm
 
-import {Link, useLoaderData, data, useSearchParams} from 'react-router';
+import {Link, useLoaderData, data, useSearchParams, useNavigate, useFetcher} from 'react-router';
 import type {Route} from './+types/products.refillable-deodorant.customize';
 import {PRODUCT_HANDLES} from '~/config/products';
 import {CUSTOMIZE_FLOW_DATA_QUERY} from '~/graphql/customize-flow';
 import {MOCK_CASE_PRODUCT, MOCK_REFILL_PRODUCT} from '~/lib/mock-products';
-import {useState, useMemo} from 'react';
+import {useState, useMemo, useEffect, useRef} from 'react';
 import {CartForm, Money} from '@shopify/hydrogen';
 import {StrengthSelector} from '~/components/StrengthSelector';
 import {ScentGrid, type ScentOption} from '~/components/ScentGrid';
@@ -162,6 +162,33 @@ export default function CustomizeDeodorantRoute() {
     ? getDiscountPercentage(selectedPlan.priceAdjustments)
     : null;
 
+  const navigate = useNavigate();
+  const addContinueFetcher = useFetcher({key: 'cart-add-continue'});
+  const checkoutFetcher = useFetcher({key: 'cart-add-checkout'});
+  const addContinuePending = useRef(false);
+  const checkoutPending = useRef(false);
+
+  useEffect(() => {
+    if (addContinueFetcher.state === 'submitting') addContinuePending.current = true;
+    if (addContinueFetcher.state === 'idle' && addContinuePending.current) {
+      addContinuePending.current = false;
+      navigate('/collections/all');
+    }
+  }, [addContinueFetcher.state]);
+
+  useEffect(() => {
+    if (checkoutFetcher.state === 'submitting') checkoutPending.current = true;
+    if (checkoutFetcher.state === 'idle' && checkoutPending.current) {
+      checkoutPending.current = false;
+      const checkoutUrl = (checkoutFetcher.data as any)?.cart?.checkoutUrl;
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      } else {
+        navigate('/cart');
+      }
+    }
+  }, [checkoutFetcher.state, checkoutFetcher.data]);
+
   const handleBack = () => {
     if (currentStep > 1) setCurrentStep((c) => c - 1);
   };
@@ -306,14 +333,7 @@ export default function CustomizeDeodorantRoute() {
                       const isSelected = selectedCase?.id === variant.id;
                       
                       // Map titles to colors for the selection border
-                      const getCaseColor = (title: string) => {
-                        if (title.includes('Black')) return '#202322';
-                        if (title.includes('Orange')) return '#CC5500';
-                        if (title.includes('Blue')) return '#004488';
-                        return '#B2441E'; // Default terracotta
-                      };
-
-                      const borderColor = isSelected ? getCaseColor(variant.title) : 'transparent';
+                      const borderColor = isSelected ? '#566d37' : 'transparent';
 
                       return (
                         <button
@@ -617,43 +637,61 @@ export default function CustomizeDeodorantRoute() {
                       Back
                     </button>
                     {selectedScent && selectedCase && (
-                      <CartForm
-                        route="/cart"
-                        action={CartForm.ACTIONS.LinesAdd}
-                        inputs={{
-                          lines: [
-                            {merchandiseId: selectedCase.id, quantity: 1},
-                            {
-                              merchandiseId: selectedScent.id,
-                              quantity: 1,
-                              // Include sellingPlanId for subscriptions
-                              ...(selectedSellingPlanId && {sellingPlanId: selectedSellingPlanId}),
-                            },
-                          ],
-                        }}
-                      >
-                        {(fetcher) => (
-                          <button
-                            type="submit"
-                            disabled={fetcher.state !== 'idle'}
-                            className="customizer-final-add w-full min-h-12 rounded-md bg-terracotta px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream transition-colors hover:bg-sage disabled:cursor-wait disabled:opacity-70"
-                          >
-                            {fetcher.state === 'idle'
-                              ? `Add to Cart - ${formatPrice(
-                                  totalPrice,
-                                  currencyCode,
-                                )}`
-                              : 'Adding...'}
-                          </button>
-                        )}
-                      </CartForm>
+                      <>
+                        <CartForm
+                          route="/cart"
+                          action={CartForm.ACTIONS.LinesAdd}
+                          fetcherKey="cart-add-continue"
+                          inputs={{
+                            lines: [
+                              {merchandiseId: selectedCase.id, quantity: 1},
+                              {
+                                merchandiseId: selectedScent.id,
+                                quantity: 1,
+                                ...(selectedSellingPlanId && {sellingPlanId: selectedSellingPlanId}),
+                              },
+                            ],
+                          }}
+                        >
+                          {() => (
+                            <button
+                              type="submit"
+                              disabled={addContinueFetcher.state !== 'idle'}
+                              className="customizer-final-shop w-full min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition-colors hover:border-olive disabled:cursor-wait disabled:opacity-70"
+                            >
+                              {addContinueFetcher.state !== 'idle' ? 'Adding...' : 'Add to Cart & Continue'}
+                            </button>
+                          )}
+                        </CartForm>
+                        <CartForm
+                          route="/cart"
+                          action={CartForm.ACTIONS.LinesAdd}
+                          fetcherKey="cart-add-checkout"
+                          inputs={{
+                            lines: [
+                              {merchandiseId: selectedCase.id, quantity: 1},
+                              {
+                                merchandiseId: selectedScent.id,
+                                quantity: 1,
+                                ...(selectedSellingPlanId && {sellingPlanId: selectedSellingPlanId}),
+                              },
+                            ],
+                          }}
+                        >
+                          {() => (
+                            <button
+                              type="submit"
+                              disabled={checkoutFetcher.state !== 'idle'}
+                              className="customizer-final-add w-full min-h-12 rounded-md bg-terracotta px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream transition-colors disabled:cursor-wait disabled:opacity-70"
+                            >
+                              {checkoutFetcher.state !== 'idle'
+                                ? 'Adding...'
+                                : `Checkout — ${formatPrice(totalPrice, currencyCode)}`}
+                            </button>
+                          )}
+                        </CartForm>
+                      </>
                     )}
-                    <Link
-                      to="/collections/all"
-                      className="customizer-final-shop min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition-colors hover:border-olive hover:text-olive inline-flex items-center justify-center"
-                    >
-                      Continue shopping
-                    </Link>
                   </div>
                 </div>
               )}
@@ -697,39 +735,55 @@ export default function CustomizeDeodorantRoute() {
                   <CartForm
                     route="/cart"
                     action={CartForm.ACTIONS.LinesAdd}
+                    fetcherKey="cart-add-checkout"
                     inputs={{
                       lines: [
                         {merchandiseId: selectedCase.id, quantity: 1},
                         {
                           merchandiseId: selectedScent.id,
                           quantity: 1,
-                          // Include sellingPlanId for subscriptions
                           ...(selectedSellingPlanId && {sellingPlanId: selectedSellingPlanId}),
                         },
                       ],
                     }}
                   >
-                    {(fetcher) => (
+                    {() => (
                       <button
                         type="submit"
-                        disabled={fetcher.state !== 'idle'}
+                        disabled={checkoutFetcher.state !== 'idle'}
                         className="w-full h-12 rounded-md bg-terracotta px-6 font-sans text-sm font-semibold uppercase tracking-[0.1em] text-cream transition-colors disabled:cursor-wait disabled:opacity-70"
                       >
-                        {fetcher.state === 'idle'
-                          ? `Add to Cart - ${formatPrice(
-                              totalPrice,
-                              currencyCode,
-                            )}`
-                          : 'Adding...'}
+                        {checkoutFetcher.state !== 'idle'
+                          ? 'Adding...'
+                          : `Checkout — ${formatPrice(totalPrice, currencyCode)}`}
                       </button>
                     )}
                   </CartForm>
-                  <Link
-                    to="/collections/all"
-                    className="w-full h-11 rounded-md border border-charcoal/20 px-6 font-sans text-xs font-semibold uppercase tracking-[0.1em] text-charcoal transition-colors active:bg-charcoal/5 inline-flex items-center justify-center"
+                  <CartForm
+                    route="/cart"
+                    action={CartForm.ACTIONS.LinesAdd}
+                    fetcherKey="cart-add-continue"
+                    inputs={{
+                      lines: [
+                        {merchandiseId: selectedCase.id, quantity: 1},
+                        {
+                          merchandiseId: selectedScent.id,
+                          quantity: 1,
+                          ...(selectedSellingPlanId && {sellingPlanId: selectedSellingPlanId}),
+                        },
+                      ],
+                    }}
                   >
-                    Continue shopping
-                  </Link>
+                    {() => (
+                      <button
+                        type="submit"
+                        disabled={addContinueFetcher.state !== 'idle'}
+                        className="w-full h-11 rounded-md border border-charcoal/20 px-6 font-sans text-xs font-semibold uppercase tracking-[0.1em] text-charcoal transition-colors active:bg-charcoal/5 disabled:cursor-wait disabled:opacity-70"
+                      >
+                        {addContinueFetcher.state !== 'idle' ? 'Adding...' : 'Add to Cart & Continue'}
+                      </button>
+                    )}
+                  </CartForm>
                 </div>
               )
             )}
