@@ -1424,7 +1424,7 @@ aside header {
 }
 
 .footer {
-  background: var(--color-charcoal);
+  background: #1a3321;
   color: var(--color-cream);
   margin-top: auto;
 }
