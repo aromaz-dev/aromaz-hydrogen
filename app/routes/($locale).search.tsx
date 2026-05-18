@@ -19,7 +19,7 @@ export const meta: Route.MetaFunction = () => {
     {
       name: 'description',
       content:
-        'Search Aromaz for refillable natural deodorant, botanical scent refills, natural loofah soap, and lip care.',
+        'Search Aromaz for refillable natural deodorant, natural loofah soap, and lip care.',
     },
     {name: 'robots', content: 'noindex,follow'},
   ];

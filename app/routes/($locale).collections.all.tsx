@@ -155,8 +155,8 @@ export default function Collection() {
           <p>Shop Aromaz</p>
           <h1>Everyday care with natural ingredients and refillable design</h1>
           <span>
-            Explore refillable natural deodorant, reusable cases, botanical
-            scent refills, loofah soap, and lip care made for everyday comfort.
+            Explore refillable natural deodorant, reusable cases, loofah soap,
+            and lip care made for everyday comfort.
           </span>
           <div className="shop-hero-actions">
             <Link to="/products/refillable-deodorant/customize">

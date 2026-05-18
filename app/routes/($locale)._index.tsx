@@ -22,7 +22,7 @@ import {
 const HOME_TITLE =
   'Natural Deodorant and Clean Cosmetics in Vancouver | Aromaz';
 const HOME_DESCRIPTION =
-  'Shop Aromaz refillable natural deodorant, botanical scent refills, natural loofah soap, and lip care for sensitive daily routines in Vancouver, Canada, and the United States.';
+  'Shop Aromaz refillable natural deodorant, natural loofah soap, and lip care for sensitive daily routines in Vancouver, Canada, and the United States.';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const storeUrl = data?.storeUrl ?? DEFAULT_STORE_URL;
@@ -262,7 +262,7 @@ function BrandStory() {
     {
       title: 'A refined refill ritual',
       description:
-        'Aromaz pairs refillable deodorant cases with botanical scent refills, creating a simple routine that looks polished on the shelf and feels easy to keep using.',
+        'Aromaz combines natural deodorant with beautifully crafted scents and eco-friendly refillable cases, creating a simple routine that looks polished on the shelf and feels effortless to maintain.',
       image: '/brand-story/artisanal-craft.jpg',
       imageAlt: 'Amber bottle with natural personal care ingredients',
       imageLeft: true,
