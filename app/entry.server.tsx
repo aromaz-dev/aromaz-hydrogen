@@ -41,11 +41,7 @@ export default async function handleRequest(
       'https://*.googleusercontent.com',
       'https://tile.openstreetmap.org',
     ],
-    frameSrc: [
-      "'self'",
-      'https://www.google.com',
-      'https://maps.google.com',
-    ],
+    frameSrc: ["'self'", 'https://www.google.com', 'https://maps.google.com'],
   });
 
   const body = await renderToReadableStream(

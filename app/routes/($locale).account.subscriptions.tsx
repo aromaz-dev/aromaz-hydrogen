@@ -1,4 +1,9 @@
-import {data as remixData, Form, useActionData, useLoaderData} from 'react-router';
+import {
+  data as remixData,
+  Form,
+  useActionData,
+  useLoaderData,
+} from 'react-router';
 import type {Route} from './+types/account.subscriptions';
 import {CUSTOMER_SUBSCRIPTIONS_QUERY} from '~/graphql/customer-account/CustomerSubscriptionsQuery';
 import {
@@ -206,7 +211,10 @@ function SubscriptionCard({
             </span>
             <span className="subscription-line-details">
               {line.quantity > 1 && `${line.quantity} x `}
-              {formatMoney(line.currentPrice.amount, line.currentPrice.currencyCode)}
+              {formatMoney(
+                line.currentPrice.amount,
+                line.currentPrice.currencyCode,
+              )}
             </span>
           </div>
         ))}
@@ -240,7 +248,10 @@ function SubscriptionCard({
             <Form method="POST">
               <input type="hidden" name="intent" value="pause" />
               <input type="hidden" name="contractId" value={contract.id} />
-              <button type="submit" className="subscription-btn subscription-btn-secondary">
+              <button
+                type="submit"
+                className="subscription-btn subscription-btn-secondary"
+              >
                 Pause
               </button>
             </Form>
@@ -250,7 +261,10 @@ function SubscriptionCard({
             <Form method="POST">
               <input type="hidden" name="intent" value="activate" />
               <input type="hidden" name="contractId" value={contract.id} />
-              <button type="submit" className="subscription-btn subscription-btn-primary">
+              <button
+                type="submit"
+                className="subscription-btn subscription-btn-primary"
+              >
                 Resume
               </button>
             </Form>
@@ -271,7 +285,10 @@ function SubscriptionCard({
             >
               <input type="hidden" name="intent" value="cancel" />
               <input type="hidden" name="contractId" value={contract.id} />
-              <button type="submit" className="subscription-btn subscription-btn-danger">
+              <button
+                type="submit"
+                className="subscription-btn subscription-btn-danger"
+              >
                 Cancel
               </button>
             </Form>

@@ -28,9 +28,7 @@ export function getStrength(variantTitle: string): Strength | null {
 /**
  * Check if a product's variants follow the scent+strength naming pattern
  */
-export function isScentProduct(
-  variants: Array<{title: string}>,
-): boolean {
+export function isScentProduct(variants: Array<{title: string}>): boolean {
   if (variants.length === 0) return false;
   return variants.every((v) =>
     STRENGTH_OPTIONS.some((s) => v.title.endsWith(s)),

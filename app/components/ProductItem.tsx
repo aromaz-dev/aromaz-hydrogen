@@ -6,7 +6,10 @@ import type {
   RecommendedProductFragment,
 } from 'storefrontapi.generated';
 import {useVariantUrl} from '~/lib/variants';
-import {getLocalProductImage, isDemoOrPlaceholderImage} from '~/lib/local-images';
+import {
+  getLocalProductImage,
+  isDemoOrPlaceholderImage,
+} from '~/lib/local-images';
 
 export function ProductItem({
   product,
@@ -26,12 +29,12 @@ export function ProductItem({
   const productType = title.includes('refill')
     ? 'Refill'
     : title.includes('deodorant')
-    ? 'Deodorant'
-    : title.includes('soap') || title.includes('loofah')
-    ? 'Soap'
-    : title.includes('balm')
-    ? 'Daily care'
-    : 'Aromaz care';
+      ? 'Deodorant'
+      : title.includes('soap') || title.includes('loofah')
+        ? 'Soap'
+        : title.includes('balm')
+          ? 'Daily care'
+          : 'Aromaz care';
   return (
     <Link
       className="product-card group"
@@ -61,9 +64,7 @@ export function ProductItem({
       <div className="product-card-body">
         <div>
           <p className="product-card-kicker">{productType}</p>
-          <h4>
-            {product.title}
-          </h4>
+          <h4>{product.title}</h4>
         </div>
         <div className="product-card-footer">
           <span>

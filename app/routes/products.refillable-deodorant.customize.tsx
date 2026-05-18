@@ -1,7 +1,14 @@
 'use client';
 // v4: Add-to-cart builder flow via CartForm
 
-import {Link, useLoaderData, data, useSearchParams, useNavigate, useFetcher} from 'react-router';
+import {
+  Link,
+  useLoaderData,
+  data,
+  useSearchParams,
+  useNavigate,
+  useFetcher,
+} from 'react-router';
 import type {Route} from './+types/products.refillable-deodorant.customize';
 import {PRODUCT_HANDLES} from '~/config/products';
 import {CUSTOMIZE_FLOW_DATA_QUERY} from '~/graphql/customize-flow';
@@ -24,7 +31,10 @@ import {
   getDiscountPercentage,
   formatPrice,
 } from '~/lib/subscription-utils';
-import {LOCAL_IMAGE_FALLBACKS, isDemoOrPlaceholderImage} from '~/lib/local-images';
+import {
+  LOCAL_IMAGE_FALLBACKS,
+  isDemoOrPlaceholderImage,
+} from '~/lib/local-images';
 
 function getConnectionNodes<T>(
   connection: {nodes?: T[]; edges?: Array<{node: T}>} | null | undefined,
@@ -39,30 +49,22 @@ function getConnectionNodes<T>(
 
 export async function loader({context}: Route.LoaderArgs) {
   const {storefront} = context;
-  console.log('Loader started for customize route');
-
   let queryCase, queryRefill;
   try {
-      const result = await storefront.query(
-        CUSTOMIZE_FLOW_DATA_QUERY,
-        {
-          variables: {
-            caseHandle: PRODUCT_HANDLES.DEODORANT_CASE,
-            refillHandle: PRODUCT_HANDLES.DEODORANT_REFILL,
-          },
-        },
-      );
-      queryCase = result.caseProduct;
-      queryRefill = result.refillProduct;
+    const result = await storefront.query(CUSTOMIZE_FLOW_DATA_QUERY, {
+      variables: {
+        caseHandle: PRODUCT_HANDLES.DEODORANT_CASE,
+        refillHandle: PRODUCT_HANDLES.DEODORANT_REFILL,
+      },
+    });
+    queryCase = result.caseProduct;
+    queryRefill = result.refillProduct;
   } catch (e) {
-      console.error('Storefront query failed:', e);
+    console.error('Storefront query failed:', e);
   }
 
   const caseProduct = queryCase || MOCK_CASE_PRODUCT;
   const refillProduct = queryRefill || MOCK_REFILL_PRODUCT;
-
-  console.log('Case Product:', caseProduct?.id);
-  console.log('Refill Product:', refillProduct?.id);
 
   if (!caseProduct || !refillProduct) {
     throw data('Products not found', {status: 404});
@@ -109,34 +111,29 @@ export default function CustomizeDeodorantRoute() {
     () => caseVariants[0] || null,
   );
   // null = one-time purchase, string = selling plan ID
-  const [selectedSellingPlanId, setSelectedSellingPlanId] = useState<string | null>(null);
+  const [selectedSellingPlanId, setSelectedSellingPlanId] = useState<
+    string | null
+  >(null);
   const [selectedStrength, setSelectedStrength] =
     useState<Strength>(requestedStrength);
   const [selectedScent, setSelectedScent] = useState<any>(
     () =>
       (requestedScent
-          ? findVariant(
-            refillVariants,
-            requestedScent,
-            requestedStrength,
-          )
+        ? findVariant(refillVariants, requestedScent, requestedStrength)
         : null) ||
-      refillVariants.find((v: any) =>
-        v.title.endsWith(requestedStrength),
-      ) ||
+      refillVariants.find((v: any) => v.title.endsWith(requestedStrength)) ||
       null,
   );
 
   // Filter scents by selected strength
-  const filteredScents = filterByStrength(
-    refillVariants,
-    selectedStrength,
-  );
+  const filteredScents = filterByStrength(refillVariants, selectedStrength);
 
   // Handler for strength changes - updates selected scent to match new strength
   const handleStrengthChange = (strength: string) => {
     setSelectedStrength(strength as Strength);
-    const currentScentName = selectedScent ? getScentName(selectedScent.title) : null;
+    const currentScentName = selectedScent
+      ? getScentName(selectedScent.title)
+      : null;
     if (currentScentName) {
       const newVariant = findVariant(
         refillVariants,
@@ -169,12 +166,13 @@ export default function CustomizeDeodorantRoute() {
   const checkoutPending = useRef(false);
 
   useEffect(() => {
-    if (addContinueFetcher.state === 'submitting') addContinuePending.current = true;
+    if (addContinueFetcher.state === 'submitting')
+      addContinuePending.current = true;
     if (addContinueFetcher.state === 'idle' && addContinuePending.current) {
       addContinuePending.current = false;
-      navigate('/collections/all');
+      void navigate('/collections/all');
     }
-  }, [addContinueFetcher.state]);
+  }, [addContinueFetcher.state, navigate]);
 
   useEffect(() => {
     if (checkoutFetcher.state === 'submitting') checkoutPending.current = true;
@@ -184,10 +182,10 @@ export default function CustomizeDeodorantRoute() {
       if (checkoutUrl) {
         window.location.href = checkoutUrl;
       } else {
-        navigate('/cart');
+        void navigate('/cart');
       }
     }
-  }, [checkoutFetcher.state, checkoutFetcher.data]);
+  }, [checkoutFetcher.state, checkoutFetcher.data, navigate]);
 
   const handleBack = () => {
     if (currentStep > 1) setCurrentStep((c) => c - 1);
@@ -243,150 +241,157 @@ export default function CustomizeDeodorantRoute() {
             Build Your Refillable Deodorant
           </h1>
           <p className="font-sans text-lg text-charcoal/70 mt-3 max-w-2xl">
-            Choose a case, botanical scent, and refill plan. Your selected
-            setup stays visible while you build.
+            Choose a case, botanical scent, and refill plan. Your selected setup
+            stays visible while you build.
           </p>
         </div>
       </div>
 
       {/* Mobile Split Layout Wrapper - Fixed Viewport to prevent body scroll */}
       <div className="md:hidden fixed top-[64px] left-0 right-0 bottom-0 flex flex-col overflow-hidden bg-cream z-0">
-        
         {/* Top Fixed Section: Image + Progress + Title */}
         <div className="flex-none w-full bg-cream z-20 shadow-sm">
-            {/* 1. Large Full-Width Image */}
-            <div className="w-full h-[30vh] min-h-[180px] bg-cream">
-              <div className="w-full h-full transition-all duration-500 transform">
-                {currentStep === 2 || currentStep === 3 ? (
-                  selectedScent?.image ? (
-                    <img
-                      src={getScentImageUrl(selectedScent)}
-                      alt={selectedScent.title}
-                      className="w-full h-full object-cover drop-shadow-xl"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-charcoal/5 border-b border-charcoal/5">
-                      <span className="text-xs text-charcoal/30">Select a Scent</span>
-                    </div>
-                  )
-                ) : selectedCase?.image ? (
+          {/* 1. Large Full-Width Image */}
+          <div className="w-full h-[30vh] min-h-[180px] bg-cream">
+            <div className="w-full h-full transition-all duration-500 transform">
+              {currentStep === 2 || currentStep === 3 ? (
+                selectedScent?.image ? (
                   <img
-                    src={getCaseImageUrl(selectedCase)}
-                    alt={selectedCase.title}
+                    src={getScentImageUrl(selectedScent)}
+                    alt={selectedScent.title}
                     className="w-full h-full object-cover drop-shadow-xl"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-charcoal/5 border-b border-charcoal/5">
-                    <span className="text-xs text-charcoal/30">Select a Case</span>
+                    <span className="text-xs text-charcoal/30">
+                      Select a Scent
+                    </span>
                   </div>
-                )}
-              </div>
-            </div>
-
-            {/* 2. Progress & Title (Fixed below image) */}
-            <div className="px-6 pt-4 pb-2 bg-cream">
-               {/* Progress Bars */}
-              <div className="flex items-center gap-2 mb-2">
-                {[1, 2, 3].map((step) => (
-                  <div
-                    key={step}
-                    className={`h-1.5 rounded-full flex-1 transition-all duration-500 ${
-                      step <= currentStep ? 'bg-terracotta' : 'bg-charcoal/10'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              {/* Step Title */}
-              <div>
-                <h3 className="font-serif text-2xl text-charcoal leading-tight">
-                  {currentStep === 1 && "Choose your Case"}
-                  {currentStep === 2 && "Choose your Scent"}
-                  {currentStep === 3 && "Choose your Plan"}
-                </h3>
-                <p className="font-sans text-xs text-charcoal/60 mt-1 truncate">
-                   {currentStep === 1 && (selectedCase ? selectedCase.title : "Select a style")}
-                   {currentStep === 2 && (selectedScent ? getScentName(selectedScent.title) : "Select a scent")}
-                   {currentStep === 3 && getPlanDisplayName()}
-                </p>
-              </div>
-
-              {/* Strength Selector (Step 2 only) */}
-              {currentStep === 2 && (
-                <StrengthSelector
-                  options={STRENGTH_OPTIONS}
-                  selected={selectedStrength}
-                  onSelect={handleStrengthChange}
-                  className="mt-3"
+                )
+              ) : selectedCase?.image ? (
+                <img
+                  src={getCaseImageUrl(selectedCase)}
+                  alt={selectedCase.title}
+                  className="w-full h-full object-cover drop-shadow-xl"
                 />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-charcoal/5 border-b border-charcoal/5">
+                  <span className="text-xs text-charcoal/30">
+                    Select a Case
+                  </span>
+                </div>
               )}
             </div>
+          </div>
+
+          {/* 2. Progress & Title (Fixed below image) */}
+          <div className="px-6 pt-4 pb-2 bg-cream">
+            {/* Progress Bars */}
+            <div className="flex items-center gap-2 mb-2">
+              {[1, 2, 3].map((step) => (
+                <div
+                  key={step}
+                  className={`h-1.5 rounded-full flex-1 transition-all duration-500 ${
+                    step <= currentStep ? 'bg-terracotta' : 'bg-charcoal/10'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Step Title */}
+            <div>
+              <h3 className="font-serif text-2xl text-charcoal leading-tight">
+                {currentStep === 1 && 'Choose your Case'}
+                {currentStep === 2 && 'Choose your Scent'}
+                {currentStep === 3 && 'Choose your Plan'}
+              </h3>
+              <p className="font-sans text-xs text-charcoal/60 mt-1 truncate">
+                {currentStep === 1 &&
+                  (selectedCase ? selectedCase.title : 'Select a style')}
+                {currentStep === 2 &&
+                  (selectedScent
+                    ? getScentName(selectedScent.title)
+                    : 'Select a scent')}
+                {currentStep === 3 && getPlanDisplayName()}
+              </p>
+            </div>
+
+            {/* Strength Selector (Step 2 only) */}
+            {currentStep === 2 && (
+              <StrengthSelector
+                options={STRENGTH_OPTIONS}
+                selected={selectedStrength}
+                onSelect={handleStrengthChange}
+                className="mt-3"
+              />
+            )}
+          </div>
         </div>
 
         {/* Bottom Scrollable Section (Options Only) */}
         <div className="flex-1 overflow-y-auto overscroll-contain relative z-10 px-6 pt-4 pb-32">
-              {/* Step 1: Case Selection */}
-              {currentStep === 1 && (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-4 gap-4">
-                    {caseVariants.map((variant: any) => {
-                      const isSelected = selectedCase?.id === variant.id;
-                      
-                      // Map titles to colors for the selection border
-                      const borderColor = isSelected ? '#566d37' : 'transparent';
+          {/* Step 1: Case Selection */}
+          {currentStep === 1 && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-4 gap-4">
+                {caseVariants.map((variant: any) => {
+                  const isSelected = selectedCase?.id === variant.id;
 
-                      return (
-                        <button
-                          key={variant.id}
-                          onClick={() => setSelectedCase(variant)}
-                          className={`group cursor-pointer transition-all duration-300 rounded-full p-1 transform ${
-                            isSelected
-                              ? 'scale-110 z-10'
-                              : 'opacity-70 scale-95 hover:opacity-100'
-                          }`}
-                          title={variant.title}
+                  // Map titles to colors for the selection border
+                  const borderColor = isSelected ? '#566d37' : 'transparent';
+
+                  return (
+                    <button
+                      key={variant.id}
+                      onClick={() => setSelectedCase(variant)}
+                      className={`group cursor-pointer transition-all duration-300 rounded-full p-1 transform ${
+                        isSelected
+                          ? 'scale-110 z-10'
+                          : 'opacity-70 scale-95 hover:opacity-100'
+                      }`}
+                      title={variant.title}
+                    >
+                      {variant.image ? (
+                        <div
+                          className={`aspect-square rounded-full overflow-hidden border-2 transition-all ${isSelected ? 'shadow-md' : ''}`}
+                          style={{borderColor}}
                         >
-                          {variant.image ? (
-                            <div 
-                              className={`aspect-square rounded-full overflow-hidden border-2 transition-all ${isSelected ? 'shadow-md' : ''}`}
-                              style={{ borderColor }}
-                            >
-                              <img
-                                src={getCaseImageUrl(variant)}
-                                alt={variant.title}
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                          ) : (
-                            <div className="aspect-square rounded-full bg-charcoal/10" />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+                          <img
+                            src={getCaseImageUrl(variant)}
+                            alt={variant.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="aspect-square rounded-full bg-charcoal/10" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
-              {/* Step 2: Scent Selection */}
-              {currentStep === 2 && (
-                <ScentGrid
-                  scents={filteredScents as ScentOption[]}
-                  selectedId={selectedScent?.id || null}
-                  onSelect={(scent) => setSelectedScent(scent)}
-                  layout="circular"
-                />
-              )}
+          {/* Step 2: Scent Selection */}
+          {currentStep === 2 && (
+            <ScentGrid
+              scents={filteredScents as ScentOption[]}
+              selectedId={selectedScent?.id || null}
+              onSelect={(scent) => setSelectedScent(scent)}
+              layout="circular"
+            />
+          )}
 
-              {/* Step 3: Plan Selection */}
-              {currentStep === 3 && (
-                <SubscriptionSelector
-                  sellingPlans={sellingPlans}
-                  selectedPlanId={selectedSellingPlanId}
-                  onSelect={setSelectedSellingPlanId}
-                  basePrice={scentPrice}
-                  currencyCode={currencyCode}
-                />
-              )}
+          {/* Step 3: Plan Selection */}
+          {currentStep === 3 && (
+            <SubscriptionSelector
+              sellingPlans={sellingPlans}
+              selectedPlanId={selectedSellingPlanId}
+              onSelect={setSelectedSellingPlanId}
+              basePrice={scentPrice}
+              currencyCode={currencyCode}
+            />
+          )}
         </div>
       </div>
 
@@ -420,10 +425,10 @@ export default function CustomizeDeodorantRoute() {
                       currentStep === num
                         ? 'text-terracotta'
                         : num === 1 ||
-                          (num === 2 && selectedCase) ||
-                          (num === 3 && selectedCase && selectedScent)
-                        ? 'text-charcoal cursor-pointer hover:text-terracotta'
-                        : 'text-charcoal/30 cursor-not-allowed'
+                            (num === 2 && selectedCase) ||
+                            (num === 3 && selectedCase && selectedScent)
+                          ? 'text-charcoal cursor-pointer hover:text-terracotta'
+                          : 'text-charcoal/30 cursor-not-allowed'
                     }`}
                   >
                     <div
@@ -435,9 +440,7 @@ export default function CustomizeDeodorantRoute() {
                     >
                       {num}
                     </div>
-                    <span className="text-sm font-sans">
-                      {label}
-                    </span>
+                    <span className="text-sm font-sans">{label}</span>
                   </button>
                   {num < 3 && (
                     <div className="w-24 h-0.5 bg-charcoal/10 mx-2" />
@@ -469,7 +472,9 @@ export default function CustomizeDeodorantRoute() {
                 )}
                 <div className="text-center space-y-2">
                   <h3 className="font-serif text-2xl text-charcoal leading-tight">
-                    {selectedCase ? selectedCase.title : 'Your Custom Deodorant'}
+                    {selectedCase
+                      ? selectedCase.title
+                      : 'Your Custom Deodorant'}
                   </h3>
                   <div className="flex flex-col items-center">
                     {selectedScent && (
@@ -592,7 +597,7 @@ export default function CustomizeDeodorantRoute() {
                   <div className="hidden md:flex gap-4 mt-8">
                     <button
                       onClick={() => setCurrentStep(1)}
-                    className="flex-1 min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal hover:border-olive"
+                      className="flex-1 min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal hover:border-olive"
                     >
                       Back
                     </button>
@@ -648,7 +653,9 @@ export default function CustomizeDeodorantRoute() {
                               {
                                 merchandiseId: selectedScent.id,
                                 quantity: 1,
-                                ...(selectedSellingPlanId && {sellingPlanId: selectedSellingPlanId}),
+                                ...(selectedSellingPlanId && {
+                                  sellingPlanId: selectedSellingPlanId,
+                                }),
                               },
                             ],
                           }}
@@ -659,7 +666,9 @@ export default function CustomizeDeodorantRoute() {
                               disabled={addContinueFetcher.state !== 'idle'}
                               className="customizer-final-shop w-full min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition-colors hover:border-olive disabled:cursor-wait disabled:opacity-70"
                             >
-                              {addContinueFetcher.state !== 'idle' ? 'Adding...' : 'Add to Cart & Continue'}
+                              {addContinueFetcher.state !== 'idle'
+                                ? 'Adding...'
+                                : 'Add to Cart & Continue'}
                             </button>
                           )}
                         </CartForm>
@@ -673,7 +682,9 @@ export default function CustomizeDeodorantRoute() {
                               {
                                 merchandiseId: selectedScent.id,
                                 quantity: 1,
-                                ...(selectedSellingPlanId && {sellingPlanId: selectedSellingPlanId}),
+                                ...(selectedSellingPlanId && {
+                                  sellingPlanId: selectedSellingPlanId,
+                                }),
                               },
                             ],
                           }}
@@ -706,87 +717,93 @@ export default function CustomizeDeodorantRoute() {
         style={{paddingBottom: 'max(1rem, env(safe-area-inset-bottom))'}}
       >
         <div className="flex items-center justify-end gap-3">
-             {currentStep > 1 && (
-               <button
-                 onClick={handleBack}
-                 className="w-12 h-12 rounded-full border border-charcoal/20 flex items-center justify-center text-charcoal active:bg-charcoal/5"
-                 aria-label="Previous step"
-               >
-                 Back
-               </button>
-             )}
+          {currentStep > 1 && (
+            <button
+              onClick={handleBack}
+              className="w-12 h-12 rounded-full border border-charcoal/20 flex items-center justify-center text-charcoal active:bg-charcoal/5"
+              aria-label="Previous step"
+            >
+              Back
+            </button>
+          )}
 
-            {currentStep < 3 ? (
-              <button
-                onClick={handleNext}
-                disabled={!canProceed}
-                className={`flex-1 h-12 rounded-md px-6 font-sans text-sm font-semibold uppercase tracking-[0.1em] transition-colors ${
-                  canProceed
-                    ? 'bg-charcoal text-cream'
-                    : 'bg-charcoal/20 text-charcoal/50 cursor-not-allowed'
-                }`}
-              >
-                {currentStep === 1 ? 'Choose Scent' : 'Choose Plan'}
-              </button>
-            ) : (
-              selectedScent &&
-              selectedCase && (
-                <div className="flex-1 grid gap-2">
-                  <CartForm
-                    route="/cart"
-                    action={CartForm.ACTIONS.LinesAdd}
-                    fetcherKey="cart-add-checkout"
-                    inputs={{
-                      lines: [
-                        {merchandiseId: selectedCase.id, quantity: 1},
-                        {
-                          merchandiseId: selectedScent.id,
-                          quantity: 1,
-                          ...(selectedSellingPlanId && {sellingPlanId: selectedSellingPlanId}),
-                        },
-                      ],
-                    }}
-                  >
-                    {() => (
-                      <button
-                        type="submit"
-                        disabled={checkoutFetcher.state !== 'idle'}
-                        className="w-full h-12 rounded-md bg-terracotta px-6 font-sans text-sm font-semibold uppercase tracking-[0.1em] text-cream transition-colors disabled:cursor-wait disabled:opacity-70"
-                      >
-                        {checkoutFetcher.state !== 'idle'
-                          ? 'Adding...'
-                          : `Checkout — ${formatPrice(totalPrice, currencyCode)}`}
-                      </button>
-                    )}
-                  </CartForm>
-                  <CartForm
-                    route="/cart"
-                    action={CartForm.ACTIONS.LinesAdd}
-                    fetcherKey="cart-add-continue"
-                    inputs={{
-                      lines: [
-                        {merchandiseId: selectedCase.id, quantity: 1},
-                        {
-                          merchandiseId: selectedScent.id,
-                          quantity: 1,
-                          ...(selectedSellingPlanId && {sellingPlanId: selectedSellingPlanId}),
-                        },
-                      ],
-                    }}
-                  >
-                    {() => (
-                      <button
-                        type="submit"
-                        disabled={addContinueFetcher.state !== 'idle'}
-                        className="w-full h-11 rounded-md border border-charcoal/20 px-6 font-sans text-xs font-semibold uppercase tracking-[0.1em] text-charcoal transition-colors active:bg-charcoal/5 disabled:cursor-wait disabled:opacity-70"
-                      >
-                        {addContinueFetcher.state !== 'idle' ? 'Adding...' : 'Add to Cart & Continue'}
-                      </button>
-                    )}
-                  </CartForm>
-                </div>
-              )
-            )}
+          {currentStep < 3 ? (
+            <button
+              onClick={handleNext}
+              disabled={!canProceed}
+              className={`flex-1 h-12 rounded-md px-6 font-sans text-sm font-semibold uppercase tracking-[0.1em] transition-colors ${
+                canProceed
+                  ? 'bg-charcoal text-cream'
+                  : 'bg-charcoal/20 text-charcoal/50 cursor-not-allowed'
+              }`}
+            >
+              {currentStep === 1 ? 'Choose Scent' : 'Choose Plan'}
+            </button>
+          ) : (
+            selectedScent &&
+            selectedCase && (
+              <div className="flex-1 grid gap-2">
+                <CartForm
+                  route="/cart"
+                  action={CartForm.ACTIONS.LinesAdd}
+                  fetcherKey="cart-add-checkout"
+                  inputs={{
+                    lines: [
+                      {merchandiseId: selectedCase.id, quantity: 1},
+                      {
+                        merchandiseId: selectedScent.id,
+                        quantity: 1,
+                        ...(selectedSellingPlanId && {
+                          sellingPlanId: selectedSellingPlanId,
+                        }),
+                      },
+                    ],
+                  }}
+                >
+                  {() => (
+                    <button
+                      type="submit"
+                      disabled={checkoutFetcher.state !== 'idle'}
+                      className="w-full h-12 rounded-md bg-terracotta px-6 font-sans text-sm font-semibold uppercase tracking-[0.1em] text-cream transition-colors disabled:cursor-wait disabled:opacity-70"
+                    >
+                      {checkoutFetcher.state !== 'idle'
+                        ? 'Adding...'
+                        : `Checkout — ${formatPrice(totalPrice, currencyCode)}`}
+                    </button>
+                  )}
+                </CartForm>
+                <CartForm
+                  route="/cart"
+                  action={CartForm.ACTIONS.LinesAdd}
+                  fetcherKey="cart-add-continue"
+                  inputs={{
+                    lines: [
+                      {merchandiseId: selectedCase.id, quantity: 1},
+                      {
+                        merchandiseId: selectedScent.id,
+                        quantity: 1,
+                        ...(selectedSellingPlanId && {
+                          sellingPlanId: selectedSellingPlanId,
+                        }),
+                      },
+                    ],
+                  }}
+                >
+                  {() => (
+                    <button
+                      type="submit"
+                      disabled={addContinueFetcher.state !== 'idle'}
+                      className="w-full h-11 rounded-md border border-charcoal/20 px-6 font-sans text-xs font-semibold uppercase tracking-[0.1em] text-charcoal transition-colors active:bg-charcoal/5 disabled:cursor-wait disabled:opacity-70"
+                    >
+                      {addContinueFetcher.state !== 'idle'
+                        ? 'Adding...'
+                        : 'Add to Cart & Continue'}
+                    </button>
+                  )}
+                </CartForm>
+              </div>
+            )
+          )}
         </div>
       </div>
     </div>
