@@ -27,7 +27,7 @@
    * Z-Index Layer Scale
    * See: lore/clean_code/z-index-management.md
    *
-   * Layer 0: Base (use default z-0 to z-50)
+   * Layer 0: Base (use default z-0 to z-50)J
    * Layer 1: Sticky elements (headers, footers, CTAs)
    * Layer 2: Dropdowns (menus, popovers)
    * Layer 3: Drawers (cart, mobile menu, search)
@@ -2648,12 +2648,19 @@ aside header {
 .shop-hero {
   align-items: center;
   background:
-    linear-gradient(90deg, rgba(32, 35, 34, 0.82), rgba(32, 35, 34, 0.28)),
-    url("/brochure/bg-mystic-earth-sunny.png") center / cover fixed;
-  color: var(--color-cream);
+    linear-gradient(
+      90deg,
+      rgba(253, 252, 250, 0.68) 0%,
+      rgba(253, 252, 250, 0.42) 38%,
+      rgba(253, 252, 250, 0.12) 62%,
+      rgba(253, 252, 250, 0) 100%
+    ),
+    url("/shop-contact-hero-product-fade.png") center / cover no-repeat;
+  background-color: #efe2d5;
+  color: var(--color-charcoal);
   display: grid;
   gap: clamp(0.85rem, 2.4vw, 1.75rem);
-  grid-template-columns: minmax(0, 0.72fr) minmax(220px, 0.48fr);
+  grid-template-columns: minmax(0, 1fr);
   min-height: min(310px, calc(46svh - var(--header-height)));
   overflow: hidden;
   padding: clamp(1.35rem, 3.4vw, 2.6rem) clamp(1rem, 4vw, 3rem);
@@ -2676,6 +2683,10 @@ aside header {
   text-transform: uppercase;
 }
 
+.shop-hero-copy p {
+  color: var(--color-terracotta);
+}
+
 .shop-hero-copy h1 {
   font-family: var(--font-serif);
   font-size: clamp(1.45rem, 3.2vw, 2.8rem);
@@ -2685,7 +2696,7 @@ aside header {
 }
 
 .shop-hero-copy span {
-  color: rgba(249, 244, 238, 0.78);
+  color: rgba(32, 35, 34, 0.72);
   display: block;
   font-size: clamp(0.74rem, 1.25vw, 0.88rem);
   line-height: 1.5;
@@ -2720,14 +2731,15 @@ aside header {
 }
 
 .shop-hero-actions a:first-child {
-  background: var(--color-cream);
+  background: var(--color-olive);
   box-shadow: 0 18px 42px rgba(32, 35, 34, 0.24);
-  color: var(--color-charcoal);
+  color: var(--color-cream);
 }
 
 .shop-hero-actions a:last-child {
-  border: 1px solid rgba(249, 244, 238, 0.5);
-  color: var(--color-cream);
+  background: rgba(253, 252, 250, 0.72);
+  border: 1px solid rgba(32, 35, 34, 0.16);
+  color: var(--color-charcoal);
 }
 
 .shop-hero-actions a:hover,
@@ -2820,12 +2832,19 @@ aside header {
 .contact-hero {
   align-items: center;
   background:
-    linear-gradient(90deg, rgba(32, 35, 34, 0.82), rgba(32, 35, 34, 0.24)),
-    url("/brochure/bg-loofah-lavender-sunny.png") center / cover fixed;
-  color: var(--color-cream);
+    linear-gradient(
+      90deg,
+      rgba(253, 252, 250, 0.7) 0%,
+      rgba(253, 252, 250, 0.44) 38%,
+      rgba(253, 252, 250, 0.12) 62%,
+      rgba(253, 252, 250, 0) 100%
+    ),
+    url("/shop-contact-hero-product-fade.png") center / cover no-repeat;
+  background-color: #efe2d5;
+  color: var(--color-charcoal);
   display: grid;
   gap: clamp(2rem, 4vw, 4rem);
-  grid-template-columns: minmax(0, 0.68fr) minmax(260px, 0.32fr);
+  grid-template-columns: minmax(0, 1fr);
   min-height: calc(100svh - var(--header-height));
   overflow: hidden;
   padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
@@ -2849,6 +2868,10 @@ aside header {
   text-transform: uppercase;
 }
 
+.contact-hero-copy p {
+  color: var(--color-terracotta);
+}
+
 .contact-hero-copy h1 {
   font-family: var(--font-serif);
   font-size: clamp(3rem, 5.4vw, 5.8rem);
@@ -2858,7 +2881,7 @@ aside header {
 }
 
 .contact-hero-copy span {
-  color: rgba(249, 244, 238, 0.78);
+  color: rgba(32, 35, 34, 0.72);
   display: block;
   font-size: clamp(1rem, 2vw, 1.2rem);
   line-height: 1.7;
@@ -3042,7 +3065,7 @@ aside header {
   .contact-hero {
     background-attachment: scroll;
     gap: clamp(1.5rem, 3vw, 2.5rem);
-    grid-template-columns: minmax(0, 0.66fr) minmax(220px, 0.34fr);
+    grid-template-columns: 1fr;
     min-height: auto;
     overflow: hidden;
   }
@@ -4160,7 +4183,7 @@ aside header {
 }
 
 .contact-hero {
-  grid-template-columns: minmax(0, 0.62fr) minmax(220px, 0.32fr);
+  grid-template-columns: 1fr;
 }
 
 .contact-hero-copy {
@@ -6089,6 +6112,18 @@ aside header {
 .stockists-hero > * {
   position: relative;
   z-index: 1;
+}
+
+.shop-hero::before,
+.contact-hero::before {
+  backdrop-filter: none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(253, 252, 250, 0.08) 0%,
+      rgba(253, 252, 250, 0.04) 48%,
+      rgba(253, 252, 250, 0) 100%
+    );
 }
 
 .customizer-page .bg-terracotta,

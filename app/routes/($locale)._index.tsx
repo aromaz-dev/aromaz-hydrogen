@@ -527,12 +527,6 @@ function RecommendedProducts({
               Start with the refillable system.
             </h2>
           </div>
-          <Link
-            to="/products/refillable-deodorant/customize"
-            className="home-shop-cta"
-          >
-            Build your deodorant
-          </Link>
         </div>
         <Suspense fallback={<HomeShopFallbackGrid />}>
           <Await resolve={products}>

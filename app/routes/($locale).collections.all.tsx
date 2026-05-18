@@ -153,7 +153,7 @@ export default function Collection() {
       <section className="shop-hero">
         <div className="shop-hero-copy">
           <p>Shop Aromaz</p>
-          <h1>Natural scent care for refillable daily routines.</h1>
+          <h1>Everyday care with natural ingredients and refillable design</h1>
           <span>
             Explore refillable natural deodorant, reusable cases, botanical
             scent refills, loofah soap, and lip care made for everyday comfort.
@@ -165,24 +165,6 @@ export default function Collection() {
             <Link to="/catalog">View catalog</Link>
           </div>
         </div>
-        <div className="shop-hero-media" aria-hidden="true">
-          <img
-            src="/aromaz-products/deodorant-eco-case.png"
-            alt=""
-            loading="eager"
-          />
-          <img src="/aromaz-products/deodorant-refill.png" alt="" />
-          <img src="/aromaz-products/lip-balm.png" alt="" />
-        </div>
-      </section>
-
-      <section className="shop-filter-band" aria-label="Shop shortcuts">
-        <Link to="/products/refillable-deodorant/customize">
-          Refillable deodorant
-        </Link>
-        <Link to="/catalog">Scent catalog</Link>
-        <Link to="/search?q=soap">Loofah soap</Link>
-        <Link to="/search?q=lip%20balm">Lip balm</Link>
       </section>
 
       <section className="shop-grid-shell">
