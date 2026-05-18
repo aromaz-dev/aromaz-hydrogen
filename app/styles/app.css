@@ -1856,7 +1856,7 @@ aside header {
     linear-gradient(90deg, rgba(32, 35, 34, 0.86), rgba(32, 35, 34, 0.38)),
     var(--catalog-hero-bg);
   background-attachment: fixed;
-  background-position: center;
+  background-position: center center;
   background-size: cover;
   display: grid;
   min-height: calc(100svh - var(--header-height));
@@ -2417,6 +2417,11 @@ aside header {
   .contact-social,
   .stockists-hero {
     background-attachment: scroll;
+  }
+
+  .catalog-hero {
+    background-position: center center;
+    background-size: cover;
   }
 
   .catalog-panel,

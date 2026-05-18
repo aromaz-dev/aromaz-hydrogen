@@ -16,7 +16,7 @@ const CATALOG_DESCRIPTION =
   'Explore the Aromaz catalog with refillable natural deodorant scents, sensitive skin deodorant refills, natural loofah soap, and lip care essentials.';
 
 const CATALOG_HERO_OVERLAY =
-  'linear-gradient(90deg, rgba(32, 35, 34, 0.86), rgba(32, 35, 34, 0.38))';
+  'linear-gradient(to right, rgba(32, 35, 34, 0.82) 0%, rgba(32, 35, 34, 0.58) 36%, rgba(32, 35, 34, 0.06) 62%, rgba(32, 35, 34, 0.04) 100%)';
 
 const CATALOG_PANEL_OVERLAY =
   'linear-gradient(90deg, rgba(32, 35, 34, 0.82), rgba(32, 35, 34, 0.32) 48%, rgba(32, 35, 34, 0.74))';
@@ -99,7 +99,7 @@ export default function CatalogRoute() {
         style={
           {
             backgroundImage: getCssBackgroundImage(
-              BROCHURE_PRODUCTS[1].background,
+              '/brand-story/heade-home3.png',
               CATALOG_HERO_OVERLAY,
             ),
           } as CSSProperties
