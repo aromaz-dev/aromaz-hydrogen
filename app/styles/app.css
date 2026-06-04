@@ -5399,24 +5399,24 @@ aside header {
   display: block;
   height: auto;
   -webkit-mask-image: radial-gradient(
-    ellipse 50% 55% at 52% 50%,
+    ellipse 44% 48% at 52% 50%,
     black 0%,
-    black 20%,
-    rgba(0, 0, 0, 0.7) 40%,
-    rgba(0, 0, 0, 0.25) 55%,
-    rgba(0, 0, 0, 0.05) 65%,
-    transparent 72%
+    black 15%,
+    rgba(0, 0, 0, 0.6) 32%,
+    rgba(0, 0, 0, 0.18) 48%,
+    rgba(0, 0, 0, 0.03) 58%,
+    transparent 65%
   );
   mask-image: radial-gradient(
-    ellipse 50% 55% at 52% 50%,
+    ellipse 44% 48% at 52% 50%,
     black 0%,
-    black 20%,
-    rgba(0, 0, 0, 0.7) 40%,
-    rgba(0, 0, 0, 0.25) 55%,
-    rgba(0, 0, 0, 0.05) 65%,
-    transparent 72%
+    black 15%,
+    rgba(0, 0, 0, 0.6) 32%,
+    rgba(0, 0, 0, 0.18) 48%,
+    rgba(0, 0, 0, 0.03) 58%,
+    transparent 65%
   );
-  max-height: min(580px, 82svh);
+  max-height: min(720px, 92svh);
   object-fit: contain;
   width: 100%;
 }
