@@ -423,11 +423,11 @@ export default function CustomizeDeodorantRoute() {
                     }
                     className={`flex flex-col items-center gap-2 ${
                       currentStep === num
-                        ? 'text-terracotta'
+                        ? 'text-olive'
                         : num === 1 ||
                             (num === 2 && selectedCase) ||
                             (num === 3 && selectedCase && selectedScent)
-                          ? 'text-charcoal cursor-pointer hover:text-terracotta'
+                          ? 'text-charcoal cursor-pointer hover:text-olive'
                           : 'text-charcoal/30 cursor-not-allowed'
                     }`}
                   >
@@ -478,7 +478,7 @@ export default function CustomizeDeodorantRoute() {
                   </h3>
                   <div className="flex flex-col items-center">
                     {selectedScent && (
-                      <p className="font-sans text-sm text-terracotta italic">
+                      <p className="font-sans text-sm text-olive italic">
                         {selectedScent.title} Scent
                       </p>
                     )}
@@ -547,7 +547,7 @@ export default function CustomizeDeodorantRoute() {
                             <h3 className="font-serif text-lg text-charcoal">
                               {variant.title}
                             </h3>
-                            <p className="font-sans text-sm text-terracotta">
+                            <p className="font-sans text-sm text-olive">
                               <Money as="span" data={variant.price} />
                             </p>
                           </div>

@@ -69,7 +69,7 @@ export function CartLineItem({
             </p>
           )}
 
-          <div className="font-sans text-sm text-terracotta font-medium mt-1">
+          <div className="font-sans text-sm text-olive font-medium mt-1">
             {line?.cost?.totalAmount && <Money data={line.cost.totalAmount} />}
           </div>
 

@@ -118,7 +118,7 @@ function ScentCircularGrid({
             <div className="text-center">
               <h3
                 className={`font-serif text-sm ${
-                  isSelected ? 'text-terracotta font-medium' : 'text-charcoal'
+                  isSelected ? 'text-olive font-medium' : 'text-charcoal'
                 }`}
               >
                 {scentName}
@@ -176,7 +176,7 @@ function ScentCardGrid({
             <p className="font-sans text-xs md:text-sm text-charcoal/70 mb-2">
               Natural botanical fragrance
             </p>
-            <p className="font-sans text-sm md:text-base text-terracotta font-medium">
+            <p className="font-sans text-sm md:text-base text-olive font-medium">
               <Money as="span" data={variant.price} />
             </p>
           </button>

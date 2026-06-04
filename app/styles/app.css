@@ -2022,7 +2022,7 @@ aside header {
 }
 
 .catalog-panel-card strong {
-  color: var(--color-terracotta);
+  color: var(--color-olive);
   display: block;
   font-size: 1rem;
   margin-top: auto;
@@ -2240,7 +2240,7 @@ aside header {
 }
 
 .parallax-product-actions strong {
-  color: var(--color-terracotta);
+  color: var(--color-olive);
   font-family: var(--font-sans);
   font-size: 0.95rem;
   font-weight: 700;
@@ -2633,7 +2633,7 @@ aside header {
 }
 
 .product-card-footer span {
-  color: var(--color-terracotta);
+  color: var(--color-olive);
   font-weight: 600;
 }
 
@@ -6167,15 +6167,6 @@ aside header {
   background-color: rgba(86, 109, 55, 0.12) !important;
 }
 
-.customizer-page .text-terracotta,
-.customizer-page .hover\:text-terracotta:hover {
-  color: var(--color-olive) !important;
-}
-
-.customizer-page .border-terracotta,
-.customizer-page .hover\:border-terracotta:hover {
-  border-color: #566d37 !important;
-}
 
 .customizer-page .ring-terracotta {
   --tw-ring-color: #566d37 !important;

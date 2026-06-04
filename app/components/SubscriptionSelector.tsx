@@ -102,7 +102,7 @@ function SubscriptionOption({
         border transition-colors text-left
         ${
           isSelected
-            ? 'border-terracotta bg-terracotta/5'
+            ? 'border-olive bg-olive/5'
             : 'border-charcoal/10 bg-off-white hover:border-olive'
         }
       `}
@@ -112,11 +112,11 @@ function SubscriptionOption({
         <div
           className={`
             mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0
-            ${isSelected ? 'border-terracotta' : 'border-charcoal/30'}
+            ${isSelected ? 'border-olive' : 'border-charcoal/30'}
           `}
         >
           {isSelected && (
-            <div className="w-2.5 h-2.5 rounded-full bg-terracotta" />
+            <div className="w-2.5 h-2.5 rounded-full bg-olive" />
           )}
         </div>
 
@@ -131,7 +131,7 @@ function SubscriptionOption({
       <div className="flex flex-col items-end gap-1">
         <span className="font-sans font-semibold text-charcoal">{price}</span>
         {discount !== null && discount > 0 && (
-          <span className="px-2 py-0.5 text-xs font-medium bg-terracotta/10 text-terracotta rounded-full">
+          <span className="px-2 py-0.5 text-xs font-medium bg-olive/10 text-olive rounded-full">
             SAVE {discount}%
           </span>
         )}
