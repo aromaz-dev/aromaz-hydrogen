@@ -5398,24 +5398,14 @@ aside header {
 .home-hero-sample-media img {
   display: block;
   height: auto;
-  -webkit-mask-image: radial-gradient(
-    ellipse 66% 70% at 52% 50%,
-    black 0%,
-    black 38%,
-    rgba(0, 0, 0, 0.8) 53%,
-    rgba(0, 0, 0, 0.3) 67%,
-    rgba(0, 0, 0, 0.05) 78%,
-    transparent 86%
-  );
-  mask-image: radial-gradient(
-    ellipse 66% 70% at 52% 50%,
-    black 0%,
-    black 38%,
-    rgba(0, 0, 0, 0.8) 53%,
-    rgba(0, 0, 0, 0.3) 67%,
-    rgba(0, 0, 0, 0.05) 78%,
-    transparent 86%
-  );
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, black 16%, black 84%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 16%, black 84%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+  mask-composite: intersect;
   max-height: min(720px, 92svh);
   object-fit: contain;
   width: 100%;
