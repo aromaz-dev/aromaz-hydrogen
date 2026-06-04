@@ -118,44 +118,33 @@ function Hero() {
         <div className="home-hero-copy">
           <p className="home-hero-eyebrow">Natural scent care</p>
           <h1>
-            Feel confident <br />
-            with natural <br />
-            care
+            Natural freshness.
+            <span className="home-hero-headline-accent">Refill forever.</span>
           </h1>
           <p>
-            Explore refillable natural deodorant, reusable cases, botanical
-            scent refills, loofah soap, and lip care made for everyday comfort.
+            Refillable deodorant made with clean ingredients and scents
+            you&apos;ll actually love.
           </p>
           <div className="home-hero-actions">
             <Link
               to="/products/refillable-deodorant/customize"
               className="home-primary-cta"
             >
-              Build deodorant
+              Build Your Deodorant
             </Link>
-            <Link to="/catalog" className="home-secondary-cta">
-              View catalog
+            <Link
+              to="/products/natural-deodorant-refill"
+              className="home-hero-refills-link"
+            >
+              Shop Refills →
             </Link>
-          </div>
-          <div className="home-proof-strip home-proof-strip--sample">
-            <div className="home-proof-grid">
-              <div className="home-proof">
-                <span>Natural ingredients</span>
-              </div>
-              <div className="home-proof">
-                <span>Refillable & reusable</span>
-              </div>
-              <div className="home-proof">
-                <span>Gentle & safe for everyday</span>
-              </div>
-            </div>
           </div>
         </div>
 
         <div className="home-hero-sample-media">
           <img
-            src="/brand-story/heade-home.png"
-            alt="Aromaz refillable natural deodorant lineup with botanical ingredients"
+            src="/images/product-hero.png"
+            alt="Aromaz refillable natural deodorant"
             loading="eager"
           />
         </div>
