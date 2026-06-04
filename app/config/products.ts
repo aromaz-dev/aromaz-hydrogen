@@ -6,7 +6,7 @@
  */
 
 export const PRODUCT_HANDLES = {
-  NATURAL_LOOFAH_SOAP: 'beauty-example-product-1',
+  NATURAL_LOOFAH_SOAP: 'natural-loofah-soap',
   MINI_DEODORANT: 'beauty-example-product-2',
   /**
    * Refillable Deodorant Products
