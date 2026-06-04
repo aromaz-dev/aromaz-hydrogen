@@ -5300,11 +5300,11 @@ aside header {
 .home-hero-sample .home-hero-copy h1 {
   color: var(--color-charcoal);
   font-family: var(--font-serif);
-  font-size: clamp(2.45rem, 3.8vw, 3.8rem);
+  font-size: clamp(2rem, 3.8vw, 3.8rem);
   font-weight: 600;
-  line-height: 0.98;
+  line-height: 1.05;
   margin: 0.85rem 0 1rem;
-  max-width: 17ch;
+  white-space: nowrap;
 }
 
 .home-hero-sample .home-hero-copy > p:not(.home-hero-eyebrow) {
@@ -5486,10 +5486,6 @@ aside header {
     max-width: min(680px, calc(100vw - 3rem));
   }
 
-  .home-hero-sample .home-hero-copy h1 {
-    max-width: 12ch;
-  }
-
   .home-hero-sample-media {
     inset: 0;
     position: absolute;
@@ -5554,8 +5550,8 @@ aside header {
   }
 
   .home-hero-sample .home-hero-copy h1 {
-    font-size: clamp(2rem, 9vw, 2.55rem);
-    max-width: 11ch;
+    font-size: clamp(1.85rem, 8vw, 2.4rem);
+    white-space: normal;
   }
 
   .home-hero-sample .home-hero-copy > p:not(.home-hero-eyebrow) {
