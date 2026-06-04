@@ -5474,9 +5474,9 @@ aside header {
 
 @media (max-width: 899px) {
   .home-hero-sample {
-    align-items: flex-start;
+    align-items: center;
     min-height: min(600px, calc(100svh - var(--header-height)));
-    padding: 2rem clamp(1.25rem, 5vw, 2.5rem) clamp(4rem, 8vw, 6rem);
+    padding: 3rem clamp(1.25rem, 5vw, 2.5rem);
   }
 
   .home-hero-sample-content {
@@ -5511,7 +5511,7 @@ aside header {
 
   .home-hero-sample .home-hero-actions {
     justify-content: center;
-    margin-top: 8rem;
+    margin-top: 2.5rem;
   }
 
   .home-hero-sample-media {
