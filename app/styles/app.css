@@ -5484,12 +5484,17 @@ aside header {
 
   .home-hero-sample .home-hero-copy {
     max-width: 100%;
+    text-align: center;
   }
 
   .home-hero-sample .home-hero-copy h1,
   .home-hero-headline-accent {
     padding-left: 2rem;
     text-align: center;
+  }
+
+  .home-hero-sample .home-hero-actions {
+    justify-content: center;
   }
 
   .home-hero-sample .home-hero-copy h1 {
