@@ -5399,22 +5399,22 @@ aside header {
   display: block;
   height: auto;
   -webkit-mask-image: radial-gradient(
-    ellipse 78% 80% at 52% 50%,
+    ellipse 65% 70% at 52% 50%,
     black 0%,
-    black 50%,
-    rgba(0, 0, 0, 0.96) 60%,
-    rgba(0, 0, 0, 0.75) 72%,
-    rgba(0, 0, 0, 0.35) 83%,
-    transparent 95%
+    black 35%,
+    rgba(0, 0, 0, 0.85) 50%,
+    rgba(0, 0, 0, 0.45) 63%,
+    rgba(0, 0, 0, 0.1) 74%,
+    transparent 82%
   );
   mask-image: radial-gradient(
-    ellipse 78% 80% at 52% 50%,
+    ellipse 65% 70% at 52% 50%,
     black 0%,
-    black 50%,
-    rgba(0, 0, 0, 0.96) 60%,
-    rgba(0, 0, 0, 0.75) 72%,
-    rgba(0, 0, 0, 0.35) 83%,
-    transparent 95%
+    black 35%,
+    rgba(0, 0, 0, 0.85) 50%,
+    rgba(0, 0, 0, 0.45) 63%,
+    rgba(0, 0, 0, 0.1) 74%,
+    transparent 82%
   );
   max-height: min(580px, 82svh);
   object-fit: contain;
