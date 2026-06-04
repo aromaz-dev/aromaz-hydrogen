@@ -4,7 +4,7 @@
   /* Aromaz Brand Colors - Mediterranean Warmth Palette */
   --color-cream: #f9f4ee;
   --color-clay: #d4c4b0;
-  --color-olive: #6b7f5f;
+  --color-olive: #566d37;
   --color-lavender: #9b8fb5;
   --color-rose-gold: #d4a59a;
   --color-terracotta: #b2441e;
@@ -803,7 +803,7 @@ button.reset:hover:not(:has(> *)) {
 
 .subscription-frequency {
   font-size: 0.875rem;
-  color: #6b7f5f;
+  color: var(--color-olive);
   font-weight: 500;
   margin-top: 0.25rem;
 }
@@ -852,9 +852,9 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .subscription-btn-primary {
-  background: #6b7f5f;
+  background: var(--color-olive);
   color: #fff;
-  border-color: #6b7f5f;
+  border-color: var(--color-olive);
 }
 
 .subscription-btn-primary:hover {
@@ -2010,7 +2010,7 @@ aside header {
 }
 
 .catalog-panel-card > p {
-  color: var(--color-terracotta);
+  color: var(--color-olive);
   margin-bottom: 2rem;
 }
 
@@ -2203,7 +2203,7 @@ aside header {
 }
 
 .parallax-product-count {
-  color: var(--color-terracotta);
+  color: var(--color-olive);
   margin-bottom: 2rem;
 }
 
@@ -2697,7 +2697,7 @@ aside header {
 }
 
 .shop-hero-copy p {
-  color: var(--color-terracotta);
+  color: var(--color-olive);
 }
 
 .shop-hero-copy h1 {
@@ -2882,7 +2882,7 @@ aside header {
 }
 
 .contact-hero-copy p {
-  color: var(--color-terracotta);
+  color: var(--color-olive);
 }
 
 .contact-hero-copy h1 {
@@ -4437,7 +4437,7 @@ aside header {
 
 .header-cart-count {
   background: rgba(253, 252, 250, 0.92);
-  color: #566d37;
+  color: var(--color-olive);
 }
 
 .home-theme {
@@ -4446,7 +4446,7 @@ aside header {
 }
 
 .home-theme .home-eyebrow {
-  color: #566d37;
+  color: var(--color-olive);
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 700;
@@ -4798,7 +4798,7 @@ aside header {
   align-items: center;
   background: rgba(86, 109, 55, 0.12);
   border-radius: 999px;
-  color: #566d37;
+  color: var(--color-olive);
   display: inline-flex;
   font-size: 0;
   height: 2.1rem;
@@ -4893,7 +4893,7 @@ aside header {
   align-items: center;
   background: rgba(86, 109, 55, 0.12);
   border-radius: 999px;
-  color: #566d37;
+  color: var(--color-olive);
   display: inline-flex;
   font-size: 0.68rem;
   font-weight: 800;
@@ -5288,7 +5288,7 @@ aside header {
 }
 
 .home-hero-eyebrow {
-  color: #566d37;
+  color: var(--color-olive);
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 800;
@@ -5921,7 +5921,7 @@ aside header {
 
 .header-cart-count {
   background: rgba(253, 252, 250, 0.92);
-  color: #566d37;
+  color: var(--color-olive);
 }
 
 @media (min-width: 1025px) {
@@ -6169,7 +6169,7 @@ aside header {
 
 .customizer-page .text-terracotta,
 .customizer-page .hover\:text-terracotta:hover {
-  color: #566d37 !important;
+  color: var(--color-olive) !important;
 }
 
 .customizer-page .border-terracotta,
