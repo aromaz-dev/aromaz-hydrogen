@@ -5519,18 +5519,18 @@ aside header {
     object-position: right center;
     width: 100%;
     -webkit-mask-image: radial-gradient(
-      ellipse 72% 84% at 76% 52%,
-      rgba(0, 0, 0, 0.82) 0%,
-      rgba(0, 0, 0, 0.62) 30%,
-      rgba(0, 0, 0, 0.22) 58%,
-      transparent 74%
+      ellipse 82% 90% at 80% 68%,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.82) 30%,
+      rgba(0, 0, 0, 0.35) 60%,
+      transparent 78%
     );
     mask-image: radial-gradient(
-      ellipse 72% 84% at 76% 52%,
-      rgba(0, 0, 0, 0.82) 0%,
-      rgba(0, 0, 0, 0.62) 30%,
-      rgba(0, 0, 0, 0.22) 58%,
-      transparent 74%
+      ellipse 82% 90% at 80% 68%,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.82) 30%,
+      rgba(0, 0, 0, 0.35) 60%,
+      transparent 78%
     );
   }
 
