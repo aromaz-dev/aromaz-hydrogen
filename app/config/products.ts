@@ -11,7 +11,7 @@ export const PRODUCT_HANDLES = {
   /**
    * Refillable Deodorant Products
    */
-  DEODORANT_CASE: 'beauty-example-product-4',
+  DEODORANT_CASE: 'deodorant-eco-case',
   DEODORANT_REFILL: 'beauty-example-product-3',
 } as const;
 
