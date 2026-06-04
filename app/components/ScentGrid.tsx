@@ -97,11 +97,13 @@ function ScentCircularGrid({
             }`}
           >
             <div
-              className={`p-[3px] rounded-full transition-all w-full ${
-                isSelected
-                  ? 'border-2 border-olive shadow-md'
-                  : 'border-2 border-transparent'
-              }`}
+              className="border-2 p-[3px] rounded-full transition-all w-full"
+              style={{
+                borderColor: isSelected
+                  ? 'var(--color-olive)'
+                  : 'transparent',
+                boxShadow: isSelected ? '0 1px 6px rgba(0,0,0,0.1)' : 'none',
+              }}
             >
               {imageUrl ? (
                 <div className="aspect-square w-full rounded-full overflow-hidden bg-off-white">
