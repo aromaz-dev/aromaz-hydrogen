@@ -5304,7 +5304,6 @@ aside header {
   font-weight: 600;
   line-height: 1.05;
   margin: 0.85rem 0 1rem;
-  padding-left: clamp(12rem, 22vw, 20rem);
   white-space: nowrap;
 }
 
