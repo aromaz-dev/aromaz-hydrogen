@@ -16,9 +16,9 @@
   --color-linen: #e8e3dc;
   --color-off-white: #fdfcfa;
 
-  /* Typography - Premium Serif + Modern Sans (from aesthetic research) */
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Jost', 'Inter', system-ui, sans-serif;
+  /* Typography */
+  --font-serif: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
 
   /*
    * Z-Index Layer Scale
