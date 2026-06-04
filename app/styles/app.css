@@ -5503,17 +5503,17 @@ aside header {
     width: 100%;
     -webkit-mask-image: radial-gradient(
       ellipse 72% 84% at 76% 52%,
-      rgba(0, 0, 0, 0.46) 0%,
-      rgba(0, 0, 0, 0.28) 30%,
-      rgba(0, 0, 0, 0.08) 54%,
-      transparent 68%
+      rgba(0, 0, 0, 0.82) 0%,
+      rgba(0, 0, 0, 0.62) 30%,
+      rgba(0, 0, 0, 0.22) 58%,
+      transparent 74%
     );
     mask-image: radial-gradient(
       ellipse 72% 84% at 76% 52%,
-      rgba(0, 0, 0, 0.46) 0%,
-      rgba(0, 0, 0, 0.28) 30%,
-      rgba(0, 0, 0, 0.08) 54%,
-      transparent 68%
+      rgba(0, 0, 0, 0.82) 0%,
+      rgba(0, 0, 0, 0.62) 30%,
+      rgba(0, 0, 0, 0.22) 58%,
+      transparent 74%
     );
   }
 
@@ -5563,33 +5563,33 @@ aside header {
   }
 
   .home-hero-sample .home-hero-actions {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
     margin-top: 1.1rem;
   }
 
-  .home-hero-sample .home-primary-cta,
-  .home-hero-sample .home-secondary-cta {
+  .home-hero-sample .home-primary-cta {
     min-height: 46px;
-    width: 100%;
+    width: auto;
   }
 
   .home-hero-sample-media img {
     object-position: right top;
     -webkit-mask-image: radial-gradient(
       ellipse 88% 66% at 72% 54%,
-      rgba(0, 0, 0, 0.38) 0%,
-      rgba(0, 0, 0, 0.18) 34%,
-      rgba(0, 0, 0, 0.04) 56%,
-      transparent 70%
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.52) 34%,
+      rgba(0, 0, 0, 0.14) 58%,
+      transparent 72%
     );
     mask-image: radial-gradient(
       ellipse 88% 66% at 72% 54%,
-      rgba(0, 0, 0, 0.38) 0%,
-      rgba(0, 0, 0, 0.18) 34%,
-      rgba(0, 0, 0, 0.04) 56%,
-      transparent 70%
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.52) 34%,
+      rgba(0, 0, 0, 0.14) 58%,
+      transparent 72%
     );
   }
 
@@ -5652,17 +5652,17 @@ aside header {
     object-position: right top;
     -webkit-mask-image: radial-gradient(
       ellipse 68% 90% at 78% 50%,
-      rgba(0, 0, 0, 0.5) 0%,
-      rgba(0, 0, 0, 0.32) 28%,
-      rgba(0, 0, 0, 0.1) 52%,
-      transparent 66%
+      rgba(0, 0, 0, 0.84) 0%,
+      rgba(0, 0, 0, 0.6) 28%,
+      rgba(0, 0, 0, 0.18) 54%,
+      transparent 68%
     );
     mask-image: radial-gradient(
       ellipse 68% 90% at 78% 50%,
-      rgba(0, 0, 0, 0.5) 0%,
-      rgba(0, 0, 0, 0.32) 28%,
-      rgba(0, 0, 0, 0.1) 52%,
-      transparent 66%
+      rgba(0, 0, 0, 0.84) 0%,
+      rgba(0, 0, 0, 0.6) 28%,
+      rgba(0, 0, 0, 0.18) 54%,
+      transparent 68%
     );
   }
 
