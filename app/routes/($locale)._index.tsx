@@ -9,6 +9,7 @@ import type {
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/ProductItem';
 import {BROCHURE_PRODUCTS} from '~/lib/brochure-products';
+import {PRODUCT_HANDLES} from '~/config/products';
 import {
   DEFAULT_STORE_URL,
   SEO_KEYWORDS,
@@ -529,7 +530,9 @@ function RecommendedProducts({
         <Suspense fallback={<HomeShopFallbackGrid />}>
           <Await resolve={products}>
             {(response) => {
-              const products = response?.products?.nodes ?? [];
+              const products = (response?.products?.nodes ?? []).filter(
+                (p) => p.handle !== PRODUCT_HANDLES.DEODORANT_CASE,
+              );
               const soapIndex = products.findIndex((product) => {
                 const productName =
                   `${product.title} ${product.handle}`.toLowerCase();
@@ -595,13 +598,6 @@ const HOME_SHOP_FALLBACK_PRODUCTS = [
     price: 'CA$16.85',
     image: '/aromaz-products/deodorant-refill.png',
     href: '/products/natural-deodorant-refill',
-  },
-  {
-    name: 'Deodorant Eco-Case',
-    category: 'Deodorant',
-    price: 'CA$8.64',
-    image: '/aromaz-products/deodorant-eco-case.png',
-    href: '/products/refillable-deodorant-case',
   },
   {
     name: 'Natural Loofah Soap',
