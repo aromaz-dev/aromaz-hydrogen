@@ -13,8 +13,8 @@ const SOCIAL_LINKS = [
   },
   {
     name: 'TikTok',
-    handle: '@aromaz873',
-    href: 'https://www.tiktok.com/@aromaz873?_r=1&_t=ZS-966ADPwiDd2',
+    handle: '@aromaz_cosmetics',
+    href: 'https://www.tiktok.com/@aromaz_cosmetics',
     icon: 'tiktok',
   },
 ] as const;

@@ -11,7 +11,7 @@ export const SITE_ALTERNATE_NAMES = [
 
 export const SOCIAL_URLS = [
   'https://www.instagram.com/aromaz_cosmetics',
-  'https://www.tiktok.com/@aromaz873',
+  'https://www.tiktok.com/@aromaz_cosmetics',
 ];
 
 export const SEO_KEYWORDS = [
