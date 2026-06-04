@@ -5471,7 +5471,7 @@ aside header {
   padding-top: 0;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 767px) {
   .home-hero-sample {
     min-height: min(650px, calc(100svh - var(--header-height) + 2rem));
     padding: clamp(2.4rem, 6vw, 4rem) 1.5rem clamp(4.75rem, 9vw, 6rem);
@@ -5522,7 +5522,7 @@ aside header {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 479px) {
   .home-hero-sample {
     align-items: stretch;
     min-height: min(590px, calc(100svh - var(--header-height)));
@@ -5626,63 +5626,6 @@ aside header {
   }
 }
 
-@media (min-width: 641px) and (max-width: 900px) {
-  .home-hero-sample {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .home-hero-sample-content {
-    padding-left: clamp(1.5rem, 5vw, 2.5rem);
-    padding-right: clamp(1.5rem, 5vw, 2.5rem);
-  }
-
-  .home-hero-sample .home-hero-copy,
-  .home-hero-sample .home-proof-strip {
-    margin-left: 0;
-    margin-right: 0;
-    max-width: min(680px, calc(100vw - clamp(3rem, 10vw, 5rem)));
-  }
-
-  .home-hero-sample .home-hero-actions {
-    max-width: min(680px, calc(100vw - clamp(3rem, 10vw, 5rem)));
-  }
-
-  .home-hero-sample-media img {
-    object-position: right top;
-    -webkit-mask-image: radial-gradient(
-      ellipse 68% 90% at 78% 50%,
-      rgba(0, 0, 0, 0.84) 0%,
-      rgba(0, 0, 0, 0.6) 28%,
-      rgba(0, 0, 0, 0.18) 54%,
-      transparent 68%
-    );
-    mask-image: radial-gradient(
-      ellipse 68% 90% at 78% 50%,
-      rgba(0, 0, 0, 0.84) 0%,
-      rgba(0, 0, 0, 0.6) 28%,
-      rgba(0, 0, 0, 0.18) 54%,
-      transparent 68%
-    );
-  }
-
-  .home-hero-sample::before {
-    background:
-      radial-gradient(
-        ellipse 58% 112% at 8% 47%,
-        rgba(255, 253, 248, 1) 0%,
-        rgba(255, 253, 248, 0.98) 46%,
-        rgba(255, 253, 248, 0.66) 66%,
-        rgba(255, 253, 248, 0) 88%
-      ),
-      linear-gradient(
-        90deg,
-        rgba(255, 253, 248, 0.95) 0%,
-        rgba(255, 253, 248, 0.68) 42%,
-        rgba(255, 253, 248, 0) 76%
-      );
-  }
-}
 
 /*
 * --------------------------------------------------
