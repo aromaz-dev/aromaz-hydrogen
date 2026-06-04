@@ -5487,6 +5487,11 @@ aside header {
     text-align: center;
   }
 
+  .home-hero-sample .home-hero-copy h1,
+  .home-hero-headline-accent {
+    text-align: center;
+  }
+
   .home-hero-sample .home-hero-actions {
     justify-content: center;
   }
