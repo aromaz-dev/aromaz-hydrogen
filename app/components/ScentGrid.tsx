@@ -99,7 +99,7 @@ function ScentCircularGrid({
             <div
               className={`p-[3px] rounded-full transition-all w-full ${
                 isSelected
-                  ? 'border-2 border-terracotta shadow-md'
+                  ? 'border-2 border-olive shadow-md'
                   : 'border-2 border-transparent'
               }`}
             >
@@ -158,7 +158,7 @@ function ScentCardGrid({
             onClick={() => onSelect(variant)}
             className={`rounded-md border p-4 text-left transition-colors md:p-5 ${
               isSelected
-                ? 'border-terracotta bg-terracotta/5'
+                ? 'border-olive bg-olive/5'
                 : 'border-charcoal/15 bg-off-white hover:border-olive'
             }`}
           >
