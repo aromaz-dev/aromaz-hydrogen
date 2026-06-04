@@ -5468,7 +5468,7 @@ aside header {
   .home-hero-sample {
     align-items: center;
     min-height: min(600px, calc(100svh - var(--header-height)));
-    padding: 3rem clamp(1.25rem, 5vw, 2.5rem);
+    padding: 1rem clamp(1.25rem, 5vw, 2.5rem) 3rem;
   }
 
   .home-hero-sample-content {
@@ -5503,7 +5503,7 @@ aside header {
 
   .home-hero-sample .home-hero-actions {
     justify-content: center;
-    margin-top: 2.5rem;
+    margin-top: 4.5rem;
   }
 
   .home-hero-sample-media {
@@ -5519,18 +5519,18 @@ aside header {
     object-position: right center;
     width: 100%;
     -webkit-mask-image: radial-gradient(
-      ellipse 82% 90% at 80% 68%,
-      rgba(0, 0, 0, 0.92) 0%,
-      rgba(0, 0, 0, 0.82) 30%,
-      rgba(0, 0, 0, 0.35) 60%,
-      transparent 78%
+      ellipse 90% 96% at 86% 76%,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.9) 25%,
+      rgba(0, 0, 0, 0.35) 58%,
+      transparent 76%
     );
     mask-image: radial-gradient(
-      ellipse 82% 90% at 80% 68%,
-      rgba(0, 0, 0, 0.92) 0%,
-      rgba(0, 0, 0, 0.82) 30%,
-      rgba(0, 0, 0, 0.35) 60%,
-      transparent 78%
+      ellipse 90% 96% at 86% 76%,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.9) 25%,
+      rgba(0, 0, 0, 0.35) 58%,
+      transparent 76%
     );
   }
 
