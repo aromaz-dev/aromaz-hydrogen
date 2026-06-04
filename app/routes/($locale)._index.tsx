@@ -117,14 +117,14 @@ function Hero() {
       <div className="home-hero-sample-content">
         <div className="home-hero-copy">
           <p className="home-hero-eyebrow">Natural scent care</p>
-          <h1>
-            Natural freshness.
-            <span className="home-hero-headline-accent">Refill forever.</span>
-          </h1>
           <p>
             Refillable deodorant made with clean ingredients and scents
             you&apos;ll actually love.
           </p>
+          <h1>
+            Natural freshness.
+            <span className="home-hero-headline-accent">Refill forever.</span>
+          </h1>
           <div className="home-hero-actions">
             <Link
               to="/products/refillable-deodorant/customize"
