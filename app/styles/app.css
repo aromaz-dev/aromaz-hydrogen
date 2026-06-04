@@ -5105,8 +5105,8 @@ aside header {
     grid-template-columns: 1fr;
   }
 
-  .home-primary-cta,
-  .home-secondary-cta {
+  .home-theme .home-primary-cta,
+  .home-theme .home-secondary-cta {
     min-height: 44px;
     width: 100%;
   }
@@ -5350,18 +5350,19 @@ aside header {
   align-items: center;
   border-radius: 999px;
   display: inline-flex;
-  font-size: 0.72rem;
+  font-size: clamp(0.64rem, 1.2vw, 0.72rem);
   font-weight: 800;
   justify-content: center;
-  letter-spacing: 0.12em;
-  min-height: 48px;
-  padding: 0 1.5rem;
+  letter-spacing: clamp(0.09em, 0.12em, 0.12em);
+  min-height: clamp(42px, 4.8vw, 48px);
+  padding: 0 clamp(0.9rem, 2.5vw, 1.5rem);
   text-transform: uppercase;
   transition:
     background-color 160ms ease,
     border-color 160ms ease,
     color 160ms ease,
     transform 160ms ease;
+  white-space: nowrap;
 }
 
 .home-hero-sample .home-primary-cta {
