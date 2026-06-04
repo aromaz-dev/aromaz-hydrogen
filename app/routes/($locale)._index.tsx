@@ -262,7 +262,7 @@ function BrandStory() {
       title: 'A refined refill ritual',
       description:
         'Aromaz combines natural deodorant with beautifully crafted scents and eco-friendly refillable cases, creating a simple routine that looks polished on the shelf and feels effortless to maintain.',
-      image: '/brand-story/artisanal-craft.jpg',
+      image: '/images/IMG_4339.JPG',
       imageAlt: 'Amber bottle with natural personal care ingredients',
       imageLeft: true,
     },
