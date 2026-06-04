@@ -5475,7 +5475,7 @@ aside header {
 @media (max-width: 899px) {
   .home-hero-sample {
     min-height: min(600px, calc(100svh - var(--header-height)));
-    padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 5vw, 2.5rem) clamp(4rem, 8vw, 6rem);
+    padding: 1.25rem clamp(1.25rem, 5vw, 2.5rem) clamp(4rem, 8vw, 6rem);
   }
 
   .home-hero-sample-content {
@@ -5483,8 +5483,14 @@ aside header {
   }
 
   .home-hero-sample .home-hero-copy {
+    display: flex;
+    flex-direction: column;
     max-width: 100%;
     text-align: center;
+  }
+
+  .home-hero-sample .home-hero-eyebrow {
+    margin-bottom: 0.35rem;
   }
 
   .home-hero-sample .home-hero-copy h1,
@@ -5493,12 +5499,19 @@ aside header {
     text-align: center;
   }
 
-  .home-hero-sample .home-hero-actions {
-    justify-content: center;
-  }
-
   .home-hero-sample .home-hero-copy h1 {
     font-size: clamp(1.8rem, 6vw, 3rem);
+    margin: 0.25rem 0 0.5rem;
+  }
+
+  .home-hero-sample .home-hero-copy > p:not(.home-hero-eyebrow) {
+    margin-bottom: 0;
+  }
+
+  .home-hero-sample .home-hero-actions {
+    justify-content: center;
+    margin-top: auto;
+    padding-top: 1.75rem;
   }
 
   .home-hero-sample-media {
