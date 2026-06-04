@@ -5490,12 +5490,31 @@ aside header {
   }
 
   .home-hero-sample-media {
-    justify-content: center;
-    order: -1;
+    inset: 0;
+    position: absolute;
+    z-index: 1;
   }
 
   .home-hero-sample-media img {
-    max-height: min(320px, 42svh);
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: right center;
+    width: 100%;
+    -webkit-mask-image: radial-gradient(
+      ellipse 72% 84% at 76% 52%,
+      rgba(0, 0, 0, 0.46) 0%,
+      rgba(0, 0, 0, 0.28) 30%,
+      rgba(0, 0, 0, 0.08) 54%,
+      transparent 68%
+    );
+    mask-image: radial-gradient(
+      ellipse 72% 84% at 76% 52%,
+      rgba(0, 0, 0, 0.46) 0%,
+      rgba(0, 0, 0, 0.28) 30%,
+      rgba(0, 0, 0, 0.08) 54%,
+      transparent 68%
+    );
   }
 
   .home-hero-sample + .home-shop-overlap {
@@ -5557,7 +5576,21 @@ aside header {
   }
 
   .home-hero-sample-media img {
-    max-height: min(260px, 36svh);
+    object-position: right top;
+    -webkit-mask-image: radial-gradient(
+      ellipse 88% 66% at 72% 54%,
+      rgba(0, 0, 0, 0.38) 0%,
+      rgba(0, 0, 0, 0.18) 34%,
+      rgba(0, 0, 0, 0.04) 56%,
+      transparent 70%
+    );
+    mask-image: radial-gradient(
+      ellipse 88% 66% at 72% 54%,
+      rgba(0, 0, 0, 0.38) 0%,
+      rgba(0, 0, 0, 0.18) 34%,
+      rgba(0, 0, 0, 0.04) 56%,
+      transparent 70%
+    );
   }
 
   .home-hero-sample .home-proof-strip {
@@ -5615,34 +5648,22 @@ aside header {
     max-width: min(680px, calc(100vw - clamp(3rem, 10vw, 5rem)));
   }
 
-  .home-hero-sample-media {
-    inset: 0;
-    min-height: 100%;
-  }
-
   .home-hero-sample-media img {
-    height: 100%;
-    left: 0;
-    -webkit-mask-image: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(0, 0, 0, 0.08) 18%,
-      rgba(0, 0, 0, 0.58) 42%,
-      #000 68%
-    );
-    mask-image: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(0, 0, 0, 0.08) 18%,
-      rgba(0, 0, 0, 0.58) 42%,
-      #000 68%
-    );
-    object-fit: cover;
     object-position: right top;
-    right: 0;
-    top: 0;
-    transform: none;
-    width: 100%;
+    -webkit-mask-image: radial-gradient(
+      ellipse 68% 90% at 78% 50%,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.32) 28%,
+      rgba(0, 0, 0, 0.1) 52%,
+      transparent 66%
+    );
+    mask-image: radial-gradient(
+      ellipse 68% 90% at 78% 50%,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.32) 28%,
+      rgba(0, 0, 0, 0.1) 52%,
+      transparent 66%
+    );
   }
 
   .home-hero-sample::before {
