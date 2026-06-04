@@ -104,7 +104,6 @@ export default function Homepage() {
   return (
     <div className="home">
       <Hero />
-      <FeatureBadges />
       <RecommendedProducts products={data.recommendedProducts} />
       <BrandStory />
       <IngredientsShowcase />
@@ -114,51 +113,54 @@ export default function Homepage() {
 
 function Hero() {
   return (
-    <section className="hero">
-      <div className="hero-inner">
-        <div className="hero-copy">
-          <p className="hero-eyebrow">Natural scent care</p>
-          <h1 className="hero-headline">
-            Deodorant that<br />works naturally.
+    <section className="home-hero home-hero-sample">
+      <div className="home-hero-sample-content">
+        <div className="home-hero-copy">
+          <p className="home-hero-eyebrow">Natural scent care</p>
+          <h1>
+            Feel confident <br />
+            with natural <br />
+            care
           </h1>
-          <p className="hero-body">
-            Refillable, botanical, and gentle enough for every day.
+          <p>
+            Explore refillable natural deodorant, reusable cases, botanical
+            scent refills, loofah soap, and lip care made for everyday comfort.
           </p>
-          <div className="hero-actions">
+          <div className="home-hero-actions">
             <Link
               to="/products/refillable-deodorant/customize"
-              className="hero-cta-primary"
+              className="home-primary-cta"
             >
-              Build Your Deodorant
+              Build deodorant
             </Link>
-            <Link to="/catalog" className="hero-cta-secondary">
+            <Link to="/catalog" className="home-secondary-cta">
               View catalog
             </Link>
           </div>
+          <div className="home-proof-strip home-proof-strip--sample">
+            <div className="home-proof-grid">
+              <div className="home-proof">
+                <span>Natural ingredients</span>
+              </div>
+              <div className="home-proof">
+                <span>Refillable & reusable</span>
+              </div>
+              <div className="home-proof">
+                <span>Gentle & safe for everyday</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="hero-media">
+
+        <div className="home-hero-sample-media">
           <img
-            src="/images/hero-photo.png"
-            alt="Aromaz refillable natural deodorant"
+            src="/brand-story/heade-home.png"
+            alt="Aromaz refillable natural deodorant lineup with botanical ingredients"
             loading="eager"
           />
         </div>
       </div>
     </section>
-  );
-}
-
-function FeatureBadges() {
-  return (
-    <div className="feature-badges">
-      {['Natural ingredients', 'Refillable & reusable', 'Gentle for every day'].map(
-        (badge) => (
-          <div key={badge} className="feature-badge">
-            <span>{badge}</span>
-          </div>
-        ),
-      )}
-    </div>
   );
 }
 
