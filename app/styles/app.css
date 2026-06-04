@@ -5475,7 +5475,7 @@ aside header {
 @media (max-width: 899px) {
   .home-hero-sample {
     min-height: min(600px, calc(100svh - var(--header-height)));
-    padding: 1.25rem clamp(1.25rem, 5vw, 2.5rem) clamp(4rem, 8vw, 6rem);
+    padding: 0.5rem clamp(1.25rem, 5vw, 2.5rem) clamp(4rem, 8vw, 6rem);
   }
 
   .home-hero-sample-content {
