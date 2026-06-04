@@ -5484,6 +5484,11 @@ aside header {
 
   .home-hero-sample .home-hero-copy {
     max-width: min(680px, calc(100vw - 3rem));
+    text-align: center;
+  }
+
+  .home-hero-sample .home-hero-actions {
+    justify-content: center;
   }
 
   .home-hero-sample-media {
@@ -5559,7 +5564,7 @@ aside header {
   }
 
   .home-hero-sample .home-hero-actions {
-    align-items: flex-start;
+    align-items: center;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
