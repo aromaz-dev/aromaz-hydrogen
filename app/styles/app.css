@@ -5483,7 +5483,7 @@ aside header {
   }
 
   .home-hero-sample .home-hero-eyebrow {
-    margin-bottom: 2.25rem;
+    margin-bottom: 3rem;
   }
 
   .home-hero-sample .home-hero-copy h1,
@@ -5494,7 +5494,8 @@ aside header {
 
   .home-hero-sample .home-hero-copy h1 {
     font-size: clamp(1.8rem, 6vw, 3rem);
-    margin: 0 0 2.5rem;
+    line-height: 1.2;
+    margin: 0 0 3.5rem;
   }
 
   .home-hero-sample .home-hero-copy > p:not(.home-hero-eyebrow) {
@@ -5503,7 +5504,7 @@ aside header {
 
   .home-hero-sample .home-hero-actions {
     justify-content: center;
-    margin-top: 9rem;
+    margin-top: 11rem;
   }
 
   .home-hero-sample-media {
