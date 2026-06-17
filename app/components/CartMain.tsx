@@ -48,6 +48,33 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
             <a
               href={cart?.checkoutUrl}
               className="cart-checkout-button block w-full h-12 rounded-md bg-terracotta font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream text-center leading-[3rem] transition-colors hover:bg-sage"
+              onClick={() => {
+                if (typeof window === 'undefined' || !window.ttq) return;
+                const lines = cart?.lines?.nodes ?? [];
+                const currency =
+                  cart?.cost?.subtotalAmount?.currencyCode || 'CAD';
+                const value = parseFloat(
+                  cart?.cost?.subtotalAmount?.amount || '0',
+                );
+                const contents = lines.map((line) => ({
+                  content_id:
+                    (line.merchandise as any)?.product?.id
+                      ?.split('/')
+                      .pop() || '',
+                  content_type: 'product' as const,
+                  content_name:
+                    (line.merchandise as any)?.product?.title || '',
+                  quantity: line.quantity || 1,
+                  price: parseFloat(
+                    (line.merchandise as any)?.price?.amount || '0',
+                  ),
+                }));
+                window.ttq.track('InitiateCheckout', {
+                  contents,
+                  value,
+                  currency,
+                });
+              }}
             >
               Checkout
             </a>

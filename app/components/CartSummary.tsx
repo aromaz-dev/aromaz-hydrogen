@@ -48,17 +48,48 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
       </dl>
       <CartDiscounts discountCodes={cart?.discountCodes} />
       <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />
-      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} cart={cart} />
     </div>
   );
 }
 
-function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
+function CartCheckoutActions({
+  checkoutUrl,
+  cart,
+}: {
+  checkoutUrl?: string;
+  cart?: OptimisticCart<CartApiQueryFragment | null>;
+}) {
   if (!checkoutUrl) return null;
 
   return (
     <div>
-      <a href={checkoutUrl} target="_self">
+      <a
+        href={checkoutUrl}
+        target="_self"
+        onClick={() => {
+          if (typeof window === 'undefined' || !window.ttq) return;
+          const lines = cart?.lines?.nodes ?? [];
+          const currency =
+            cart?.cost?.subtotalAmount?.currencyCode || 'CAD';
+          const value = parseFloat(
+            cart?.cost?.subtotalAmount?.amount || '0',
+          );
+          const contents = lines.map((line: any) => ({
+            content_id:
+              line.merchandise?.product?.id?.split('/').pop() || '',
+            content_type: 'product' as const,
+            content_name: line.merchandise?.product?.title || '',
+            quantity: line.quantity || 1,
+            price: parseFloat(line.merchandise?.price?.amount || '0'),
+          }));
+          window.ttq.track('InitiateCheckout', {
+            contents,
+            value,
+            currency,
+          });
+        }}
+      >
         <p>Continue to Checkout &rarr;</p>
       </a>
       <br />
