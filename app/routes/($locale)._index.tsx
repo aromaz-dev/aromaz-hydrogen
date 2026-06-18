@@ -240,6 +240,7 @@ function CommunityVideos() {
       <div className="community-carousel-wrapper">
         <button
           className="community-arrow community-arrow--left"
+          type="button"
           onClick={() => scroll('left')}
           aria-label="Scroll left"
         >
@@ -254,6 +255,7 @@ function CommunityVideos() {
         </div>
         <button
           className="community-arrow community-arrow--right"
+          type="button"
           onClick={() => scroll('right')}
           aria-label="Scroll right"
         >

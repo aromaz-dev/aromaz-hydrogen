@@ -5570,6 +5570,54 @@ aside header {
   }
 }
 
+@media (max-width: 767px) {
+  .community-section {
+    overflow: hidden;
+    padding: clamp(2.5rem, 10vw, 3.75rem) 0;
+  }
+
+  .community-heading {
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .community-carousel-wrapper {
+    display: block;
+    max-width: none;
+    padding: 0;
+    width: 100%;
+  }
+
+  .community-arrow {
+    display: none;
+  }
+
+  .community-carousel {
+    gap: 0.85rem;
+    padding: 0 0.75rem 1rem;
+    scroll-padding-inline: 0.75rem;
+  }
+
+  .community-carousel::before,
+  .community-carousel::after {
+    content: none;
+    display: none;
+  }
+
+  .community-card {
+    border-radius: 10px;
+    flex: 0 0 calc(100vw - 1.5rem);
+    max-width: 420px;
+    scroll-snap-align: center;
+    width: calc(100vw - 1.5rem);
+  }
+
+  .community-card-media {
+    border-radius: inherit;
+    overflow: hidden;
+  }
+}
+
 .community-card-media {
   aspect-ratio: 9 / 16;
   background: var(--color-charcoal);
