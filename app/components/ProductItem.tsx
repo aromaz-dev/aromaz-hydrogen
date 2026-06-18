@@ -48,7 +48,7 @@ export function ProductItem({
             alt={product.title}
             src={localImage}
             loading={loading}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.04]"
           />
         ) : image ? (
           <Image
@@ -57,7 +57,7 @@ export function ProductItem({
             data={image}
             loading={loading}
             sizes="(min-width: 45em) 360px, 100vw"
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.04]"
           />
         ) : null}
       </div>
