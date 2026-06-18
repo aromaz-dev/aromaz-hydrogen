@@ -343,7 +343,7 @@ button.reset:hover:not(:has(> *)) {
   align-items: center;
   background: var(--color-charcoal);
   border: 1px solid var(--color-charcoal);
-  border-radius: 6px;
+  border-radius: 999px;
   color: var(--color-cream);
   display: inline-flex;
   font-family: var(--font-sans);
@@ -2562,14 +2562,14 @@ aside header {
 .ingredient-tile {
   background: var(--color-off-white);
   border: 1px solid rgba(32, 35, 34, 0.08);
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 0.75rem;
 }
 
 .ingredient-image {
   aspect-ratio: 1;
   background: var(--color-linen);
-  border-radius: 4px;
+  border-radius: 6px;
   margin-bottom: 0.85rem;
   overflow: hidden;
 }
@@ -2577,7 +2577,7 @@ aside header {
 .product-card {
   background: var(--color-off-white);
   border: 1px solid rgba(32, 35, 34, 0.08);
-  border-radius: 6px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -5497,7 +5497,7 @@ aside header {
   display: flex;
   gap: 0.75rem;
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 1000px;
   padding: 0 clamp(1rem, 3vw, 3rem);
   position: relative;
 }
@@ -5547,16 +5547,16 @@ aside header {
 }
 
 .community-card {
-  border-radius: 14px;
+  border-radius: 12px;
   flex-shrink: 0;
   overflow: hidden;
   scroll-snap-align: start;
-  width: 420px;
+  width: 260px;
 }
 
 @media (max-width: 500px) {
   .community-card {
-    width: 280px;
+    width: 210px;
   }
 }
 
@@ -5632,6 +5632,7 @@ aside header {
     font-size: clamp(1.8rem, 6vw, 3rem);
     line-height: 1.2;
     margin: 0 0 0.25rem;
+    white-space: normal;
   }
 
   .home-hero-sample .home-hero-copy > p:not(.home-hero-eyebrow) {

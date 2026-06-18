@@ -1,6 +1,6 @@
 import {Link} from 'react-router';
 import type {CSSProperties} from 'react';
-import type {Route} from './+types/catalog';
+import type {Route} from './+types/($locale).catalog';
 import {BROCHURE_PRODUCTS} from '~/lib/brochure-products';
 import {
   DEFAULT_STORE_URL,

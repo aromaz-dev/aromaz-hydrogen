@@ -109,7 +109,7 @@ function ScentCircularGrid({
                 <div className="aspect-square w-full rounded-full overflow-hidden bg-off-white">
                   <img
                     src={imageUrl}
-                    alt={variant.image.altText || scentName}
+                    alt={variant.image?.altText || scentName}
                     className="w-full h-full object-cover"
                   />
                 </div>

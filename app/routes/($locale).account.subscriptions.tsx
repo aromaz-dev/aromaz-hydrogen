@@ -4,7 +4,7 @@ import {
   useActionData,
   useLoaderData,
 } from 'react-router';
-import type {Route} from './+types/account.subscriptions';
+import type {Route} from './+types/($locale).account.subscriptions';
 import {CUSTOMER_SUBSCRIPTIONS_QUERY} from '~/graphql/customer-account/CustomerSubscriptionsQuery';
 import {
   SUBSCRIPTION_CANCEL_MUTATION,
@@ -186,6 +186,8 @@ function SubscriptionCard({
   contract: SubscriptionContractItemFragment;
 }) {
   const lines = contract.lines.nodes;
+  const intervalCount = contract.billingPolicy.intervalCount?.count ?? 1;
+  const discounts = contract.discounts?.nodes ?? [];
   const isActive = contract.status === 'ACTIVE';
   const isPaused = contract.status === 'PAUSED';
   const isFailed = contract.status === 'FAILED';
@@ -220,16 +222,13 @@ function SubscriptionCard({
         ))}
 
         <div className="subscription-frequency">
-          Every {contract.billingPolicy.intervalCount.count}{' '}
-          {formatInterval(
-            contract.billingPolicy.interval,
-            contract.billingPolicy.intervalCount.count,
-          )}
+          Every {intervalCount}{' '}
+          {formatInterval(contract.billingPolicy.interval, intervalCount)}
         </div>
 
-        {contract.discounts.nodes.length > 0 && (
+        {discounts.length > 0 && (
           <div className="subscription-discounts">
-            {contract.discounts.nodes.map((discount) => (
+            {discounts.map((discount) => (
               <span key={discount.id} className="subscription-discount-badge">
                 {discount.title}
               </span>

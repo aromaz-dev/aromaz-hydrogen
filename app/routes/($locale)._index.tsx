@@ -1,5 +1,5 @@
 import {Await, useLoaderData, Link} from 'react-router';
-import type {Route} from './+types/_index';
+import type {Route} from './+types/($locale)._index';
 import {Suspense, useEffect, useRef, useState} from 'react';
 import {Image} from '@shopify/hydrogen';
 import type {
@@ -183,7 +183,7 @@ function VideoCard({src, label}: {src: string; label: string}) {
 
   const handlePlay = () => {
     setPlaying(true);
-    videoRef.current?.play();
+    void videoRef.current?.play();
   };
 
   const handleLoadedMetadata = () => {
@@ -195,6 +195,8 @@ function VideoCard({src, label}: {src: string; label: string}) {
   return (
     <div className="community-card">
       <div className="community-card-media">
+        {/* Captions are unavailable for these supplied community videos. */}
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
           ref={videoRef}
           className="community-card-video"

@@ -1,4 +1,4 @@
-import type {Route} from './+types/collections.all';
+import type {Route} from './+types/($locale).collections.all';
 import {Link, useLoaderData} from 'react-router';
 import {getPaginationVariables} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';

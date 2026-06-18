@@ -11,7 +11,7 @@ import {
   useOutletContext,
   type Fetcher,
 } from 'react-router';
-import type {Route} from './+types/account.addresses';
+import type {Route} from './+types/($locale).account.addresses';
 import {
   UPDATE_ADDRESS_MUTATION,
   DELETE_ADDRESS_MUTATION,
@@ -32,7 +32,7 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export async function loader({context}: Route.LoaderArgs) {
-  context.customerAccount.handleAuthStatus();
+  await context.customerAccount.handleAuthStatus();
 
   return {};
 }

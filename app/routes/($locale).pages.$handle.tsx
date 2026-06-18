@@ -1,5 +1,5 @@
 import {Link, useLoaderData} from 'react-router';
-import type {Route} from './+types/pages.$handle';
+import type {Route} from './+types/($locale).pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {SocialLinks} from '~/components/SocialLinks';
 import {STOCKIST_LOCATIONS, StockistsPage} from '~/components/StockistsPage';

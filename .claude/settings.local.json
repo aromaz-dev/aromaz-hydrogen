@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(npm outdated *)",
+      "Bash(node -e ' *)",
+      "Bash(npm info *)",
+      "Bash(node -e \"const v=JSON.parse\\(require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\)\\); console.log\\('Latest v7.x:', v.filter\\(x=>x.startsWith\\('7.'\\)\\).at\\(-1\\)\\);\")",
+      "Bash(node -e \"const v=JSON.parse\\(require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\)\\); console.log\\('Latest v7.x @react-router/dev:', v.filter\\(x=>x.startsWith\\('7.'\\)\\).at\\(-1\\)\\);\")"
     ]
   }
 }
