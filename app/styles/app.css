@@ -5503,6 +5503,7 @@ aside header {
 .community-carousel {
   display: flex;
   gap: 1.25rem;
+  justify-content: center;
   overflow-x: auto;
   padding: 0.5rem 0 1rem;
   scroll-snap-type: x mandatory;
@@ -5540,7 +5541,13 @@ aside header {
   flex-shrink: 0;
   overflow: hidden;
   scroll-snap-align: start;
-  width: 280px;
+  width: 420px;
+}
+
+@media (max-width: 500px) {
+  .community-card {
+    width: 280px;
+  }
 }
 
 .community-card-media {

@@ -175,12 +175,18 @@ function VideoCard({src, label}: {src: string; label: string}) {
       <div className="community-card-media">
         <video
           ref={videoRef}
-          src={src}
           className="community-card-video"
           controls={playing}
           playsInline
           preload="metadata"
-        />
+        >
+          {/* H.264-in-MOV — Chrome/Edge treat this as mp4-compatible */}
+          <source src={src} type='video/mp4; codecs="avc1.42E01E"' />
+          {/* Safari native QuickTime */}
+          <source src={src} type="video/quicktime" />
+          {/* Generic mp4 fallback */}
+          <source src={src} type="video/mp4" />
+        </video>
         {!playing && (
           <button
             className="community-card-play"
