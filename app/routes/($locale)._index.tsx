@@ -186,6 +186,12 @@ function VideoCard({src, label}: {src: string; label: string}) {
     videoRef.current?.play();
   };
 
+  const handleLoadedMetadata = () => {
+    if (videoRef.current && !playing) {
+      videoRef.current.currentTime = 0.001;
+    }
+  };
+
   return (
     <div className="community-card">
       <div className="community-card-media">
@@ -195,6 +201,7 @@ function VideoCard({src, label}: {src: string; label: string}) {
           controls={playing}
           playsInline
           preload="metadata"
+          onLoadedMetadata={handleLoadedMetadata}
         >
           <source src={src} type="video/mp4" />
         </video>
