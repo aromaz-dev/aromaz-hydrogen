@@ -5556,7 +5556,8 @@ aside header {
 
 @media (max-width: 500px) {
   .community-card {
-    width: 210px;
+    width: 90vw;
+    max-width: 90vw;
   }
 }
 
