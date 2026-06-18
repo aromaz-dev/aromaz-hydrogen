@@ -177,14 +177,32 @@ const COMMUNITY_VIDEOS = [
   },
 ];
 
-function VideoCard({src, label}: {src: string; label: string}) {
+function VideoCard({
+  src,
+  label,
+  activeVideo,
+  onPlay,
+}: {
+  src: string;
+  label: string;
+  activeVideo: string | null;
+  onPlay: (src: string) => void;
+}) {
   const [playing, setPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handlePlay = () => {
+    onPlay(src);
     setPlaying(true);
     void videoRef.current?.play();
   };
+
+  useEffect(() => {
+    if (activeVideo !== src && videoRef.current && !videoRef.current.paused) {
+      videoRef.current.pause();
+      setPlaying(false);
+    }
+  }, [activeVideo, src]);
 
   const handleLoadedMetadata = () => {
     if (videoRef.current && !playing) {
@@ -203,6 +221,12 @@ function VideoCard({src, label}: {src: string; label: string}) {
           controls={playing}
           playsInline
           preload="metadata"
+          onPlay={() => {
+            onPlay(src);
+            setPlaying(true);
+          }}
+          onPause={() => setPlaying(false)}
+          onEnded={() => setPlaying(false)}
           onLoadedMetadata={handleLoadedMetadata}
         >
           <source src={src} type="video/mp4" />
@@ -225,6 +249,7 @@ function VideoCard({src, label}: {src: string; label: string}) {
 
 function CommunityVideos() {
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   const scroll = (dir: 'left' | 'right') => {
     carouselRef.current?.scrollBy({
@@ -250,7 +275,13 @@ function CommunityVideos() {
         </button>
         <div ref={carouselRef} className="community-carousel">
           {COMMUNITY_VIDEOS.map((v) => (
-            <VideoCard key={v.src} src={v.src} label={v.label} />
+            <VideoCard
+              key={v.src}
+              src={v.src}
+              label={v.label}
+              activeVideo={activeVideo}
+              onPlay={setActiveVideo}
+            />
           ))}
         </div>
         <button
