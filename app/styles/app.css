@@ -5575,7 +5575,7 @@ aside header {
     overflow: hidden;
     padding: clamp(2.5rem, 10vw, 3.75rem) 0;
     --community-mobile-card-radius: 12px;
-    --community-mobile-card-width: min(calc(100vw - 32px), 420px);
+    --community-mobile-card-width: calc(100vw - 32px);
   }
 
   .community-heading {
@@ -5596,7 +5596,7 @@ aside header {
 
   .community-carousel {
     justify-content: flex-start;
-    gap: 0.85rem;
+    gap: 16px;
     padding: 0 16px 1rem;
     scroll-padding-inline: 16px;
   }
@@ -5608,17 +5608,19 @@ aside header {
   }
 
   .community-card {
+    aspect-ratio: 9 / 16;
     border-radius: var(--community-mobile-card-radius);
     flex: 0 0 var(--community-mobile-card-width);
-    height: calc(var(--community-mobile-card-width) * 16 / 9);
-    max-height: min(74svh, 746px);
+    height: auto;
     max-width: var(--community-mobile-card-width);
     overflow: hidden;
-    scroll-snap-align: center;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
     width: var(--community-mobile-card-width);
   }
 
   .community-card-media {
+    aspect-ratio: 9 / 16;
     border-radius: var(--community-mobile-card-radius);
     height: 100%;
     overflow: hidden;
@@ -5626,6 +5628,7 @@ aside header {
   }
 
   .community-card-video {
+    aspect-ratio: 9 / 16;
     border-radius: var(--community-mobile-card-radius);
     height: 100%;
     max-width: 100%;
