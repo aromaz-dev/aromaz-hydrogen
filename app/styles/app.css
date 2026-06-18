@@ -5575,7 +5575,7 @@ aside header {
     overflow: hidden;
     padding: clamp(2.5rem, 10vw, 3.75rem) 0;
     --community-mobile-card-radius: 12px;
-    --community-mobile-card-width: calc(100vw - 48px);
+    --community-mobile-card-width: calc(100vw - 32px);
   }
 
   .community-heading {
@@ -5596,9 +5596,9 @@ aside header {
 
   .community-carousel {
     justify-content: flex-start;
-    gap: 24px;
-    padding: 0 24px 1rem;
-    scroll-padding-inline: 24px;
+    gap: 16px;
+    padding: 0 16px 1rem;
+    scroll-padding-inline: 16px;
   }
 
   .community-carousel::before,
