@@ -156,12 +156,12 @@ function Hero() {
 
 const COMMUNITY_VIDEOS = [
   {
-    src: '/videos/community-video.mp4',
-    label: 'Aromaz in action',
-  },
-  {
     src: '/videos/video-2.mp4',
     label: 'Aromaz community',
+  },
+  {
+    src: '/videos/community-video.mp4',
+    label: 'Aromaz in action',
   },
   {
     src: '/videos/video-4.mp4',
