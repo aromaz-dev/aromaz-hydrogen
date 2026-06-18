@@ -5534,6 +5534,10 @@ aside header {
   display: none;
 }
 
+.community-pagination {
+  display: none;
+}
+
 .community-arrow {
   align-items: center;
   background: var(--color-off-white);
@@ -5641,6 +5645,33 @@ aside header {
     object-fit: cover;
     overflow: hidden;
     width: 100%;
+  }
+
+  .community-pagination {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 0.35rem;
+    padding: 0 1rem;
+  }
+
+  .community-pagination-dot {
+    background: rgba(86, 109, 55, 0.28);
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    height: 0.42rem;
+    padding: 0;
+    transition: background 180ms ease, transform 180ms ease, width 180ms ease;
+    width: 0.42rem;
+  }
+
+  .community-pagination-dot.is-active {
+    background: var(--color-olive);
+    box-shadow: 0 0 0 3px rgba(86, 109, 55, 0.12);
+    transform: scale(1.04);
+    width: 1.35rem;
   }
 }
 

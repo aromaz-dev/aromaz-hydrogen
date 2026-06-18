@@ -250,6 +250,7 @@ function VideoCard({
 function CommunityVideos() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
 
   const scroll = (dir: 'left' | 'right') => {
     carouselRef.current?.scrollBy({
@@ -257,6 +258,67 @@ function CommunityVideos() {
       behavior: 'smooth',
     });
   };
+
+  const scrollToVideo = (index: number) => {
+    const carousel = carouselRef.current;
+    const cards = carousel
+      ? Array.from(carousel.querySelectorAll<HTMLElement>('.community-card'))
+      : [];
+    const targetCard = cards[index];
+    const firstCard = cards[0];
+
+    if (!carousel || !targetCard || !firstCard) return;
+
+    carousel.scrollTo({
+      left: targetCard.offsetLeft - firstCard.offsetLeft,
+      behavior: 'smooth',
+    });
+  };
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    let frame = 0;
+
+    const updateActiveSlide = () => {
+      frame = 0;
+      const cards = Array.from(
+        carousel.querySelectorAll<HTMLElement>('.community-card'),
+      );
+      const firstCard = cards[0];
+      const secondCard = cards[1];
+
+      if (!firstCard) return;
+
+      const slideStep = secondCard
+        ? secondCard.offsetLeft - firstCard.offsetLeft
+        : firstCard.offsetWidth;
+      const nextSlide =
+        slideStep > 0 ? Math.round(carousel.scrollLeft / slideStep) : 0;
+      const clampedSlide = Math.max(
+        0,
+        Math.min(COMMUNITY_VIDEOS.length - 1, nextSlide),
+      );
+
+      setActiveSlide(clampedSlide);
+    };
+
+    const scheduleUpdate = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateActiveSlide);
+    };
+
+    updateActiveSlide();
+    carousel.addEventListener('scroll', scheduleUpdate, {passive: true});
+    window.addEventListener('resize', scheduleUpdate);
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      carousel.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+    };
+  }, []);
 
   return (
     <section className="community-section">
@@ -295,6 +357,25 @@ function CommunityVideos() {
           </svg>
         </button>
       </div>
+      {COMMUNITY_VIDEOS.length > 1 && (
+        <div
+          className="community-pagination"
+          aria-label="Community video pagination"
+        >
+          {COMMUNITY_VIDEOS.map((video, index) => (
+            <button
+              key={video.src}
+              type="button"
+              className={`community-pagination-dot ${
+                activeSlide === index ? 'is-active' : ''
+              }`}
+              onClick={() => scrollToVideo(index)}
+              aria-label={`Show community video ${index + 1}`}
+              aria-current={activeSlide === index ? 'true' : undefined}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
