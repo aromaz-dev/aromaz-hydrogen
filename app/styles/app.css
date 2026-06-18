@@ -5504,6 +5504,7 @@ aside header {
 
 .community-carousel {
   display: flex;
+  flex: 1;
   gap: 1.25rem;
   justify-content: center;
   overflow-x: auto;
