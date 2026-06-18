@@ -171,6 +171,10 @@ const COMMUNITY_VIDEOS = [
     src: '/videos/video-5.mp4',
     label: 'Aromaz community',
   },
+  {
+    src: '/videos/video-6.mp4',
+    label: 'Aromaz community',
+  },
 ];
 
 function VideoCard({src, label}: {src: string; label: string}) {
