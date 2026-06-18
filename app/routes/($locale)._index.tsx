@@ -1,6 +1,6 @@
 import {Await, useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/_index';
-import {Suspense, useEffect, useRef} from 'react';
+import {Suspense, useEffect, useRef, useState} from 'react';
 import {Image} from '@shopify/hydrogen';
 import type {
   FeaturedCollectionFragment,
@@ -105,6 +105,7 @@ export default function Homepage() {
     <div className="home">
       <Hero />
       <RecommendedProducts products={data.recommendedProducts} />
+      <CommunityVideos />
       <BrandStory />
       <IngredientsShowcase />
     </div>
@@ -148,6 +149,92 @@ function Hero() {
             loading="eager"
           />
         </div>
+      </div>
+    </section>
+  );
+}
+
+const COMMUNITY_VIDEOS = [
+  {
+    src: '/videos/copy_5AC1F1A3-C21B-4808-90DC-EB409E3A99A4.mov',
+    label: 'Aromaz in action',
+  },
+];
+
+function VideoCard({src, label}: {src: string; label: string}) {
+  const [playing, setPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handlePlay = () => {
+    setPlaying(true);
+    videoRef.current?.play();
+  };
+
+  return (
+    <div className="community-card">
+      <div className="community-card-media">
+        <video
+          ref={videoRef}
+          src={src}
+          className="community-card-video"
+          controls={playing}
+          playsInline
+          preload="metadata"
+        />
+        {!playing && (
+          <button
+            className="community-card-play"
+            onClick={handlePlay}
+            aria-label={`Play ${label}`}
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function CommunityVideos() {
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (dir: 'left' | 'right') => {
+    carouselRef.current?.scrollBy({
+      left: dir === 'right' ? 300 : -300,
+      behavior: 'smooth',
+    });
+  };
+
+  return (
+    <section className="community-section">
+      <p className="community-eyebrow">Community</p>
+      <h2 className="community-heading">Aromaz Community</h2>
+      <div className="community-carousel-wrapper">
+        <button
+          className="community-arrow community-arrow--left"
+          onClick={() => scroll('left')}
+          aria-label="Scroll left"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <div ref={carouselRef} className="community-carousel">
+          {COMMUNITY_VIDEOS.map((v) => (
+            <VideoCard key={v.src} src={v.src} label={v.label} />
+          ))}
+        </div>
+        <button
+          className="community-arrow community-arrow--right"
+          onClick={() => scroll('right')}
+          aria-label="Scroll right"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
       </div>
     </section>
   );

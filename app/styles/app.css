@@ -5464,6 +5464,124 @@ aside header {
   padding-top: 0;
 }
 
+/*
+* --------------------------------------------------
+* Community Videos Section
+* --------------------------------------------------
+*/
+.community-section {
+  background: var(--color-off-white);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  text-align: center;
+}
+
+.community-eyebrow {
+  color: var(--color-olive);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+}
+
+.community-heading {
+  color: var(--color-charcoal);
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 700;
+  margin: 0 0 2.5rem;
+}
+
+.community-carousel-wrapper {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0 clamp(1rem, 3vw, 3rem);
+  position: relative;
+}
+
+.community-carousel {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  padding: 0.5rem 0 1rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.community-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.community-arrow {
+  align-items: center;
+  background: var(--color-off-white);
+  border: 1px solid rgba(32, 35, 34, 0.14);
+  border-radius: 999px;
+  color: var(--color-charcoal);
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  height: 40px;
+  justify-content: center;
+  transition: background 160ms ease, border-color 160ms ease;
+  width: 40px;
+}
+
+.community-arrow:hover {
+  background: var(--color-cream);
+  border-color: var(--color-olive);
+  color: var(--color-olive);
+}
+
+.community-card {
+  border-radius: 14px;
+  flex-shrink: 0;
+  overflow: hidden;
+  scroll-snap-align: start;
+  width: 280px;
+}
+
+.community-card-media {
+  aspect-ratio: 9 / 16;
+  background: var(--color-charcoal);
+  position: relative;
+  width: 100%;
+}
+
+.community-card-video {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.community-card-play {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  left: 50%;
+  padding-left: 3px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  width: 56px;
+}
+
+.community-card-play:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
 @media (max-width: 899px) {
   .home-hero-sample {
     align-items: flex-start;
