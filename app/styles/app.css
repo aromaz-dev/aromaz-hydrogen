@@ -5574,6 +5574,8 @@ aside header {
   .community-section {
     overflow: hidden;
     padding: clamp(2.5rem, 10vw, 3.75rem) 0;
+    --community-mobile-card-radius: 12px;
+    --community-mobile-card-width: min(calc(100vw - 32px), 420px);
   }
 
   .community-heading {
@@ -5593,9 +5595,10 @@ aside header {
   }
 
   .community-carousel {
+    justify-content: flex-start;
     gap: 0.85rem;
-    padding: 0 0.75rem 1rem;
-    scroll-padding-inline: 0.75rem;
+    padding: 0 16px 1rem;
+    scroll-padding-inline: 16px;
   }
 
   .community-carousel::before,
@@ -5605,16 +5608,30 @@ aside header {
   }
 
   .community-card {
-    border-radius: 10px;
-    flex: 0 0 calc(100vw - 1.5rem);
-    max-width: 420px;
+    border-radius: var(--community-mobile-card-radius);
+    flex: 0 0 var(--community-mobile-card-width);
+    height: calc(var(--community-mobile-card-width) * 16 / 9);
+    max-height: min(74svh, 746px);
+    max-width: var(--community-mobile-card-width);
+    overflow: hidden;
     scroll-snap-align: center;
-    width: calc(100vw - 1.5rem);
+    width: var(--community-mobile-card-width);
   }
 
   .community-card-media {
-    border-radius: inherit;
+    border-radius: var(--community-mobile-card-radius);
+    height: 100%;
     overflow: hidden;
+    width: 100%;
+  }
+
+  .community-card-video {
+    border-radius: var(--community-mobile-card-radius);
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    overflow: hidden;
+    width: 100%;
   }
 }
 
