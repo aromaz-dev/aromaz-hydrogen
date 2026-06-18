@@ -119,7 +119,9 @@ function Hero() {
         <div className="home-hero-copy">
           <p className="home-hero-eyebrow">Natural scent care</p>
           <h1>
-            Natural freshness.
+            <span className="home-hero-headline-line">
+              Natural freshness.
+            </span>
             <span className="home-hero-headline-accent">Refill forever.</span>
           </h1>
           <p>

@@ -6653,3 +6653,25 @@ aside header {
     --home-proof-end: -7px;
   }
 }
+
+@media (max-width: 767px) {
+  .home-hero-sample .home-hero-copy h1 {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(1.72rem, 7vw, 2.2rem);
+    max-width: none;
+    padding-left: 0;
+    text-align: center;
+    white-space: normal;
+    width: 100%;
+  }
+
+  .home-hero-headline-line,
+  .home-hero-headline-accent {
+    display: block;
+    padding-left: 0;
+    text-align: center;
+    white-space: nowrap;
+  }
+}
