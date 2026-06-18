@@ -5506,12 +5506,19 @@ aside header {
   display: flex;
   flex: 1;
   gap: 1.25rem;
-  justify-content: center;
   overflow-x: auto;
-  padding: 0.5rem 0 1rem;
+  padding: 0.5rem 1rem 1rem;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+}
+
+/* Push first card to center when content doesn't overflow */
+.community-carousel::before,
+.community-carousel::after {
+  content: '';
+  flex: 1;
+  min-width: 0;
 }
 
 .community-carousel::-webkit-scrollbar {
