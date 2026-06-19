@@ -1,4 +1,5 @@
 import {useOptimisticCart} from '@shopify/hydrogen';
+import {useEffect} from 'react';
 import {Link} from 'react-router';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
@@ -20,6 +21,14 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
   const cart = useOptimisticCart(originalCart);
   const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
   const cartHasItems = cart?.totalQuantity ? cart.totalQuantity > 0 : false;
+
+  useEffect(() => {
+    console.log('[ATC DEBUG] cart drawer update', {
+      layout,
+      totalQuantity: cart?.totalQuantity ?? 0,
+      lineCount: cart?.lines?.nodes?.length ?? 0,
+    });
+  }, [cart?.lines?.nodes?.length, cart?.totalQuantity, layout]);
 
   if (layout === 'aside') {
     return (

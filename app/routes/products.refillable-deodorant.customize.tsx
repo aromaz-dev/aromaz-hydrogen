@@ -213,6 +213,10 @@ export default function CustomizeDeodorantRoute() {
     const payload = getMetaAddToCartPayload(source);
     if (!payload) return;
 
+    console.log('[ATC DEBUG] clicked');
+    console.log('[ATC DEBUG] submitting CartForm');
+    console.log('[ATC DEBUG] payload', payload);
+
     if (source === 'continue') addContinueMeta.current = payload;
     else checkoutMeta.current = payload;
   };
@@ -236,6 +240,10 @@ export default function CustomizeDeodorantRoute() {
     if (addContinueFetcher.state === 'idle' && addContinuePending.current) {
       addContinuePending.current = false;
       let tracked = false;
+      console.log('[ATC DEBUG] action/fetcher success', {
+        data: addContinueFetcher.data,
+        errors: (addContinueFetcher.data as any)?.errors,
+      });
       if (!hasCartErrors(addContinueFetcher.data) && addContinueMeta.current) {
         tracked = trackMetaAddToCart(
           addContinueMeta.current.items,
@@ -254,6 +262,10 @@ export default function CustomizeDeodorantRoute() {
     if (checkoutFetcher.state === 'idle' && checkoutPending.current) {
       checkoutPending.current = false;
       let tracked = false;
+      console.log('[ATC DEBUG] action/fetcher success', {
+        data: checkoutFetcher.data,
+        errors: (checkoutFetcher.data as any)?.errors,
+      });
       if (!hasCartErrors(checkoutFetcher.data) && checkoutMeta.current) {
         tracked = trackMetaAddToCart(
           checkoutMeta.current.items,

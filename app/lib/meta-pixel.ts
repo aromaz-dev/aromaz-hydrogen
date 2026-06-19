@@ -39,6 +39,16 @@ export function trackMetaAddToCart(
   eventKey?: string,
 ) {
   if (typeof window === 'undefined' || typeof window.fbq !== 'function') {
+    if (typeof window !== 'undefined') {
+      console.log('[ATC DEBUG] firing fbq AddToCart');
+      console.log('[ATC DEBUG] payload', {
+        skipped: true,
+        reason: 'window.fbq missing',
+        fbqType: typeof window.fbq,
+        items,
+        eventKey,
+      });
+    }
     return false;
   }
 
@@ -74,14 +84,19 @@ export function trackMetaAddToCart(
 
   if (contents.length === 0) return false;
 
-  window.fbq('track', 'AddToCart', {
+  const payload: MetaEventParams = {
     content_ids: contents.map((item) => item.id),
     content_type: 'product',
     contents,
     currency,
     num_items: numItems,
     value: Math.round(value * 100) / 100,
-  });
+  };
+
+  console.log('[ATC DEBUG] firing fbq AddToCart');
+  console.log('[ATC DEBUG] payload', payload);
+
+  window.fbq('track', 'AddToCart', payload);
 
   return true;
 }
