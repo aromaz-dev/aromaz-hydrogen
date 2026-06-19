@@ -1,7 +1,81 @@
 import {type FetcherWithComponents} from 'react-router';
 import {CartForm, type OptimisticCartLineInput} from '@shopify/hydrogen';
 import {useEffect, useRef} from 'react';
-import {trackMetaAddToCart} from '~/lib/meta-pixel';
+
+interface MetaContentItem {
+  id: string;
+  item_group_id?: string;
+  quantity: number;
+  item_price: number;
+}
+
+interface MetaAddToCartPayload {
+  content_ids: string[];
+  content_type: 'product';
+  contents: MetaContentItem[];
+  currency: string;
+  num_items: number;
+  value: number;
+}
+
+function extractShopifyId(gid?: string): string {
+  if (!gid) return '';
+  const parts = gid.split('/');
+  return parts[parts.length - 1] || gid;
+}
+
+function getMetaAddToCartPayload(lines: Array<OptimisticCartLineInput>) {
+  let value = 0;
+  let numItems = 0;
+  let currency = 'CAD';
+  const contents: MetaContentItem[] = [];
+
+  for (const line of lines as any[]) {
+    const id = extractShopifyId(line.merchandiseId);
+    if (!id) continue;
+
+    const quantity = line.quantity || 1;
+    const itemPrice = Number(line.selectedVariant?.price?.amount || 0) || 0;
+    const itemGroupId = extractShopifyId(line.selectedVariant?.product?.id);
+
+    currency = line.selectedVariant?.price?.currencyCode || currency;
+    value += itemPrice * quantity;
+    numItems += quantity;
+    contents.push({
+      id,
+      item_group_id: itemGroupId || undefined,
+      quantity,
+      item_price: itemPrice,
+    });
+  }
+
+  if (contents.length === 0) return null;
+
+  return {
+    content_ids: contents.map((item) => item.id),
+    content_type: 'product',
+    contents,
+    currency,
+    num_items: numItems,
+    value: Math.round(value * 100) / 100,
+  } satisfies MetaAddToCartPayload;
+}
+
+function fireDirectMetaAddToCart(payload: MetaAddToCartPayload) {
+  window.setTimeout(() => {
+    console.log('[ATC DEBUG] before direct window.fbq', {
+      hasWindow: typeof window !== 'undefined',
+      typeofFbq: typeof window.fbq,
+      fbqLoaded: window.fbq?.loaded,
+      state: window.fbq?.getState?.(),
+      payload,
+    });
+
+    window.fbq?.('track', 'AddToCart', payload);
+
+    console.log('[ATC DEBUG] after direct window.fbq');
+  }, 100);
+}
 
 export function AddToCartButton({
   analytics,
@@ -67,15 +141,12 @@ function AddToCartButtonInner({
         Array.isArray(fetcher.data?.errors) && fetcher.data.errors.length > 0;
 
       if (!hasErrors) {
-        const items = lines.map((line: any) => ({
-          variantId: line.merchandiseId,
-          productId: line.selectedVariant?.product?.id,
-          quantity: line.quantity || 1,
-          price: line.selectedVariant?.price?.amount,
-          currency: line.selectedVariant?.price?.currencyCode,
-        }));
-
-        trackMetaAddToCart(items, eventKey.current || undefined);
+        const payload = getMetaAddToCartPayload(lines);
+        if (payload) {
+          console.log('[ATC DEBUG] firing fbq AddToCart');
+          console.log('[ATC DEBUG] payload', payload);
+          fireDirectMetaAddToCart(payload);
+        }
       }
 
       eventKey.current = null;

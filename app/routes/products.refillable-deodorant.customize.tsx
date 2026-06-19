@@ -35,11 +35,6 @@ import {
   LOCAL_IMAGE_FALLBACKS,
   isDemoOrPlaceholderImage,
 } from '~/lib/local-images';
-import {
-  trackMetaAddToCart,
-  type MetaAddToCartItem,
-} from '~/lib/meta-pixel';
-
 function getConnectionNodes<T>(
   connection: {nodes?: T[]; edges?: Array<{node: T}>} | null | undefined,
 ): T[] {
@@ -52,6 +47,89 @@ function getConnectionNodes<T>(
 }
 
 const META_ADD_TO_CART_REDIRECT_DELAY_MS = 1000;
+
+interface MetaAddToCartItem {
+  variantId?: string;
+  productId?: string;
+  quantity?: number;
+  price?: string | number;
+  currency?: string;
+}
+
+interface MetaContentItem {
+  id: string;
+  item_group_id?: string;
+  quantity: number;
+  item_price: number;
+}
+
+interface MetaAddToCartPayload {
+  content_ids: string[];
+  content_type: 'product';
+  contents: MetaContentItem[];
+  currency: string;
+  num_items: number;
+  value: number;
+}
+
+function extractShopifyId(gid?: string): string {
+  if (!gid) return '';
+  const parts = gid.split('/');
+  return parts[parts.length - 1] || gid;
+}
+
+function getMetaPayloadFromItems(items: MetaAddToCartItem[]) {
+  let value = 0;
+  let numItems = 0;
+  let currency = 'CAD';
+  const contents: MetaContentItem[] = [];
+
+  for (const item of items) {
+    const id = extractShopifyId(item.variantId);
+    if (!id) continue;
+
+    const quantity = item.quantity || 1;
+    const itemPrice = Number(item.price || 0) || 0;
+    const itemGroupId = extractShopifyId(item.productId);
+
+    currency = item.currency || currency;
+    value += itemPrice * quantity;
+    numItems += quantity;
+    contents.push({
+      id,
+      item_group_id: itemGroupId || undefined,
+      quantity,
+      item_price: itemPrice,
+    });
+  }
+
+  if (contents.length === 0) return null;
+
+  return {
+    content_ids: contents.map((item) => item.id),
+    content_type: 'product',
+    contents,
+    currency,
+    num_items: numItems,
+    value: Math.round(value * 100) / 100,
+  } satisfies MetaAddToCartPayload;
+}
+
+function fireDirectMetaAddToCart(payload: MetaAddToCartPayload) {
+  window.setTimeout(() => {
+    console.log('[ATC DEBUG] before direct window.fbq', {
+      hasWindow: typeof window !== 'undefined',
+      typeofFbq: typeof window.fbq,
+      fbqLoaded: window.fbq?.loaded,
+      state: window.fbq?.getState?.(),
+      payload,
+    });
+
+    window.fbq?.('track', 'AddToCart', payload);
+
+    console.log('[ATC DEBUG] after direct window.fbq');
+  }, 100);
+}
 
 export async function loader({context}: Route.LoaderArgs) {
   const {storefront} = context;
@@ -245,10 +323,13 @@ export default function CustomizeDeodorantRoute() {
         errors: (addContinueFetcher.data as any)?.errors,
       });
       if (!hasCartErrors(addContinueFetcher.data) && addContinueMeta.current) {
-        tracked = trackMetaAddToCart(
-          addContinueMeta.current.items,
-          addContinueMeta.current.key,
-        );
+        const payload = getMetaPayloadFromItems(addContinueMeta.current.items);
+        if (payload) {
+          console.log('[ATC DEBUG] firing fbq AddToCart');
+          console.log('[ATC DEBUG] payload', payload);
+          fireDirectMetaAddToCart(payload);
+          tracked = true;
+        }
       }
       addContinueMeta.current = null;
       runAfterMetaTracking(tracked, () => {
@@ -267,10 +348,13 @@ export default function CustomizeDeodorantRoute() {
         errors: (checkoutFetcher.data as any)?.errors,
       });
       if (!hasCartErrors(checkoutFetcher.data) && checkoutMeta.current) {
-        tracked = trackMetaAddToCart(
-          checkoutMeta.current.items,
-          checkoutMeta.current.key,
-        );
+        const payload = getMetaPayloadFromItems(checkoutMeta.current.items);
+        if (payload) {
+          console.log('[ATC DEBUG] firing fbq AddToCart');
+          console.log('[ATC DEBUG] payload', payload);
+          fireDirectMetaAddToCart(payload);
+          tracked = true;
+        }
       }
       checkoutMeta.current = null;
       const checkoutUrl = (checkoutFetcher.data as any)?.cart?.checkoutUrl;
