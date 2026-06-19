@@ -16,6 +16,7 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
+import {MetaPixel} from './components/MetaPixel';
 import {TikTokPixel} from './components/TikTokPixel';
 
 export type RootLoader = typeof loader;
@@ -87,6 +88,7 @@ export async function loader(args: Route.LoaderArgs) {
     ...deferredData,
     ...criticalData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
+    metaPixelId: env.PUBLIC_META_PIXEL_ID || '1702957507553123',
     shop: getShopAnalytics({
       storefront,
       publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
@@ -201,6 +203,7 @@ export default function App() {
       <PageLayout {...data}>
         <Outlet />
       </PageLayout>
+      <MetaPixel pixelId={data.metaPixelId} />
       <TikTokPixel />
     </Analytics.Provider>
   );
