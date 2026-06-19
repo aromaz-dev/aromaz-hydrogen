@@ -51,7 +51,7 @@ function getConnectionNodes<T>(
   return [];
 }
 
-const META_ADD_TO_CART_REDIRECT_DELAY_MS = 300;
+const META_ADD_TO_CART_REDIRECT_DELAY_MS = 1000;
 
 export async function loader({context}: Route.LoaderArgs) {
   const {storefront} = context;

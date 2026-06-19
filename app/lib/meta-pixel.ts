@@ -80,7 +80,7 @@ export function trackMetaAddToCart(
     contents,
     currency,
     num_items: numItems,
-    value,
+    value: Math.round(value * 100) / 100,
   });
 
   return true;
