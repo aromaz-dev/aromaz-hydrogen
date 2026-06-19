@@ -35,6 +35,10 @@ import {
   LOCAL_IMAGE_FALLBACKS,
   isDemoOrPlaceholderImage,
 } from '~/lib/local-images';
+import {
+  trackMetaAddToCart,
+  type MetaAddToCartItem,
+} from '~/lib/meta-pixel';
 
 function getConnectionNodes<T>(
   connection: {nodes?: T[]; edges?: Array<{node: T}>} | null | undefined,
@@ -46,6 +50,8 @@ function getConnectionNodes<T>(
   }
   return [];
 }
+
+const META_ADD_TO_CART_REDIRECT_DELAY_MS = 300;
 
 export async function loader({context}: Route.LoaderArgs) {
   const {storefront} = context;
@@ -164,26 +170,105 @@ export default function CustomizeDeodorantRoute() {
   const checkoutFetcher = useFetcher({key: 'cart-add-checkout'});
   const addContinuePending = useRef(false);
   const checkoutPending = useRef(false);
+  const addContinueMeta = useRef<{
+    key: string;
+    items: MetaAddToCartItem[];
+  } | null>(null);
+  const checkoutMeta = useRef<{
+    key: string;
+    items: MetaAddToCartItem[];
+  } | null>(null);
+
+  const getMetaAddToCartPayload = (source: string) => {
+    if (!selectedCase || !selectedScent) return null;
+
+    return {
+      key: [
+        source,
+        selectedCase.id,
+        selectedScent.id,
+        selectedSellingPlanId || 'one-time',
+        Date.now(),
+      ].join(':'),
+      items: [
+        {
+          variantId: selectedCase.id,
+          productId: caseProduct.id,
+          quantity: 1,
+          price: selectedCase.price?.amount,
+          currency: selectedCase.price?.currencyCode || currencyCode,
+        },
+        {
+          variantId: selectedScent.id,
+          productId: refillProduct.id,
+          quantity: 1,
+          price: adjustedScentPrice,
+          currency: selectedScent.price?.currencyCode || currencyCode,
+        },
+      ],
+    };
+  };
+
+  const prepareMetaAddToCart = (source: 'continue' | 'checkout') => {
+    const payload = getMetaAddToCartPayload(source);
+    if (!payload) return;
+
+    if (source === 'continue') addContinueMeta.current = payload;
+    else checkoutMeta.current = payload;
+  };
+
+  const hasCartErrors = (fetcherData: unknown) => {
+    const errors = (fetcherData as any)?.errors;
+    return Array.isArray(errors) && errors.length > 0;
+  };
+
+  const runAfterMetaTracking = (tracked: boolean, callback: () => void) => {
+    if (tracked) {
+      window.setTimeout(callback, META_ADD_TO_CART_REDIRECT_DELAY_MS);
+    } else {
+      callback();
+    }
+  };
 
   useEffect(() => {
     if (addContinueFetcher.state === 'submitting')
       addContinuePending.current = true;
     if (addContinueFetcher.state === 'idle' && addContinuePending.current) {
       addContinuePending.current = false;
-      void navigate('/collections/all');
+      let tracked = false;
+      if (!hasCartErrors(addContinueFetcher.data) && addContinueMeta.current) {
+        tracked = trackMetaAddToCart(
+          addContinueMeta.current.items,
+          addContinueMeta.current.key,
+        );
+      }
+      addContinueMeta.current = null;
+      runAfterMetaTracking(tracked, () => {
+        void navigate('/collections/all');
+      });
     }
-  }, [addContinueFetcher.state, navigate]);
+  }, [addContinueFetcher.state, addContinueFetcher.data, navigate]);
 
   useEffect(() => {
     if (checkoutFetcher.state === 'submitting') checkoutPending.current = true;
     if (checkoutFetcher.state === 'idle' && checkoutPending.current) {
       checkoutPending.current = false;
-      const checkoutUrl = (checkoutFetcher.data as any)?.cart?.checkoutUrl;
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        void navigate('/cart');
+      let tracked = false;
+      if (!hasCartErrors(checkoutFetcher.data) && checkoutMeta.current) {
+        tracked = trackMetaAddToCart(
+          checkoutMeta.current.items,
+          checkoutMeta.current.key,
+        );
       }
+      checkoutMeta.current = null;
+      const checkoutUrl = (checkoutFetcher.data as any)?.cart?.checkoutUrl;
+      runAfterMetaTracking(tracked, () => {
+        if (checkoutUrl) {
+          window.location.href = checkoutUrl;
+        } else {
+          void navigate('/cart');
+        }
+      });
     }
   }, [checkoutFetcher.state, checkoutFetcher.data, navigate]);
 
@@ -665,6 +750,7 @@ export default function CustomizeDeodorantRoute() {
                           {() => (
                             <button
                               type="submit"
+                              onClick={() => prepareMetaAddToCart('continue')}
                               disabled={addContinueFetcher.state !== 'idle'}
                               className="customizer-final-shop w-full min-h-12 rounded-md border border-charcoal/20 px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition-colors hover:border-olive disabled:cursor-wait disabled:opacity-70"
                             >
@@ -694,6 +780,7 @@ export default function CustomizeDeodorantRoute() {
                           {() => (
                             <button
                               type="submit"
+                              onClick={() => prepareMetaAddToCart('checkout')}
                               disabled={checkoutFetcher.state !== 'idle'}
                               className="customizer-final-add w-full min-h-12 rounded-md bg-terracotta px-8 font-sans text-sm font-semibold uppercase tracking-[0.12em] text-cream transition-colors disabled:cursor-wait disabled:opacity-70"
                             >
@@ -765,6 +852,7 @@ export default function CustomizeDeodorantRoute() {
                   {() => (
                     <button
                       type="submit"
+                      onClick={() => prepareMetaAddToCart('checkout')}
                       disabled={checkoutFetcher.state !== 'idle'}
                       className="w-full h-12 rounded-md bg-terracotta px-6 font-sans text-sm font-semibold uppercase tracking-[0.1em] text-cream transition-colors disabled:cursor-wait disabled:opacity-70"
                     >
@@ -794,6 +882,7 @@ export default function CustomizeDeodorantRoute() {
                   {() => (
                     <button
                       type="submit"
+                      onClick={() => prepareMetaAddToCart('continue')}
                       disabled={addContinueFetcher.state !== 'idle'}
                       className="w-full h-11 rounded-md border border-charcoal/20 px-6 font-sans text-xs font-semibold uppercase tracking-[0.1em] text-charcoal transition-colors active:bg-charcoal/5 disabled:cursor-wait disabled:opacity-70"
                     >
