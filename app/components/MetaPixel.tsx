@@ -1,7 +1,7 @@
 'use client';
 
 import {useAnalytics} from '@shopify/hydrogen';
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 interface MetaContentItem {
   id: string;
@@ -38,6 +38,11 @@ interface CartLine {
     price?: {amount?: string; currencyCode?: string};
     product?: {id?: string; title?: string; handle?: string};
   };
+}
+
+interface DebugEvent {
+  id: string;
+  text: string;
 }
 
 type MetaFbq = {
@@ -234,6 +239,7 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
   const {subscribe, register} = useAnalytics();
   const {ready} = register('Meta Pixel');
   const cartFallbackTimers = useRef<Record<string, number>>({});
+  const [debugEvents, setDebugEvents] = useState<DebugEvent[]>([]);
 
   useEffect(() => {
     if (!pixelId) {
@@ -252,6 +258,18 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
       const contentId = getMetaContentId(product?.variantId, product?.id);
       const itemGroupId = extractShopifyId(product?.id);
       if (!product || !contentId) return;
+
+      setDebugEvents((events) =>
+        [
+          {
+            id: `${Date.now()}-${contentId}`,
+            text: `product_viewed -> ViewContent content_id=${contentId} item_group_id=${
+              itemGroupId || 'none'
+            }`,
+          },
+          ...events,
+        ].slice(0, 4),
+      );
 
       window.fbq?.('track', 'ViewContent', {
         content_ids: [contentId],
@@ -286,6 +304,18 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
       const addedQuantity = Math.max(currentQuantity - previousQuantity, 1);
       const params = getAddToCartParams([{line: currentLine, addedQuantity}]);
       if (!params) return;
+
+      setDebugEvents((events) =>
+        [
+          {
+            id: `${Date.now()}-${params.content_ids?.join('-')}`,
+            text: `product_added_to_cart -> AddToCart content_ids=${params.content_ids?.join(
+              ',',
+            )}`,
+          },
+          ...events,
+        ].slice(0, 4),
+      );
 
       window.fbq?.('track', 'AddToCart', params);
     });
@@ -325,5 +355,32 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
     };
   }, [pixelId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return null;
+  if (debugEvents.length === 0) return null;
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        left: '12px',
+        bottom: '12px',
+        zIndex: 2147483647,
+        maxWidth: 'calc(100vw - 24px)',
+        border: '1px solid #31533f',
+        borderRadius: '8px',
+        background: '#fffaf2',
+        color: '#20352b',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.18)',
+        fontFamily: 'monospace',
+        fontSize: '12px',
+        lineHeight: '1.4',
+        padding: '10px 12px',
+        pointerEvents: 'none',
+      }}
+    >
+      <strong>MetaPixel subscription fired</strong>
+      {debugEvents.map((event) => (
+        <div key={event.id}>{event.text}</div>
+      ))}
+    </div>
+  );
 }
