@@ -14,7 +14,7 @@ import {PRODUCT_HANDLES} from '~/config/products';
 import {CUSTOMIZE_FLOW_DATA_QUERY} from '~/graphql/customize-flow';
 import {MOCK_CASE_PRODUCT, MOCK_REFILL_PRODUCT} from '~/lib/mock-products';
 import {useState, useMemo, useEffect, useRef} from 'react';
-import {CartForm, Money} from '@shopify/hydrogen';
+import {Analytics, CartForm, Money} from '@shopify/hydrogen';
 import {StrengthSelector} from '~/components/StrengthSelector';
 import {ScentGrid, type ScentOption} from '~/components/ScentGrid';
 import {SubscriptionSelector} from '~/components/SubscriptionSelector';
@@ -210,6 +210,8 @@ export default function CustomizeDeodorantRoute() {
   const summaryScent =
     currentStep > 1 && selectedScent ? getScentName(selectedScent.title) : '--';
   const summaryPlan = currentStep > 2 ? getPlanDisplayName() : '--';
+  const viewedProduct = selectedScent ? refillProduct : caseProduct;
+  const viewedVariant = selectedScent || selectedCase;
 
   const getCaseImageUrl = (variant: any) =>
     isDemoOrPlaceholderImage(variant?.image?.url)
@@ -806,6 +808,23 @@ export default function CustomizeDeodorantRoute() {
           )}
         </div>
       </div>
+      {viewedProduct && viewedVariant && (
+        <Analytics.ProductView
+          data={{
+            products: [
+              {
+                id: viewedProduct.id,
+                title: viewedProduct.title,
+                price: viewedVariant.price?.amount || '0',
+                vendor: viewedProduct.vendor,
+                variantId: viewedVariant.id,
+                variantTitle: viewedVariant.title,
+                quantity: 1,
+              },
+            ],
+          }}
+        />
+      )}
     </div>
   );
 }

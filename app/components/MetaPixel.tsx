@@ -1,7 +1,7 @@
 'use client';
 
 import {useAnalytics} from '@shopify/hydrogen';
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 
 interface MetaContentItem {
   id: string;
@@ -100,6 +100,45 @@ function getAddedCartLines(
   return added;
 }
 
+function getAddToCartParams(
+  addedLines: Array<{line: CartLine; addedQuantity: number}>,
+): MetaEventParams | null {
+  let value = 0;
+  let currency = 'USD';
+  let numItems = 0;
+  const contents: MetaContentItem[] = [];
+
+  for (const {line, addedQuantity} of addedLines) {
+    const merchandise = line.merchandise;
+    const contentId = getMetaContentId(merchandise?.id);
+    const itemGroupId = extractShopifyId(merchandise?.product?.id);
+    const price = parseFloat(merchandise?.price?.amount || '0') || 0;
+
+    if (!contentId) continue;
+
+    currency = merchandise?.price?.currencyCode || currency;
+    value += price * addedQuantity;
+    numItems += addedQuantity;
+    contents.push({
+      id: contentId,
+      item_group_id: itemGroupId || undefined,
+      quantity: addedQuantity,
+      item_price: price,
+    });
+  }
+
+  if (contents.length === 0) return null;
+
+  return {
+    content_ids: contents.map((item) => item.id),
+    content_type: 'product',
+    contents,
+    currency,
+    num_items: numItems,
+    value,
+  };
+}
+
 function getPurchaseParams(data: any): MetaEventParams | null {
   const lineItems =
     data?.order?.lineItems?.nodes ||
@@ -194,6 +233,7 @@ function initializeMetaPixel(pixelId: string) {
 export function MetaPixel({pixelId}: {pixelId?: string | null}) {
   const {subscribe, register} = useAnalytics();
   const {ready} = register('Meta Pixel');
+  const cartFallbackTimers = useRef<Record<string, number>>({});
 
   useEffect(() => {
     if (!pixelId) {
@@ -231,44 +271,39 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
       });
     });
 
+    subscribe('product_added_to_cart', (data: any) => {
+      const currentLine = data?.currentLine as CartLine | undefined;
+      if (!currentLine) return;
+
+      const fallbackKey = data?.cart?.updatedAt;
+      if (fallbackKey && cartFallbackTimers.current[fallbackKey]) {
+        window.clearTimeout(cartFallbackTimers.current[fallbackKey]);
+        delete cartFallbackTimers.current[fallbackKey];
+      }
+
+      const previousQuantity = Number(data?.prevLine?.quantity || 0);
+      const currentQuantity = Number(currentLine.quantity || 1);
+      const addedQuantity = Math.max(currentQuantity - previousQuantity, 1);
+      const params = getAddToCartParams([{line: currentLine, addedQuantity}]);
+      if (!params) return;
+
+      window.fbq?.('track', 'AddToCart', params);
+    });
+
     subscribe('cart_updated', (data: any) => {
       const addedLines = getAddedCartLines(data?.cart, data?.prevCart);
       if (addedLines.length === 0) return;
 
-      let value = 0;
-      let currency = 'USD';
-      let numItems = 0;
-      const contents: MetaContentItem[] = [];
-
-      for (const {line, addedQuantity} of addedLines) {
-        const merchandise = line.merchandise;
-        const contentId = getMetaContentId(merchandise?.id);
-        const itemGroupId = extractShopifyId(merchandise?.product?.id);
-        const price = parseFloat(merchandise?.price?.amount || '0') || 0;
-
-        if (!contentId) continue;
-
-        currency = merchandise?.price?.currencyCode || currency;
-        value += price * addedQuantity;
-        numItems += addedQuantity;
-        contents.push({
-          id: contentId,
-          item_group_id: itemGroupId || undefined,
-          quantity: addedQuantity,
-          item_price: price,
-        });
+      const fallbackKey = data?.cart?.updatedAt || String(Date.now());
+      if (cartFallbackTimers.current[fallbackKey]) {
+        window.clearTimeout(cartFallbackTimers.current[fallbackKey]);
       }
 
-      if (contents.length === 0) return;
-
-      window.fbq?.('track', 'AddToCart', {
-        content_ids: contents.map((item) => item.id),
-        content_type: 'product',
-        contents,
-        currency,
-        num_items: numItems,
-        value,
-      });
+      cartFallbackTimers.current[fallbackKey] = window.setTimeout(() => {
+        const params = getAddToCartParams(addedLines);
+        if (params) window.fbq?.('track', 'AddToCart', params);
+        delete cartFallbackTimers.current[fallbackKey];
+      }, 100);
     });
 
     const trackPurchase = (data: any) => {
@@ -281,6 +316,13 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
     subscribe('custom_purchase', trackPurchase);
 
     ready();
+
+    return () => {
+      Object.values(cartFallbackTimers.current).forEach((timer) => {
+        window.clearTimeout(timer);
+      });
+      cartFallbackTimers.current = {};
+    };
   }, [pixelId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return null;
