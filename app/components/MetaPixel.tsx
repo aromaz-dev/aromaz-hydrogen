@@ -5,6 +5,7 @@ import {useEffect} from 'react';
 
 interface MetaContentItem {
   id: string;
+  item_group_id?: string;
   quantity?: number;
   item_price?: number;
 }
@@ -15,6 +16,7 @@ interface MetaEventParams {
   content_name?: string;
   contents?: MetaContentItem[];
   currency?: string;
+  item_group_id?: string;
   num_items?: number;
   value?: number;
 }
@@ -25,6 +27,7 @@ interface ProductPayload {
   price?: string;
   currency?: string;
   quantity?: number;
+  variantId?: string;
 }
 
 interface CartLine {
@@ -64,8 +67,8 @@ function extractShopifyId(gid?: string): string {
   return parts[parts.length - 1] || gid;
 }
 
-function getProductContentId(productId?: string, fallbackId?: string): string {
-  return extractShopifyId(productId || fallbackId);
+function getMetaContentId(variantId?: string, fallbackId?: string): string {
+  return extractShopifyId(variantId || fallbackId);
 }
 
 function getAddedCartLines(
@@ -121,9 +124,16 @@ function getPurchaseParams(data: any): MetaEventParams | null {
 
   for (const item of lineItems) {
     const quantity = Number(item?.quantity || 1);
-    const contentId = getProductContentId(
-      item?.variant?.product?.id || item?.merchandise?.product?.id,
-      item?.product?.id || item?.variant?.id || item?.merchandise?.id,
+    const contentId = getMetaContentId(
+      item?.variant?.id || item?.merchandise?.id,
+      item?.product?.id ||
+        item?.variant?.product?.id ||
+        item?.merchandise?.product?.id,
+    );
+    const itemGroupId = extractShopifyId(
+      item?.variant?.product?.id ||
+        item?.merchandise?.product?.id ||
+        item?.product?.id,
     );
     const itemPrice = parseFloat(
       item?.variant?.price?.amount ||
@@ -135,7 +145,12 @@ function getPurchaseParams(data: any): MetaEventParams | null {
     if (!contentId) continue;
 
     numItems += quantity;
-    contents.push({id: contentId, quantity, item_price: itemPrice});
+    contents.push({
+      id: contentId,
+      item_group_id: itemGroupId || undefined,
+      quantity,
+      item_price: itemPrice,
+    });
   }
 
   if (contents.length === 0) return null;
@@ -194,16 +209,19 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
 
     subscribe('product_viewed', (data: any) => {
       const product = data?.products?.[0] as ProductPayload | undefined;
-      const contentId = getProductContentId(product?.id);
+      const contentId = getMetaContentId(product?.variantId, product?.id);
+      const itemGroupId = extractShopifyId(product?.id);
       if (!product || !contentId) return;
 
       window.fbq?.('track', 'ViewContent', {
         content_ids: [contentId],
         content_type: 'product',
         content_name: product.title,
+        item_group_id: itemGroupId || undefined,
         contents: [
           {
             id: contentId,
+            item_group_id: itemGroupId || undefined,
             quantity: product.quantity || 1,
             item_price: parseFloat(product.price || '0') || 0,
           },
@@ -224,10 +242,8 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
 
       for (const {line, addedQuantity} of addedLines) {
         const merchandise = line.merchandise;
-        const contentId = getProductContentId(
-          merchandise?.product?.id,
-          merchandise?.id,
-        );
+        const contentId = getMetaContentId(merchandise?.id);
+        const itemGroupId = extractShopifyId(merchandise?.product?.id);
         const price = parseFloat(merchandise?.price?.amount || '0') || 0;
 
         if (!contentId) continue;
@@ -237,6 +253,7 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
         numItems += addedQuantity;
         contents.push({
           id: contentId,
+          item_group_id: itemGroupId || undefined,
           quantity: addedQuantity,
           item_price: price,
         });
