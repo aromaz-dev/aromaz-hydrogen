@@ -817,7 +817,7 @@ export default function CustomizeDeodorantRoute() {
                 title: viewedProduct.title,
                 price: viewedVariant.price?.amount || '0',
                 currency: viewedVariant.price?.currencyCode || 'CAD',
-                vendor: viewedProduct.vendor,
+                vendor: viewedProduct.vendor || 'Aromaz',
                 variantId: viewedVariant.id,
                 variantTitle: viewedVariant.title,
                 quantity: 1,

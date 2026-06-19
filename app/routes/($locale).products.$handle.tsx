@@ -507,7 +507,7 @@ export default function Product() {
               title: product.title,
               price: selectedVariant?.price.amount || '0',
               currency: selectedVariant?.price.currencyCode || 'CAD',
-              vendor: product.vendor,
+              vendor: product.vendor || 'Aromaz',
               variantId: selectedVariant?.id || '',
               variantTitle: selectedVariant?.title || '',
               quantity: 1,
