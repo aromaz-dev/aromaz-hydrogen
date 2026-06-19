@@ -236,40 +236,23 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
   const cartFallbackTimers = useRef<Record<string, number>>({});
 
   useEffect(() => {
-    console.log('[MetaPixel debug] component effect started', {pixelId});
-
     if (!pixelId) {
-      console.log('[MetaPixel debug] missing pixelId; marking ready');
       ready();
       return;
     }
 
     initializeMetaPixel(pixelId);
-    console.log('[MetaPixel debug] pixel initialized; registering subscriptions');
 
     subscribe('page_viewed', () => {
-      console.log('[MetaPixel debug] page_viewed received');
       window.fbq?.('track', 'PageView');
     });
-    console.log('[MetaPixel debug] subscribed: page_viewed');
 
     subscribe('product_viewed', (data: any) => {
-      console.log('[MetaPixel debug] product_viewed received', data);
       const product = data?.products?.[0] as ProductPayload | undefined;
       const contentId = getMetaContentId(product?.variantId, product?.id);
       const itemGroupId = extractShopifyId(product?.id);
-      if (!product || !contentId) {
-        console.log('[MetaPixel debug] product_viewed skipped', {
-          hasProduct: Boolean(product),
-          contentId,
-        });
-        return;
-      }
+      if (!product || !contentId) return;
 
-      console.log('[MetaPixel debug] sending ViewContent', {
-        contentId,
-        itemGroupId,
-      });
       window.fbq?.('track', 'ViewContent', {
         content_ids: [contentId],
         content_type: 'product',
@@ -287,17 +270,10 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
         value: parseFloat(product.price || '0') || 0,
       });
     });
-    console.log('[MetaPixel debug] subscribed: product_viewed');
 
     subscribe('product_added_to_cart', (data: any) => {
-      console.log('[MetaPixel debug] product_added_to_cart received', data);
       const currentLine = data?.currentLine as CartLine | undefined;
-      if (!currentLine) {
-        console.log('[MetaPixel debug] product_added_to_cart skipped', {
-          hasCurrentLine: Boolean(currentLine),
-        });
-        return;
-      }
+      if (!currentLine) return;
 
       const fallbackKey = data?.cart?.updatedAt;
       if (fallbackKey && cartFallbackTimers.current[fallbackKey]) {
@@ -309,29 +285,14 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
       const currentQuantity = Number(currentLine.quantity || 1);
       const addedQuantity = Math.max(currentQuantity - previousQuantity, 1);
       const params = getAddToCartParams([{line: currentLine, addedQuantity}]);
-      if (!params) {
-        console.log('[MetaPixel debug] product_added_to_cart skipped', {
-          reason: 'missing Meta params',
-          currentLine,
-          addedQuantity,
-        });
-        return;
-      }
+      if (!params) return;
 
-      console.log('[MetaPixel debug] sending AddToCart from product_added_to_cart', params);
       window.fbq?.('track', 'AddToCart', params);
     });
-    console.log('[MetaPixel debug] subscribed: product_added_to_cart');
 
     subscribe('cart_updated', (data: any) => {
-      console.log('[MetaPixel debug] cart_updated received', data);
       const addedLines = getAddedCartLines(data?.cart, data?.prevCart);
-      if (addedLines.length === 0) {
-        console.log('[MetaPixel debug] cart_updated skipped', {
-          reason: 'no added lines',
-        });
-        return;
-      }
+      if (addedLines.length === 0) return;
 
       const fallbackKey = data?.cart?.updatedAt || String(Date.now());
       if (cartFallbackTimers.current[fallbackKey]) {
@@ -340,38 +301,23 @@ export function MetaPixel({pixelId}: {pixelId?: string | null}) {
 
       cartFallbackTimers.current[fallbackKey] = window.setTimeout(() => {
         const params = getAddToCartParams(addedLines);
-        console.log('[MetaPixel debug] cart_updated fallback timer fired', {
-          params,
-        });
         if (params) window.fbq?.('track', 'AddToCart', params);
         delete cartFallbackTimers.current[fallbackKey];
       }, 100);
     });
-    console.log('[MetaPixel debug] subscribed: cart_updated');
 
     const trackPurchase = (data: any) => {
-      console.log('[MetaPixel debug] purchase event received', data);
       const params = getPurchaseParams(data);
-      if (!params) {
-        console.log('[MetaPixel debug] purchase skipped', {
-          reason: 'missing Meta params',
-        });
-        return;
-      }
-      console.log('[MetaPixel debug] sending Purchase', params);
+      if (!params) return;
       window.fbq?.('track', 'Purchase', params);
     };
 
     subscribe('custom_checkout_completed', trackPurchase);
-    console.log('[MetaPixel debug] subscribed: custom_checkout_completed');
     subscribe('custom_purchase', trackPurchase);
-    console.log('[MetaPixel debug] subscribed: custom_purchase');
 
     ready();
-    console.log('[MetaPixel debug] ready called');
 
     return () => {
-      console.log('[MetaPixel debug] cleanup');
       Object.values(cartFallbackTimers.current).forEach((timer) => {
         window.clearTimeout(timer);
       });
