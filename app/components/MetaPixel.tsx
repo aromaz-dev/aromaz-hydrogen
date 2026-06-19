@@ -52,6 +52,11 @@ type MetaFbq = {
   push?: (...args: unknown[]) => void;
   queue?: unknown[];
   version?: string;
+  getState?: () => {
+    pixels?: Array<{
+      id?: string;
+    }>;
+  };
 };
 
 declare global {
@@ -204,8 +209,21 @@ function getPurchaseParams(data: any): MetaEventParams | null {
   };
 }
 
+function hasInitializedMetaPixel(pixelId: string) {
+  return Boolean(
+    window.fbq
+      ?.getState?.()
+      ?.pixels?.some((pixel) => pixel.id === pixelId),
+  );
+}
+
 function initializeMetaPixel(pixelId: string) {
-  if (window.fbq?.loaded) return;
+  if (hasInitializedMetaPixel(pixelId)) return;
+
+  if (window.fbq?.loaded) {
+    window.fbq('init', pixelId);
+    return;
+  }
 
   const fbq = ((...args: unknown[]) => {
     if (fbq.callMethod) {
