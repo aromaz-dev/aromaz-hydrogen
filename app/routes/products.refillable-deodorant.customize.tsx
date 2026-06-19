@@ -816,6 +816,7 @@ export default function CustomizeDeodorantRoute() {
                 id: viewedProduct.id,
                 title: viewedProduct.title,
                 price: viewedVariant.price?.amount || '0',
+                currency: viewedVariant.price?.currencyCode || 'CAD',
                 vendor: viewedProduct.vendor,
                 variantId: viewedVariant.id,
                 variantTitle: viewedVariant.title,

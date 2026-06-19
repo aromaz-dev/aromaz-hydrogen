@@ -506,6 +506,7 @@ export default function Product() {
               id: product.id,
               title: product.title,
               price: selectedVariant?.price.amount || '0',
+              currency: selectedVariant?.price.currencyCode || 'CAD',
               vendor: product.vendor,
               variantId: selectedVariant?.id || '',
               variantTitle: selectedVariant?.title || '',
