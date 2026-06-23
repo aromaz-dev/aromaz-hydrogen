@@ -77,6 +77,14 @@ function getJudgeMeResponseReviews(response: JudgeMeApiResponse) {
   return response.reviews || response.data?.reviews || [];
 }
 
+function getJudgeMeShopDomains(shopDomain?: string) {
+  return Array.from(
+    new Set(
+      [shopDomain, DEFAULT_JUDGEME_SHOP_DOMAIN].filter(Boolean) as string[],
+    ),
+  );
+}
+
 function normalizeJudgeMeReview(
   review: JudgeMeApiReview,
   index: number,
@@ -109,38 +117,46 @@ async function loadJudgeMeReviews({
   if (!apiToken) return [];
 
   const numericId = getNumericShopifyId(productId);
-  const url = new URL('https://judge.me/api/v1/reviews');
-  url.searchParams.set('api_token', apiToken);
-  url.searchParams.set('shop_domain', shopDomain || DEFAULT_JUDGEME_SHOP_DOMAIN);
-  url.searchParams.set('per_page', '100');
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 2500);
 
   try {
-    const response = await fetch(url, {
-      headers: {accept: 'application/json'},
-      signal: controller.signal,
-    });
+    for (const domain of getJudgeMeShopDomains(shopDomain)) {
+      const url = new URL('https://judge.me/api/v1/reviews');
+      url.searchParams.set('api_token', apiToken);
+      url.searchParams.set('shop_domain', domain);
+      url.searchParams.set('per_page', '100');
 
-    if (!response.ok) return [];
+      const response = await fetch(url, {
+        headers: {accept: 'application/json'},
+        signal: controller.signal,
+      });
 
-    const data = (await response.json()) as JudgeMeApiResponse;
-    return getJudgeMeResponseReviews(data)
-      .filter((review) => {
-        const reviewProductId =
-          review.product_external_id == null
-            ? ''
-            : String(review.product_external_id);
+      if (!response.ok) continue;
 
-        return (
-          review.published !== false &&
-          review.hidden !== true &&
-          (reviewProductId === numericId || review.product_handle === productHandle)
-        );
-      })
-      .map(normalizeJudgeMeReview)
-      .filter(Boolean) as JudgeMeReview[];
+      const data = (await response.json()) as JudgeMeApiResponse;
+      const reviews = getJudgeMeResponseReviews(data)
+        .filter((review) => {
+          const reviewProductId =
+            review.product_external_id == null
+              ? ''
+              : String(review.product_external_id);
+
+          return (
+            review.published !== false &&
+            review.hidden !== true &&
+            (reviewProductId === numericId ||
+              review.product_handle === productHandle)
+          );
+        })
+        .map(normalizeJudgeMeReview)
+        .filter(Boolean) as JudgeMeReview[];
+
+      return reviews;
+    }
+
+    return [];
   } catch {
     return [];
   } finally {
