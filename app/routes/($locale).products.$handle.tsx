@@ -11,6 +11,10 @@ import {
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
+import {
+  JudgeMeReviews,
+  type JudgeMeReview,
+} from '~/components/JudgeMeReviews';
 import {ScentProductForm} from '~/components/ScentProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {isScentProduct} from '~/lib/scent-utils';
@@ -37,6 +41,83 @@ type ProductVariantJsonLdInput = {
   price?: {amount?: string | null; currencyCode?: string | null} | null;
   selectedOptions?: Array<{name?: string | null; value?: string | null}> | null;
 };
+
+const JUDGEME_SHOP_DOMAIN = 'aromazco.com';
+
+type JudgeMeApiReview = {
+  id?: number | string;
+  rating?: number | string;
+  title?: string | null;
+  body?: string | null;
+  reviewer_name?: string | null;
+  name?: string | null;
+  reviewer?: {
+    name?: string | null;
+  } | null;
+  created_at?: string | null;
+};
+
+type JudgeMeApiResponse =
+  | {
+      reviews?: JudgeMeApiReview[];
+      data?: {reviews?: JudgeMeApiReview[]};
+    }
+  | JudgeMeApiReview[];
+
+function getNumericShopifyId(gid: string) {
+  return gid.split('/').pop() || gid;
+}
+
+function getJudgeMeResponseReviews(response: JudgeMeApiResponse) {
+  if (Array.isArray(response)) return response;
+  return response.reviews || response.data?.reviews || [];
+}
+
+function normalizeJudgeMeReview(
+  review: JudgeMeApiReview,
+  index: number,
+): JudgeMeReview | null {
+  const rating = Number(review.rating || 0);
+  if (!rating) return null;
+
+  return {
+    id: String(review.id || `review-${index}`),
+    rating,
+    title: review.title || undefined,
+    body: review.body || undefined,
+    reviewerName:
+      review.reviewer_name || review.name || review.reviewer?.name || undefined,
+    createdAt: review.created_at || undefined,
+  };
+}
+
+async function loadJudgeMeReviews(productId: string) {
+  const numericId = getNumericShopifyId(productId);
+  const url = new URL('https://judge.me/api/v1/reviews');
+  url.searchParams.set('shop_domain', JUDGEME_SHOP_DOMAIN);
+  url.searchParams.set('product_id', numericId);
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 2500);
+
+  try {
+    const response = await fetch(url, {
+      headers: {accept: 'application/json'},
+      signal: controller.signal,
+    });
+
+    if (!response.ok) return [];
+
+    const data = (await response.json()) as JudgeMeApiResponse;
+    return getJudgeMeResponseReviews(data)
+      .map(normalizeJudgeMeReview)
+      .filter(Boolean) as JudgeMeReview[];
+  } catch {
+    return [];
+  } finally {
+    clearTimeout(timeout);
+  }
+}
 
 function getSchemaId(value?: string | null) {
   return encodeURIComponent(
@@ -360,6 +441,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
 
   return {
     product,
+    judgeMeReviews: await loadJudgeMeReviews(product.id),
     storeUrl: getStoreUrl(request, context.env.PUBLIC_STORE_DOMAIN),
   };
 }
@@ -377,7 +459,7 @@ function loadDeferredData({context, params}: Route.LoaderArgs) {
 }
 
 export default function Product() {
-  const {product} = useLoaderData<typeof loader>();
+  const {product, judgeMeReviews} = useLoaderData<typeof loader>();
 
   // Check if this is a scent product (needs all variants for optimistic updates)
   const isScent = isScentProduct(product.variants?.nodes || []);
@@ -497,6 +579,10 @@ export default function Product() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="px-6 pb-12 md:max-w-6xl md:mx-auto md:px-8">
+        <JudgeMeReviews reviews={judgeMeReviews} />
       </div>
 
       <Analytics.ProductView
