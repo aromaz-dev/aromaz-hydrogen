@@ -54,6 +54,10 @@ const JUDGEME_MINI_DEODORANT_REVIEW_HANDLES = [
   'mini-natural-deodorant',
   'beauty-example-product-2',
 ];
+const JUDGEME_LIP_BALM_REVIEW_HANDLES = [
+  'refresh-renew-bundle',
+  'lip-balm',
+];
 
 type JudgeMeApiReview = {
   id?: number | string;
@@ -103,6 +107,10 @@ function getJudgeMeProductHandles(productHandle: string) {
 
   if (JUDGEME_MINI_DEODORANT_REVIEW_HANDLES.includes(productHandle)) {
     return JUDGEME_MINI_DEODORANT_REVIEW_HANDLES;
+  }
+
+  if (JUDGEME_LIP_BALM_REVIEW_HANDLES.includes(productHandle)) {
+    return JUDGEME_LIP_BALM_REVIEW_HANDLES;
   }
 
   return [productHandle];
