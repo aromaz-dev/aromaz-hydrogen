@@ -43,12 +43,16 @@ type ProductVariantJsonLdInput = {
 };
 
 const DEFAULT_JUDGEME_SHOP_DOMAIN = 'w1sxd0-di.myshopify.com';
-const JUDGEME_DEODORANT_REVIEW_HANDLES = [
+const JUDGEME_REFILLABLE_DEODORANT_REVIEW_HANDLES = [
   'refillable-and-natural-deodorant',
   'deodorant-refill',
-  'beauty-example-product-2',
   'beauty-example-product-3',
   'beauty-example-product-4',
+];
+const JUDGEME_MINI_DEODORANT_REVIEW_HANDLES = [
+  'mini-deodorant',
+  'mini-natural-deodorant',
+  'beauty-example-product-2',
 ];
 
 type JudgeMeApiReview = {
@@ -93,8 +97,12 @@ function getJudgeMeShopDomains(shopDomain?: string) {
 }
 
 function getJudgeMeProductHandles(productHandle: string) {
-  if (JUDGEME_DEODORANT_REVIEW_HANDLES.includes(productHandle)) {
-    return JUDGEME_DEODORANT_REVIEW_HANDLES;
+  if (JUDGEME_REFILLABLE_DEODORANT_REVIEW_HANDLES.includes(productHandle)) {
+    return JUDGEME_REFILLABLE_DEODORANT_REVIEW_HANDLES;
+  }
+
+  if (JUDGEME_MINI_DEODORANT_REVIEW_HANDLES.includes(productHandle)) {
+    return JUDGEME_MINI_DEODORANT_REVIEW_HANDLES;
   }
 
   return [productHandle];
