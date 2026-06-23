@@ -51,8 +51,26 @@ export function JudgeMeReviews({reviews}: {reviews: JudgeMeReview[]}) {
               {averageRating.toFixed(1)} from {reviewCount}{' '}
               {reviewCount === 1 ? 'review' : 'reviews'}
             </span>
-            <span className="inline-flex items-center rounded-full border border-[#4a5e3a]/25 bg-[#4a5e3a]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#4a5e3a]">
-              Judge.me verified
+            <span
+              aria-label="Judge.me verified"
+              className="inline-flex items-center gap-1.5 font-sans text-xs font-medium text-charcoal/65"
+            >
+              <svg
+                aria-hidden="true"
+                className="h-3.5 w-3.5 shrink-0"
+                fill="none"
+                viewBox="0 0 16 16"
+              >
+                <circle cx="8" cy="8" fill="#00b67a" r="8" />
+                <path
+                  d="M4.4 8.2 6.8 10.5 11.7 5.4"
+                  stroke="#fff"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.8"
+                />
+              </svg>
+              Verified
             </span>
           </div>
         )}
