@@ -501,7 +501,7 @@ export default function Product() {
       </div>
 
       <div className="px-6 pb-12 md:max-w-6xl md:mx-auto md:px-8">
-        <JudgeMeReviews productHandle={product.handle} />
+        <JudgeMeReviews productHandle={product.handle} productId={product.id} />
       </div>
 
       <Analytics.ProductView

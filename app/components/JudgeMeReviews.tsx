@@ -9,10 +9,22 @@ declare global {
   }
 }
 
-export function JudgeMeReviews({productHandle}: {productHandle: string}) {
+function getNumericShopifyId(gid: string) {
+  return gid.split('/').pop() || gid;
+}
+
+export function JudgeMeReviews({
+  productHandle,
+  productId,
+}: {
+  productHandle: string;
+  productId: string;
+}) {
+  const numericId = getNumericShopifyId(productId);
+
   useEffect(() => {
     window.jdgm?.renderWidgets?.();
-  }, [productHandle]);
+  }, [productHandle, numericId]);
 
   return (
     <section
@@ -33,6 +45,7 @@ export function JudgeMeReviews({productHandle}: {productHandle: string}) {
       <div
         id="judgeme_product_reviews"
         className="jdgm-widget jdgm-review-widget"
+        data-id={numericId}
         data-product-handle={productHandle}
         data-handle={productHandle}
       />
