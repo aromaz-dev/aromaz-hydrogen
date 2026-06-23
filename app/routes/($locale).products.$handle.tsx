@@ -11,7 +11,6 @@ import {
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
-import {JudgeMeReviews} from '~/components/JudgeMeReviews';
 import {ScentProductForm} from '~/components/ScentProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {isScentProduct} from '~/lib/scent-utils';
@@ -498,10 +497,6 @@ export default function Product() {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="px-6 pb-12 md:max-w-6xl md:mx-auto md:px-8">
-        <JudgeMeReviews productHandle={product.handle} productId={product.id} />
       </div>
 
       <Analytics.ProductView
