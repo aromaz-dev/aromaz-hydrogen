@@ -58,6 +58,10 @@ const JUDGEME_LIP_BALM_REVIEW_HANDLES = [
   'refresh-renew-bundle',
   'lip-balm',
 ];
+const JUDGEME_LOOFAH_SOAP_REVIEW_HANDLES = [
+  'natural-loofah-soap',
+  'beauty-example-product-1',
+];
 
 type JudgeMeApiReview = {
   id?: number | string;
@@ -111,6 +115,10 @@ function getJudgeMeProductHandles(productHandle: string) {
 
   if (JUDGEME_LIP_BALM_REVIEW_HANDLES.includes(productHandle)) {
     return JUDGEME_LIP_BALM_REVIEW_HANDLES;
+  }
+
+  if (JUDGEME_LOOFAH_SOAP_REVIEW_HANDLES.includes(productHandle)) {
+    return JUDGEME_LOOFAH_SOAP_REVIEW_HANDLES;
   }
 
   return [productHandle];
