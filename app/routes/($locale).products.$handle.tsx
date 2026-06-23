@@ -43,6 +43,13 @@ type ProductVariantJsonLdInput = {
 };
 
 const DEFAULT_JUDGEME_SHOP_DOMAIN = 'w1sxd0-di.myshopify.com';
+const JUDGEME_DEODORANT_REVIEW_HANDLES = [
+  'refillable-and-natural-deodorant',
+  'deodorant-refill',
+  'beauty-example-product-2',
+  'beauty-example-product-3',
+  'beauty-example-product-4',
+];
 
 type JudgeMeApiReview = {
   id?: number | string;
@@ -85,6 +92,20 @@ function getJudgeMeShopDomains(shopDomain?: string) {
   );
 }
 
+function getJudgeMeProductHandles(productHandle: string) {
+  if (JUDGEME_DEODORANT_REVIEW_HANDLES.includes(productHandle)) {
+    return JUDGEME_DEODORANT_REVIEW_HANDLES;
+  }
+
+  return [productHandle];
+}
+
+function dedupeJudgeMeReviews(reviews: JudgeMeReview[]) {
+  return Array.from(
+    new Map(reviews.map((review) => [review.id, review])).values(),
+  );
+}
+
 function normalizeJudgeMeReview(
   review: JudgeMeApiReview,
   index: number,
@@ -117,6 +138,7 @@ async function loadJudgeMeReviews({
   if (!apiToken) return [];
 
   const numericId = getNumericShopifyId(productId);
+  const productHandles = getJudgeMeProductHandles(productHandle);
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 2500);
@@ -147,13 +169,13 @@ async function loadJudgeMeReviews({
             review.published !== false &&
             review.hidden !== true &&
             (reviewProductId === numericId ||
-              review.product_handle === productHandle)
+              productHandles.includes(review.product_handle || ''))
           );
         })
         .map(normalizeJudgeMeReview)
         .filter(Boolean) as JudgeMeReview[];
 
-      return reviews;
+      return dedupeJudgeMeReviews(reviews);
     }
 
     return [];
