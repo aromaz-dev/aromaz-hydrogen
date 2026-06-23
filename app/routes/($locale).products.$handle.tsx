@@ -42,13 +42,17 @@ type ProductVariantJsonLdInput = {
   selectedOptions?: Array<{name?: string | null; value?: string | null}> | null;
 };
 
-const JUDGEME_SHOP_DOMAIN = 'aromazco.com';
+const DEFAULT_JUDGEME_SHOP_DOMAIN = 'w1sxd0-di.myshopify.com';
 
 type JudgeMeApiReview = {
   id?: number | string;
   rating?: number | string;
   title?: string | null;
   body?: string | null;
+  product_external_id?: number | string | null;
+  product_handle?: string | null;
+  published?: boolean | null;
+  hidden?: boolean | null;
   reviewer_name?: string | null;
   name?: string | null;
   reviewer?: {
@@ -91,11 +95,24 @@ function normalizeJudgeMeReview(
   };
 }
 
-async function loadJudgeMeReviews(productId: string) {
+async function loadJudgeMeReviews({
+  productId,
+  productHandle,
+  apiToken,
+  shopDomain,
+}: {
+  productId: string;
+  productHandle: string;
+  apiToken?: string;
+  shopDomain?: string;
+}) {
+  if (!apiToken) return [];
+
   const numericId = getNumericShopifyId(productId);
   const url = new URL('https://judge.me/api/v1/reviews');
-  url.searchParams.set('shop_domain', JUDGEME_SHOP_DOMAIN);
-  url.searchParams.set('product_id', numericId);
+  url.searchParams.set('api_token', apiToken);
+  url.searchParams.set('shop_domain', shopDomain || DEFAULT_JUDGEME_SHOP_DOMAIN);
+  url.searchParams.set('per_page', '100');
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 2500);
@@ -110,6 +127,18 @@ async function loadJudgeMeReviews(productId: string) {
 
     const data = (await response.json()) as JudgeMeApiResponse;
     return getJudgeMeResponseReviews(data)
+      .filter((review) => {
+        const reviewProductId =
+          review.product_external_id == null
+            ? ''
+            : String(review.product_external_id);
+
+        return (
+          review.published !== false &&
+          review.hidden !== true &&
+          (reviewProductId === numericId || review.product_handle === productHandle)
+        );
+      })
       .map(normalizeJudgeMeReview)
       .filter(Boolean) as JudgeMeReview[];
   } catch {
@@ -441,7 +470,12 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
 
   return {
     product,
-    judgeMeReviews: await loadJudgeMeReviews(product.id),
+    judgeMeReviews: await loadJudgeMeReviews({
+      productId: product.id,
+      productHandle: product.handle,
+      apiToken: context.env.JUDGEME_API_TOKEN,
+      shopDomain: context.env.JUDGEME_SHOP_DOMAIN,
+    }),
     storeUrl: getStoreUrl(request, context.env.PUBLIC_STORE_DOMAIN),
   };
 }
