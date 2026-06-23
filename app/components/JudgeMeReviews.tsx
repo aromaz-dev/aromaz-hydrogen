@@ -1,5 +1,4 @@
 import {useEffect} from 'react';
-import {Script} from '@shopify/hydrogen';
 
 declare global {
   interface Window {
@@ -13,6 +12,9 @@ function getNumericShopifyId(gid: string) {
   return gid.split('/').pop() || gid;
 }
 
+const JUDGEME_SCRIPT_ID = 'judgeme-widget-preloader';
+const JUDGEME_SCRIPT_SRC = 'https://cdn.judge.me/widget_preloader.js';
+
 export function JudgeMeReviews({
   productHandle,
   productId,
@@ -23,7 +25,25 @@ export function JudgeMeReviews({
   const numericId = getNumericShopifyId(productId);
 
   useEffect(() => {
-    window.jdgm?.renderWidgets?.();
+    const renderWidgets = () => {
+      window.setTimeout(() => {
+        window.jdgm?.renderWidgets?.();
+      }, 0);
+    };
+
+    const existingScript = document.getElementById(JUDGEME_SCRIPT_ID);
+    if (existingScript) {
+      renderWidgets();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.id = JUDGEME_SCRIPT_ID;
+    script.src = JUDGEME_SCRIPT_SRC;
+    script.async = true;
+    script.onload = renderWidgets;
+
+    document.body.appendChild(script);
   }, [productHandle, numericId]);
 
   return (
@@ -31,11 +51,6 @@ export function JudgeMeReviews({
       className="mt-12 border-t border-charcoal/10 pt-10"
       aria-labelledby="judgeme-reviews-heading"
     >
-      <Script
-        id="judgeme-widget-preloader"
-        src="https://cdn.judge.me/widget_preloader.js"
-        defer
-      />
       <h2
         id="judgeme-reviews-heading"
         className="font-serif text-xl text-charcoal mb-6"
