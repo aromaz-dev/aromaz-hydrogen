@@ -25,23 +25,50 @@ export function JudgeMeReviews({
   const numericId = getNumericShopifyId(productId);
 
   useEffect(() => {
+    console.log('[JUDGEME DEBUG] productHandle', productHandle);
+    console.log('[JUDGEME DEBUG] numericId', numericId);
+
     const renderWidgets = () => {
       window.setTimeout(() => {
-        window.jdgm?.renderWidgets?.();
+        const hasJdgm = Boolean(window.jdgm);
+        const hasRenderWidgets =
+          typeof window.jdgm?.renderWidgets === 'function';
+
+        console.log('[JUDGEME DEBUG] window.jdgm exists', hasJdgm);
+        console.log(
+          '[JUDGEME DEBUG] window.jdgm.renderWidgets exists',
+          hasRenderWidgets,
+        );
+
+        if (hasRenderWidgets) {
+          window.jdgm?.renderWidgets?.();
+          console.log('[JUDGEME DEBUG] renderWidgets called', true);
+        } else {
+          console.log('[JUDGEME DEBUG] renderWidgets called', false);
+        }
       }, 0);
     };
 
     const existingScript = document.getElementById(JUDGEME_SCRIPT_ID);
     if (existingScript) {
+      console.log('[JUDGEME DEBUG] script already exists', true);
       renderWidgets();
       return;
     }
+
+    console.log('[JUDGEME DEBUG] script already exists', false);
 
     const script = document.createElement('script');
     script.id = JUDGEME_SCRIPT_ID;
     script.src = JUDGEME_SCRIPT_SRC;
     script.async = true;
-    script.onload = renderWidgets;
+    script.onload = () => {
+      console.log('[JUDGEME DEBUG] script loaded', true);
+      renderWidgets();
+    };
+    script.onerror = () => {
+      console.log('[JUDGEME DEBUG] script loaded', false);
+    };
 
     document.body.appendChild(script);
   }, [productHandle, numericId]);
