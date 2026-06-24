@@ -589,7 +589,7 @@ export default function Product() {
       {/* Mobile Layout */}
       <div className="md:hidden">
         <ProductImage image={selectedVariant?.image} />
-        <div className="px-6 pt-4 pb-6">
+        <div className="product-mobile-details px-6 pt-4 pb-6">
           <h1 className="font-serif text-3xl text-charcoal">{title}</h1>
           {!isScent && (
             <ProductPrice

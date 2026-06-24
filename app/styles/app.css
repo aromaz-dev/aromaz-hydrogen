@@ -6592,8 +6592,38 @@ aside header {
     background: rgba(224, 215, 188, 0.82);
     border: 1px solid rgba(160, 148, 110, 0.28);
     border-radius: 8px;
+    margin-top: 0;
+    padding: 0.65rem 1rem 1rem;
+  }
+
+  .product-page .product-mobile-details h1 {
+    line-height: 1.08;
+  }
+
+  .product-page .product-mobile-details > .mt-3 {
+    margin-top: 0.25rem !important;
+  }
+
+  .product-page #add-to-cart,
+  .product-page .product-mobile-details .mt-8.space-y-6 {
+    margin-top: 1rem !important;
+  }
+
+  .product-page #add-to-cart > * + *,
+  .product-page .product-mobile-details .mt-8.space-y-6 > * + * {
+    margin-top: 1rem !important;
+  }
+
+  .product-page #add-to-cart h5 {
+    margin-bottom: 0.625rem;
+  }
+
+  .product-page .scent-notes-text {
     margin-top: 0.75rem;
-    padding: 0.9rem 1rem 1.1rem;
+  }
+
+  .product-page .product-action-stack {
+    margin-top: 0.875rem !important;
   }
 }
 
