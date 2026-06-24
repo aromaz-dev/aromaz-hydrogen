@@ -6583,33 +6583,15 @@ aside header {
   letter-spacing: 0.03em;
 }
 
-.product-page .shop-pay-checkout-button {
-  align-items: center;
-  background: #5433eb;
-  border: 0;
-  border-radius: 999px;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  font-family: var(--font-sans);
-  font-size: 0.875rem;
-  font-weight: 600;
-  justify-content: center;
-  letter-spacing: 0.02em;
+.product-page .shop-pay-checkout-button-wrapper {
+  display: block;
   margin-top: 0.75rem;
-  min-height: 3rem;
-  padding: 0.75rem 1.5rem;
-  text-align: center;
-  transition:
-    background-color 180ms ease,
-    transform 180ms ease;
   width: 100%;
 }
 
-.product-page .shop-pay-checkout-button:hover {
-  background: #3f27c5;
-  transform: translateY(-1px);
+.product-page .shop-pay-checkout-button-wrapper shop-pay-button,
+.product-page .shop-pay-checkout-button-wrapper [type='button'] {
+  width: 100% !important;
 }
 
 .product-page .border-terracotta {
