@@ -39,6 +39,7 @@
 
   /* Legacy variables for existing components */
   --aside-width: 400px;
+  --announcement-bar-height: 44px;
   --cart-aside-summary-height-with-discount: 300px;
   --cart-aside-summary-height: 250px;
   --grid-item-width: 355px;
@@ -214,8 +215,39 @@ button.reset:hover:not(:has(> *)) {
   height: var(--header-height);
   padding: 0 1rem;
   position: sticky;
-  top: 0;
+  top: var(--announcement-bar-height);
   z-index: 50;
+}
+
+.announcement-bar {
+  align-items: center;
+  background: #566d37;
+  border-bottom: 1px solid rgba(32, 35, 34, 0.12);
+  box-sizing: border-box;
+  box-shadow: 0 10px 28px rgba(32, 35, 34, 0.08);
+  color: var(--color-cream);
+  display: flex;
+  height: var(--announcement-bar-height);
+  justify-content: center;
+  left: 0;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0 1rem;
+  position: sticky;
+  right: 0;
+  top: 0;
+  width: 100vw;
+  z-index: calc(var(--z-index-sticky) + 1);
+}
+
+.announcement-bar p {
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  margin: 0;
+  text-align: center;
 }
 
 .header-menu-mobile-toggle {

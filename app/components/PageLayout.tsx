@@ -6,6 +6,7 @@ import type {
   HeaderQuery,
 } from 'storefrontapi.generated';
 import {Aside, useAside} from '~/components/Aside';
+import {AnnouncementBar} from '~/components/AnnouncementBar';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
 import {CartMain} from '~/components/CartMain';
@@ -41,6 +42,7 @@ export function PageLayout({
         isLoggedIn={isLoggedIn}
         publicStoreDomain={publicStoreDomain}
       />
+      <AnnouncementBar cart={cart} />
       {header && (
         <Header
           header={header}
