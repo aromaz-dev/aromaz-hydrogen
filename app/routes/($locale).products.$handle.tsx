@@ -1,3 +1,4 @@
+import React from 'react';
 import {redirect, useLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).products.$handle';
 import {
@@ -717,16 +718,63 @@ export default function Product() {
   );
 }
 
+const TRUST_BADGES = [
+  {icon: '🍃', label: 'Natural Scent'},
+  {icon: '♻️', label: 'Refill Minded'},
+  {icon: '🇨🇦', label: 'Canadian'},
+] as const;
+
 function ProductTrustNotes() {
   return (
-    <div className="mt-8 grid grid-cols-3 gap-3 border-y border-charcoal/10 py-4">
-      {['Natural scent', 'Refill-minded', 'Daily comfort'].map((note) => (
-        <div key={note}>
-          <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.14em] text-olive">
-            {note}
-          </p>
-        </div>
-      ))}
+    <div className="mt-8 border-y border-charcoal/10 py-4">
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 0,
+          flexWrap: 'nowrap',
+          overflow: 'hidden',
+        }}
+      >
+        {TRUST_BADGES.map((badge, i) => (
+          <React.Fragment key={badge.label}>
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.3em',
+                whiteSpace: 'nowrap',
+                fontFamily: 'var(--font-sans, sans-serif)',
+                fontSize: 'clamp(9px, 2.4vw, 11px)',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.14em',
+                color: 'var(--color-olive)',
+                flexShrink: 0,
+              }}
+            >
+              <span style={{fontSize: '1.1em'}}>{badge.icon}</span>
+              {badge.label}
+            </span>
+            {i < TRUST_BADGES.length - 1 && (
+              <span
+                aria-hidden="true"
+                style={{
+                  color: 'var(--color-olive)',
+                  opacity: 0.35,
+                  fontSize: 'clamp(9px, 2.4vw, 11px)',
+                  padding: '0 0.6em',
+                  flexShrink: 0,
+                  userSelect: 'none',
+                }}
+              >
+                •
+              </span>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 }
