@@ -696,7 +696,7 @@ export default function Product() {
         <ProductBenefits />
       )}
 
-      <div className="px-6 pb-12 md:max-w-6xl md:mx-auto md:px-8">
+      <div className={`px-6 md:max-w-6xl md:mx-auto md:px-8 ${product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT ? 'pb-0' : 'pb-12'}`}>
         <JudgeMeReviews reviews={judgeMeReviews} />
       </div>
 
