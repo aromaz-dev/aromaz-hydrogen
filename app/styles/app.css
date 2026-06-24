@@ -6561,6 +6561,11 @@ aside header {
   margin-top: 8px;
 }
 
+.product-page .product-benefits + div section {
+  margin-top: 0 !important;
+  padding-top: 1.5rem !important;
+}
+
 .product-page .product-benefits-list {
   list-style: none;
   margin: 0;
