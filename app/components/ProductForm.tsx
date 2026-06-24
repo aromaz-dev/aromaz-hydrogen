@@ -103,9 +103,14 @@ export function ProductForm({
               })}
             </div>
             {selectedScentNotes && selectedOptionValue ? (
-              <p className="scent-notes-text" aria-live="polite">
-                {selectedScentNotes}
-              </p>
+              <div className="scent-notes-list" aria-live="polite">
+                {selectedScentNotes.map((note) => (
+                  <div key={note} className="scent-notes-item">
+                    <span className="scent-notes-bullet" aria-hidden="true">•</span>
+                    <strong className="scent-notes-label">{note}</strong>
+                  </div>
+                ))}
+              </div>
             ) : null}
           </div>
         );
