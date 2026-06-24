@@ -147,13 +147,12 @@ export function ScentProductForm({
         {selectedVariant?.availableForSale && shopPayStoreDomain ? (
           <div
             key={selectedVariant.id}
-            className="shop-pay-button-frame mt-3 w-full max-w-full overflow-hidden rounded-full"
+            className="shop-pay-button-frame pointer-events-none relative z-[1] mt-3 w-full max-w-full overflow-hidden rounded-full"
           >
             <ShopPayButton
-              className="w-full max-w-full"
+              className="pointer-events-auto relative z-[2] w-full max-w-full"
               storeDomain={shopPayStoreDomain}
               variantIds={[selectedVariant.id]}
-              width="100%"
             />
           </div>
         ) : null}
