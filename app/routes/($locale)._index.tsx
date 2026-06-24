@@ -829,7 +829,7 @@ const HOME_SHOP_FALLBACK_PRODUCTS = [
     category: 'Daily care',
     price: 'CA$5.00',
     image: '/aromaz-products/lip-balm.png',
-    href: '/products/refresh-renew-bundle?Ingredient%20origin=Cooling%20Lip%20Balm',
+    href: '/products/lip-balm',
   },
   {
     name: 'Mini Deodorant',
