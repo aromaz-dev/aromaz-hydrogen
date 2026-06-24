@@ -2,9 +2,7 @@
 
 export function GuaranteeSection() {
   const scrollToPurchase = () => {
-    document
-      .getElementById('purchase-section')
-      ?.scrollIntoView({behavior: 'smooth', block: 'start'});
+    window.scrollTo({top: 0, behavior: 'smooth'});
   };
 
   return (

@@ -6566,8 +6566,6 @@ aside header {
   border: 1px solid rgba(86, 109, 55, 0.15);
   padding: 2rem 1.5rem;
   text-align: center;
-  max-width: 36rem;
-  margin: 0 auto;
 }
 
 .product-page .guarantee-badge {
@@ -6602,7 +6600,7 @@ aside header {
 .product-page .guarantee-cta {
   display: block;
   width: 100%;
-  margin-top: 1.5rem;
+  margin: 1.5rem auto 0;
   padding: 0.875rem 1.5rem;
   background: var(--color-charcoal);
   color: var(--color-cream);
@@ -6624,7 +6622,10 @@ aside header {
 
 @media (min-width: 768px) {
   .product-page .guarantee-section {
-    padding: 3rem 2rem;
+    padding: 1.25rem 2rem 3rem;
+    max-width: 72rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .product-page .guarantee-inner {
