@@ -28,6 +28,8 @@ export default async function handleRequest(
     ],
     connectSrc: [
       "'self'",
+      'https://shop.app',
+      'https://pay.shopify.com',
       'https://analytics.tiktok.com',
       'https://judge.me',
       'https://cdn.judge.me',
@@ -35,6 +37,9 @@ export default async function handleRequest(
       'https://www.google.com',
       'https://maps.googleapis.com',
       'https://maps.gstatic.com',
+      'https://error-analytics-production.shopifysvc.com',
+      'https://error-analytics-sessions-production.shopifysvc.com',
+      'https://otlp-http-production.shopifysvc.com',
     ],
     imgSrc: [
       "'self'",
@@ -49,7 +54,13 @@ export default async function handleRequest(
       'https://*.googleusercontent.com',
       'https://tile.openstreetmap.org',
     ],
-    frameSrc: ["'self'", 'https://www.google.com', 'https://maps.google.com'],
+    frameSrc: [
+      "'self'",
+      'https://shop.app',
+      'https://pay.shopify.com',
+      'https://www.google.com',
+      'https://maps.google.com',
+    ],
   });
 
   const body = await renderToReadableStream(
