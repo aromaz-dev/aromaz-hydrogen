@@ -103,10 +103,9 @@ export function ProductForm({
               })}
             </div>
             {selectedScentNotes && selectedOptionValue ? (
-              <div className="scent-notes-panel mt-4" aria-live="polite">
-                <span>Selected scent: {selectedOptionValue}</span>
-                <strong>{selectedScentNotes}</strong>
-              </div>
+              <p className="scent-notes-text mt-3" aria-live="polite">
+                {selectedScentNotes}
+              </p>
             ) : null}
           </div>
         );

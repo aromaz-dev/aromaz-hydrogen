@@ -129,10 +129,9 @@ export function ScentProductForm({
       </div>
 
       {selectedScentNotes ? (
-        <div className="scent-notes-panel" aria-live="polite">
-          <span>Selected scent: {selectedScentName}</span>
-          <strong>{selectedScentNotes}</strong>
-        </div>
+        <p className="scent-notes-text" aria-live="polite">
+          {selectedScentNotes}
+        </p>
       ) : null}
 
       {/* Add to Cart */}
