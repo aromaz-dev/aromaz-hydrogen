@@ -1,6 +1,7 @@
 'use client';
 
 import {useNavigate, useSearchParams} from 'react-router';
+import {ShopPayButton} from '@shopify/hydrogen';
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
 import {StrengthSelector} from './StrengthSelector';
@@ -26,11 +27,13 @@ import type {ProductFragment} from 'storefrontapi.generated';
 interface ScentProductFormProps {
   product: ProductFragment;
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
+  shopPayStoreDomain?: string;
 }
 
 export function ScentProductForm({
   product,
   selectedVariant,
+  shopPayStoreDomain,
 }: ScentProductFormProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -141,6 +144,20 @@ export function ScentProductForm({
         >
           {selectedVariant?.availableForSale ? 'Add to Cart' : 'Sold Out'}
         </AddToCartButton>
+        {selectedVariant?.availableForSale && shopPayStoreDomain ? (
+          <div className="mt-3 overflow-hidden rounded-full">
+            <ShopPayButton
+              storeDomain={shopPayStoreDomain}
+              variantIdsAndQuantities={[
+                {
+                  id: selectedVariant.id,
+                  quantity: 1,
+                },
+              ]}
+              width="100%"
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ export function ProductImage({
         <img
           alt="Aromaz product"
           src={LOCAL_IMAGE_FALLBACKS.product}
-          className="w-full h-[40vh] min-h-[280px] md:h-auto md:aspect-square object-cover"
+          className="w-full h-[32vh] min-h-[220px] max-h-[320px] md:h-auto md:max-h-none md:aspect-square object-cover"
         />
       </div>
     );
@@ -27,7 +27,7 @@ export function ProductImage({
         <img
           alt={image.altText || 'Aromaz product'}
           src={LOCAL_IMAGE_FALLBACKS.product}
-          className="w-full h-[40vh] min-h-[280px] md:h-auto md:aspect-square object-cover"
+          className="w-full h-[32vh] min-h-[220px] max-h-[320px] md:h-auto md:max-h-none md:aspect-square object-cover"
         />
       </div>
     );
@@ -39,7 +39,7 @@ export function ProductImage({
         alt={image.altText || 'Product Image'}
         data={image}
         key={image.id}
-        className="w-full h-[40vh] min-h-[280px] md:h-auto md:aspect-square object-cover"
+        className="w-full h-[32vh] min-h-[220px] max-h-[320px] md:h-auto md:max-h-none md:aspect-square object-cover"
         sizes="(min-width: 768px) 50vw, 100vw"
       />
     </div>
