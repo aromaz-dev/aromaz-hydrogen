@@ -6652,30 +6652,48 @@ aside header {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .product-page .product-benefits-item {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(32, 35, 34, 0.07);
 }
 
-.product-page .product-benefits-check {
-  color: var(--color-olive);
-  font-size: 0.875rem;
-  font-weight: 700;
+.product-page .product-benefits-item:first-child {
+  border-top: 1px solid rgba(32, 35, 34, 0.07);
+}
+
+.product-page .product-benefits-emoji {
+  font-size: 1.25rem;
+  line-height: 1.5;
   flex-shrink: 0;
+  margin-top: 0.05rem;
 }
 
-.product-page .product-benefits-label {
+.product-page .product-benefits-text {
   font-family: var(--font-sans);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-charcoal);
+}
+
+.product-page .product-benefits-headline {
   font-weight: 700;
   color: var(--color-charcoal);
-  letter-spacing: 0.01em;
+}
+
+.product-page .product-benefits-sep {
+  color: rgba(32, 35, 34, 0.4);
+}
+
+.product-page .product-benefits-body {
+  color: rgba(32, 35, 34, 0.72);
 }
 
 .product-page .scent-notes-item {
