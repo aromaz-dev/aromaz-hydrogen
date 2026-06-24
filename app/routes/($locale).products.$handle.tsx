@@ -719,7 +719,7 @@ export default function Product() {
 }
 
 const TRUST_BADGES = [
-  {icon: '🍃', label: 'Natural Scent'},
+  {icon: '🍃', label: 'Natural'},
   {icon: '♻️', label: 'Refill Minded'},
   {icon: '🇨🇦', label: 'Canadian'},
 ] as const;
