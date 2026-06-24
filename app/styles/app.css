@@ -6602,7 +6602,7 @@ aside header {
   width: 100%;
   margin: 1.5rem auto 0;
   padding: 0.875rem 1.5rem;
-  background: var(--color-charcoal);
+  background: #566d37;
   color: var(--color-cream);
   border: none;
   border-radius: 999px;
@@ -6613,10 +6613,11 @@ aside header {
   text-transform: uppercase;
   cursor: pointer;
   transition: background 180ms ease, transform 180ms ease;
+  box-shadow: 0 14px 32px rgba(86, 109, 55, 0.24);
 }
 
 .product-page .guarantee-cta:hover {
-  background: var(--color-olive);
+  background: #7f936d;
   transform: translateY(-1px);
 }
 
