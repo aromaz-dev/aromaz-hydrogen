@@ -7,17 +7,17 @@ const BENEFITS = [
   {
     emoji: '🛡️',
     headline: 'Actually Stops Odor',
-    body: "Let's be honest — a lot of natural deodorants don't work. Aromaz was created with a new formulation to really block odor without any harsh ingredients.",
+    body: "Let's be honest — a lot of natural deodorants don't work. Aromaz was created with a new formulation to really block odor.",
   },
   {
     emoji: '✨',
     headline: 'More Than An Underarm Deodorant',
-    body: 'Use it anywhere you want to stay fresh. Underarms, inner thighs, feet, chest area, or the back of your neck — anywhere sweat and odor show up.',
+    body: 'Use it anywhere you want to stay fresh. Underarms, inner thighs, feet, chest area.',
   },
   {
     emoji: '☀️',
     headline: 'Helps With Heat Rash & Friction',
-    body: 'Natural minerals and botanical ingredients with soothing properties keep skin comfortable in areas where heat, sweat, and rubbing can become annoying.',
+    body: 'Natural minerals with soothing properties to help with heat rash. Your sensitive skin will love Aromaz.',
   },
 ] as const;
 
