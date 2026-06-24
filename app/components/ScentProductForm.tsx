@@ -129,35 +129,14 @@ export function ScentProductForm({
       </div>
 
       {selectedScentNotes ? (
-        <ul
-          className="scent-notes-list"
-          aria-live="polite"
-          style={{
-            listStyle: 'none',
-            padding: 0,
-            margin: '8px 0 0',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '2px',
-          }}
-        >
+        <div className="scent-notes-list" aria-live="polite">
           {selectedScentNotes.map((note) => (
-            <li
-              key={note}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                fontSize: '12px',
-                color: 'var(--color-charcoal)',
-                opacity: 0.7,
-              }}
-            >
-              <span aria-hidden="true" style={{fontSize: '8px', opacity: 0.5}}>●</span>
-              <strong style={{fontWeight: 600}}>{note}</strong>
-            </li>
+            <div key={note} className="scent-notes-item">
+              <span className="scent-notes-bullet" aria-hidden="true">•</span>
+              <strong className="scent-notes-label">{note}</strong>
+            </div>
           ))}
-        </ul>
+        </div>
       ) : null}
 
       {/* Add to Cart */}
