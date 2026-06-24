@@ -6583,15 +6583,17 @@ aside header {
   letter-spacing: 0.03em;
 }
 
-.product-page .shop-pay-checkout-button-wrapper {
-  display: block;
+.product-page button.shop-pay-checkout-button {
+  background: #5433eb !important;
+  border-radius: 999px !important;
+  box-shadow: 0 14px 32px rgba(84, 51, 235, 0.22) !important;
+  color: #fff !important;
   margin-top: 0.75rem;
-  width: 100%;
 }
 
-.product-page .shop-pay-checkout-button-wrapper shop-pay-button,
-.product-page .shop-pay-checkout-button-wrapper [type='button'] {
-  width: 100% !important;
+.product-page button.shop-pay-checkout-button:hover {
+  background: #3f27c5 !important;
+  transform: translateY(-1px);
 }
 
 .product-page .border-terracotta {
