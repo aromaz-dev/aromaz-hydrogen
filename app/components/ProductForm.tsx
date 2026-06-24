@@ -1,21 +1,20 @@
 import {Link, useNavigate} from 'react-router';
-import {ShopPayButton, type MappedProductOptions} from '@shopify/hydrogen';
+import {type MappedProductOptions} from '@shopify/hydrogen';
 import type {
   Maybe,
   ProductOptionValueSwatch,
 } from '@shopify/hydrogen/storefront-api-types';
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
+import {ShopPayCheckoutButton} from './ShopPayCheckoutButton';
 import type {ProductFragment} from 'storefrontapi.generated';
 
 export function ProductForm({
   productOptions,
   selectedVariant,
-  shopPayStoreDomain,
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
-  shopPayStoreDomain?: string;
 }) {
   const navigate = useNavigate();
   const {open} = useAside();
@@ -98,7 +97,7 @@ export function ProductForm({
         );
       })}
 
-      <div className="mt-8">
+      <div className="product-action-stack mt-8">
         <AddToCartButton
           disabled={!selectedVariant || !selectedVariant.availableForSale}
           onClick={() => {
@@ -118,18 +117,7 @@ export function ProductForm({
         >
           {selectedVariant?.availableForSale ? 'Add to Cart' : 'Sold Out'}
         </AddToCartButton>
-        {selectedVariant?.availableForSale && shopPayStoreDomain ? (
-          <div
-            key={selectedVariant.id}
-            className="shop-pay-button-frame mt-3 w-full max-w-full overflow-hidden rounded-full"
-          >
-            <ShopPayButton
-              className="w-full max-w-full"
-              storeDomain={shopPayStoreDomain}
-              variantIds={[selectedVariant.id]}
-            />
-          </div>
-        ) : null}
+        <ShopPayCheckoutButton selectedVariant={selectedVariant} />
       </div>
     </div>
   );

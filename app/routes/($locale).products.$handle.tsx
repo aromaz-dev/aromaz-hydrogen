@@ -538,7 +538,6 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
       apiToken: context.env.JUDGEME_API_TOKEN,
       shopDomain: context.env.JUDGEME_SHOP_DOMAIN,
     }),
-    shopPayStoreDomain: context.env.PUBLIC_STORE_DOMAIN,
     storeUrl: getStoreUrl(request, context.env.PUBLIC_STORE_DOMAIN),
   };
 }
@@ -556,8 +555,7 @@ function loadDeferredData({context, params}: Route.LoaderArgs) {
 }
 
 export default function Product() {
-  const {product, judgeMeReviews, shopPayStoreDomain} =
-    useLoaderData<typeof loader>();
+  const {product, judgeMeReviews} = useLoaderData<typeof loader>();
 
   // Check if this is a scent product (needs all variants for optimistic updates)
   const isScent = isScentProduct(product.variants?.nodes || []);
@@ -606,13 +604,11 @@ export default function Product() {
             <ScentProductForm
               product={product}
               selectedVariant={selectedVariant}
-              shopPayStoreDomain={shopPayStoreDomain}
             />
           ) : (
             <ProductForm
               productOptions={productOptions}
               selectedVariant={selectedVariant}
-              shopPayStoreDomain={shopPayStoreDomain}
             />
           )}
           <ProductTrustNotes />
@@ -657,13 +653,11 @@ export default function Product() {
                 <ScentProductForm
                   product={product}
                   selectedVariant={selectedVariant}
-                  shopPayStoreDomain={shopPayStoreDomain}
                 />
               ) : (
                 <ProductForm
                   productOptions={productOptions}
                   selectedVariant={selectedVariant}
-                  shopPayStoreDomain={shopPayStoreDomain}
                 />
               )}
               <ProductTrustNotes />
