@@ -38,7 +38,7 @@ const BENEFITS = [
 
 export function ProductBenefits() {
   return (
-    <section className="product-benefits px-6 py-10 md:max-w-6xl md:mx-auto md:px-8 md:py-12">
+    <section className="product-benefits px-6 pt-6 pb-0 md:max-w-6xl md:mx-auto md:px-8 md:pt-8">
       <ul className="product-benefits-list">
         {BENEFITS.map((benefit) => (
           <li key={benefit.headline} className="product-benefits-item">

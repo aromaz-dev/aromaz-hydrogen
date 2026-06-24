@@ -695,7 +695,7 @@ export default function Product() {
         <ProductBenefits />
       )}
 
-      <div className="px-6 pb-12 md:max-w-6xl md:mx-auto md:px-8">
+      <div className="px-6 pt-6 pb-12 md:max-w-6xl md:mx-auto md:px-8">
         <JudgeMeReviews reviews={judgeMeReviews} />
       </div>
 
