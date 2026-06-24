@@ -34,6 +34,7 @@ import {
   PRODUCT_HANDLES,
 } from '~/config/products';
 import {ProductVideoSection} from '~/components/ProductVideoSection';
+import {ProductBenefits} from '~/components/ProductBenefits';
 
 const DEODORANT_HANDLES = new Set([
   PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT,
@@ -689,6 +690,10 @@ export default function Product() {
           </div>
         </div>
       </div>
+
+      {product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT && (
+        <ProductBenefits />
+      )}
 
       <div className="px-6 pb-12 md:max-w-6xl md:mx-auto md:px-8">
         <JudgeMeReviews reviews={judgeMeReviews} />
