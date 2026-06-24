@@ -6512,15 +6512,6 @@ aside header {
   width: 100%;
 }
 
-.product-page .shop-pay-button-frame {
-  pointer-events: none;
-}
-
-.product-page .shop-pay-button-frame > div,
-.product-page .shop-pay-button-frame shop-pay-button {
-  pointer-events: auto;
-}
-
 .product-page .product-options-grid a,
 .product-page .product-options-grid button {
   border-radius: 999px !important;
