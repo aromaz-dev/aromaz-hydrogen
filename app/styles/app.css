@@ -6503,6 +6503,15 @@ aside header {
   background: #7f936d !important;
 }
 
+.product-page .shop-pay-button-frame,
+.product-page .shop-pay-button-frame > div,
+.product-page .shop-pay-button-frame shop-pay-button {
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+  width: 100%;
+}
+
 .product-page .product-options-grid a,
 .product-page .product-options-grid button {
   border-radius: 999px !important;
