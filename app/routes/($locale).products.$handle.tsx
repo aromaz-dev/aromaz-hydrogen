@@ -35,22 +35,12 @@ import {
 import {ProductVideoSection} from '~/components/ProductVideoSection';
 
 const DEODORANT_HANDLES = new Set([
-  PRODUCT_HANDLES.DEODORANT_CASE,
   PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT,
-  PRODUCT_HANDLES.MINI_DEODORANT,
 ]);
 
 const PRODUCT_SHOWCASE_VIDEOS: Record<string, {src: string; poster?: string}> =
   {
-    [PRODUCT_HANDLES.DEODORANT_CASE]: {
-      src: '/videos/video-7.mp4',
-      poster: '/images/video-7-poster.jpg',
-    },
     [PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT]: {
-      src: '/videos/video-7.mp4',
-      poster: '/images/video-7-poster.jpg',
-    },
-    [PRODUCT_HANDLES.MINI_DEODORANT]: {
       src: '/videos/video-7.mp4',
       poster: '/images/video-7-poster.jpg',
     },
