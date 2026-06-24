@@ -145,16 +145,14 @@ export function ScentProductForm({
           {selectedVariant?.availableForSale ? 'Add to Cart' : 'Sold Out'}
         </AddToCartButton>
         {selectedVariant?.availableForSale && shopPayStoreDomain ? (
-          <div className="shop-pay-button-frame mt-3 w-full max-w-full overflow-hidden rounded-full">
+          <div
+            key={selectedVariant.id}
+            className="shop-pay-button-frame mt-3 w-full max-w-full overflow-hidden rounded-full"
+          >
             <ShopPayButton
               className="w-full max-w-full"
               storeDomain={shopPayStoreDomain}
-              variantIdsAndQuantities={[
-                {
-                  id: selectedVariant.id,
-                  quantity: 1,
-                },
-              ]}
+              variantIds={[selectedVariant.id]}
               width="100%"
             />
           </div>
