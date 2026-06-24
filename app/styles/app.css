@@ -6596,6 +6596,26 @@ aside header {
   transform: translateY(-1px);
 }
 
+.product-page .shop-pay-button-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.product-page .shop-pay-wordmark {
+  display: inline-flex;
+  align-items: center;
+  background: #fff;
+  color: #5433eb;
+  border-radius: 4px;
+  padding: 0 0.45em;
+  font-size: 0.85em;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
 .product-page .border-terracotta {
   background: rgba(86, 109, 55, 0.08) !important;
   border-color: #566d37 !important;

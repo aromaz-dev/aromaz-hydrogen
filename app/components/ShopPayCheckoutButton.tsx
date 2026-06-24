@@ -26,7 +26,9 @@ export function ShopPayCheckoutButton({
       onClick={() => window.location.assign(checkoutPath)}
       type="button"
     >
-      Pay with Shop
+      <span className="shop-pay-button-inner">
+        Pay with <span className="shop-pay-wordmark">Shop</span>
+      </span>
     </button>
   );
 }
