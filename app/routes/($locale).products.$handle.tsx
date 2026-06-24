@@ -30,7 +30,31 @@ import {
 import {
   getPublicProductHandle,
   getShopifyProductHandle,
+  PRODUCT_HANDLES,
 } from '~/config/products';
+import {ProductVideoSection} from '~/components/ProductVideoSection';
+
+const DEODORANT_HANDLES = new Set([
+  PRODUCT_HANDLES.DEODORANT_CASE,
+  PRODUCT_HANDLES.DEODORANT_REFILL,
+  PRODUCT_HANDLES.MINI_DEODORANT,
+]);
+
+const PRODUCT_SHOWCASE_VIDEOS: Record<string, {src: string; poster?: string}> =
+  {
+    [PRODUCT_HANDLES.DEODORANT_CASE]: {
+      src: '/videos/video-7.mp4',
+      poster: '/images/video-7-poster.jpg',
+    },
+    [PRODUCT_HANDLES.DEODORANT_REFILL]: {
+      src: '/videos/video-7.mp4',
+      poster: '/images/video-7-poster.jpg',
+    },
+    [PRODUCT_HANDLES.MINI_DEODORANT]: {
+      src: '/videos/video-7.mp4',
+      poster: '/images/video-7-poster.jpg',
+    },
+  };
 
 type ProductVariantJsonLdInput = {
   id?: string | null;
@@ -584,6 +608,10 @@ export default function Product() {
 
   const {title, descriptionHtml} = product;
 
+  const showcaseVideo = DEODORANT_HANDLES.has(product.handle)
+    ? PRODUCT_SHOWCASE_VIDEOS[product.handle]
+    : null;
+
   return (
     <div className="product-page min-h-screen bg-cream">
       {/* Mobile Layout */}
@@ -674,6 +702,10 @@ export default function Product() {
       <div className="px-6 pb-12 md:max-w-6xl md:mx-auto md:px-8">
         <JudgeMeReviews reviews={judgeMeReviews} />
       </div>
+
+      {showcaseVideo && (
+        <ProductVideoSection src={showcaseVideo.src} poster={showcaseVideo.poster} />
+      )}
 
       <Analytics.ProductView
         data={{
