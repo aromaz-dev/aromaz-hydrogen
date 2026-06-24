@@ -7,6 +7,7 @@ import type {
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
 import {ShopPayCheckoutButton} from './ShopPayCheckoutButton';
+import {getScentNotes} from '~/lib/scent-notes';
 import type {ProductFragment} from 'storefrontapi.generated';
 
 export function ProductForm({
@@ -24,6 +25,14 @@ export function ProductForm({
       {productOptions.map((option) => {
         // If there is only a single value in the option values, don't display the option
         if (option.optionValues.length === 1) return null;
+
+        const selectedOptionValue = option.optionValues.find(
+          (value) => value.selected,
+        )?.name;
+        const selectedScentNotes =
+          option.name.toLowerCase() === 'scent'
+            ? getScentNotes(selectedOptionValue)
+            : null;
 
         return (
           <div key={option.name}>
@@ -93,6 +102,12 @@ export function ProductForm({
                 }
               })}
             </div>
+            {selectedScentNotes && selectedOptionValue ? (
+              <div className="scent-notes-panel mt-4" aria-live="polite">
+                <span>Selected scent: {selectedOptionValue}</span>
+                <strong>{selectedScentNotes}</strong>
+              </div>
+            ) : null}
           </div>
         );
       })}

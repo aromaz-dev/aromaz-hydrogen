@@ -590,10 +590,7 @@ export default function Product() {
       <div className="md:hidden">
         <ProductImage image={selectedVariant?.image} />
         <div className="px-6 pt-4 pb-6">
-          <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-olive">
-            Aromaz care
-          </p>
-          <h1 className="mt-2 font-serif text-3xl text-charcoal">{title}</h1>
+          <h1 className="font-serif text-3xl text-charcoal">{title}</h1>
           {!isScent && (
             <ProductPrice
               price={selectedVariant?.price}
@@ -637,10 +634,7 @@ export default function Product() {
 
             {/* Right: Product Info */}
             <div>
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-olive">
-                Aromaz care
-              </p>
-              <h1 className="mt-3 font-serif text-5xl leading-tight text-charcoal">
+              <h1 className="font-serif text-5xl leading-tight text-charcoal">
                 {title}
               </h1>
               {!isScent && (

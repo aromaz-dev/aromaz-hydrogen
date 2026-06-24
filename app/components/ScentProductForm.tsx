@@ -14,6 +14,7 @@ import {
   findVariant,
   type Strength,
 } from '~/lib/scent-utils';
+import {getScentNotes} from '~/lib/scent-notes';
 import type {ProductFragment} from 'storefrontapi.generated';
 
 /**
@@ -49,6 +50,12 @@ export function ScentProductForm({
 
   // Filter variants by the derived strength
   const filteredScents = filterByStrength(allVariants, selectedStrength);
+  const selectedScentName = selectedVariant
+    ? getScentName(selectedVariant.title)
+    : '';
+  const selectedScentNotes = selectedScentName
+    ? getScentNotes(selectedScentName)
+    : null;
 
   // Navigate to a new variant by updating URL search params
   const navigateToVariant = (variant: {
@@ -120,6 +127,13 @@ export function ScentProductForm({
           layout="card"
         />
       </div>
+
+      {selectedScentNotes ? (
+        <div className="scent-notes-panel" aria-live="polite">
+          <span>Selected scent: {selectedScentName}</span>
+          <strong>{selectedScentNotes}</strong>
+        </div>
+      ) : null}
 
       {/* Add to Cart */}
       <div className="product-action-stack mt-8">

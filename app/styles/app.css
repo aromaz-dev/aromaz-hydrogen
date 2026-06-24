@@ -6513,6 +6513,34 @@ aside header {
   width: 100%;
 }
 
+.product-page .scent-notes-panel {
+  background: rgba(255, 252, 246, 0.82);
+  border: 1px solid rgba(74, 94, 58, 0.22);
+  border-radius: 0.75rem;
+  color: var(--color-charcoal);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.9rem 1rem;
+}
+
+.product-page .scent-notes-panel span {
+  color: rgba(47, 47, 43, 0.62);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.product-page .scent-notes-panel strong {
+  color: #4a5e3a;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
 .product-page .shop-pay-checkout-button {
   align-items: center;
   background: #5433eb;
