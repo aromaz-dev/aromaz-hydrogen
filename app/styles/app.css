@@ -6556,6 +6556,87 @@ aside header {
   padding: 0;
 }
 
+.product-page .guarantee-section {
+  padding: 2.5rem 1.5rem;
+}
+
+.product-page .guarantee-inner {
+  background: #f0ebe3;
+  border-radius: 20px;
+  border: 1px solid rgba(86, 109, 55, 0.15);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.product-page .guarantee-badge {
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.product-page .guarantee-heading {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+  margin-bottom: 1.25rem;
+}
+
+.product-page .guarantee-body {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: rgba(32, 35, 34, 0.78);
+  margin: 0 0 0.6rem;
+}
+
+.product-page .guarantee-body--emphasis {
+  font-weight: 600;
+  color: var(--color-olive);
+}
+
+.product-page .guarantee-cta {
+  display: block;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.875rem 1.5rem;
+  background: var(--color-charcoal);
+  color: var(--color-cream);
+  border: none;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.product-page .guarantee-cta:hover {
+  background: var(--color-olive);
+  transform: translateY(-1px);
+}
+
+@media (min-width: 768px) {
+  .product-page .guarantee-section {
+    padding: 3rem 2rem;
+  }
+
+  .product-page .guarantee-inner {
+    padding: 2.5rem 3rem;
+  }
+
+  .product-page .guarantee-cta {
+    width: auto;
+    padding: 0.875rem 3rem;
+  }
+}
+
 .product-page .scent-notes-list {
   display: block;
   margin-top: 8px;

@@ -35,6 +35,7 @@ import {
 } from '~/config/products';
 import {ProductVideoSection} from '~/components/ProductVideoSection';
 import {ProductBenefits} from '~/components/ProductBenefits';
+import {GuaranteeSection} from '~/components/GuaranteeSection';
 
 const DEODORANT_HANDLES = new Set([
   PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT,
@@ -609,7 +610,7 @@ export default function Product() {
       {/* Mobile Layout */}
       <div className="md:hidden">
         <ProductImage image={selectedVariant?.image} />
-        <div className="product-mobile-details px-6 pt-4 pb-6">
+        <div id="purchase-section" className="product-mobile-details px-6 pt-4 pb-6">
           <h1 className="font-serif text-3xl text-charcoal">{title}</h1>
           {!isScent && (
             <ProductPrice
@@ -644,7 +645,7 @@ export default function Product() {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden md:block py-12">
+      <div id="purchase-section" className="hidden md:block py-12">
         <div className="max-w-6xl mx-auto px-8">
           <div className="grid grid-cols-2 gap-12">
             {/* Left: Sticky Image */}
@@ -698,6 +699,10 @@ export default function Product() {
       <div className="px-6 pb-12 md:max-w-6xl md:mx-auto md:px-8">
         <JudgeMeReviews reviews={judgeMeReviews} />
       </div>
+
+      {product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT && (
+        <GuaranteeSection />
+      )}
 
       {showcaseVideo && (
         <ProductVideoSection src={showcaseVideo.src} poster={showcaseVideo.poster} />
