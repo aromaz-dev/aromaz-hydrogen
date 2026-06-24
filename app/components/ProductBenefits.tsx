@@ -15,24 +15,9 @@ const BENEFITS = [
     body: 'Use it anywhere you want to stay fresh. Underarms, inner thighs, feet, chest area, or the back of your neck — anywhere sweat and odor show up.',
   },
   {
-    emoji: '💚',
-    headline: 'Comfort For Sensitive Skin',
-    body: "If deodorants usually leave your skin red, itchy, or irritated, you're not alone. Our baking soda free formula was created with comfort in mind. Your sensitive skin will love Aromaz.",
-  },
-  {
     emoji: '☀️',
     headline: 'Helps With Heat Rash & Friction',
     body: 'Natural minerals and botanical ingredients with soothing properties keep skin comfortable in areas where heat, sweat, and rubbing can become annoying.',
-  },
-  {
-    emoji: '♻️',
-    headline: 'Refillable For Less Waste',
-    body: 'Buy the case once and simply refill it. Less plastic waste, less packaging, and less money spent replacing the whole container every time.',
-  },
-  {
-    emoji: '🌸',
-    headline: 'Scents People Remember',
-    body: 'Natural scents are difficult to get right. We blend pure essential oils to create fragrances that people constantly ask about and come back for.',
   },
 ] as const;
 
