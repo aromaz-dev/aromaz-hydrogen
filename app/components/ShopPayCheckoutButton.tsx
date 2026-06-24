@@ -45,7 +45,7 @@ export function ShopPayCheckoutButton({
       type="button"
     >
       <span className="shop-pay-button-inner">
-        Pay with <ShopWordmark />
+        Buy with <ShopWordmark />
       </span>
     </button>
   );
