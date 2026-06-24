@@ -13,6 +13,7 @@ export const PRODUCT_HANDLES = {
    */
   DEODORANT_CASE: 'deodorant-eco-case',
   DEODORANT_REFILL: 'deodorant-refill',
+  REFILLABLE_NATURAL_DEODORANT: 'refillable-and-natural-deodorant',
 } as const;
 
 const SHOPIFY_TO_PUBLIC_PRODUCT_HANDLES: Record<string, string> = {
