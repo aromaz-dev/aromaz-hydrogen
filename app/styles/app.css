@@ -373,8 +373,8 @@ button.reset:hover:not(:has(> *)) {
 
 .cart-empty-action {
   align-items: center;
-  background: var(--color-charcoal);
-  border: 1px solid var(--color-charcoal);
+  background: #566d37;
+  border: 1px solid #566d37;
   border-radius: 999px;
   color: var(--color-cream);
   display: inline-flex;
@@ -393,8 +393,8 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .cart-empty-action:hover {
-  background: var(--color-terracotta);
-  border-color: var(--color-terracotta);
+  background: #415229;
+  border-color: #415229;
   color: var(--color-cream);
   text-decoration: none;
 }
