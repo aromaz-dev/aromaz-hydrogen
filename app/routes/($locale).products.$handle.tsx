@@ -711,7 +711,7 @@ export default function Product() {
 
       {isRefillable && <ProductBenefits />}
 
-      <div className={`px-6 md:max-w-6xl md:mx-auto md:px-8 ${isRefillable ? 'pb-0' : 'pb-12'}`}>
+      <div className={`px-3 md:max-w-6xl md:mx-auto md:px-8 ${isRefillable ? 'pb-0' : 'pb-12'}`}>
         <JudgeMeReviews reviews={judgeMeReviews} />
       </div>
 

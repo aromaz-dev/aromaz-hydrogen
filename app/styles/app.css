@@ -6557,7 +6557,7 @@ aside header {
 }
 
 .product-page .guarantee-section {
-  padding: 1.25rem 1.5rem 2.5rem;
+  padding: 1.25rem 0.75rem 2.5rem;
 }
 
 .product-page .guarantee-inner {
@@ -6759,7 +6759,7 @@ aside header {
     border: 1px solid rgba(160, 148, 110, 0.22);
     border-radius: 8px;
     box-shadow: 0 28px 74px rgba(32, 35, 34, 0.08);
-    padding: clamp(1.25rem, 2.2vw, 2rem);
+    padding: 2rem;
   }
 
   .product-page .sticky > div,
@@ -7091,12 +7091,10 @@ aside header {
 
 /* ── Mobile wrapper card ── */
 .pit-mobile-wrapper {
-  margin: 0 0.75rem;
   background: rgba(224, 215, 188, 0.54);
   border: 1px solid rgba(160, 148, 110, 0.28);
   border-radius: 8px;
   padding: 0 1rem;
-  margin-bottom: 0.75rem;
 }
 
 .pit-mobile-wrapper .pit-accordion {
