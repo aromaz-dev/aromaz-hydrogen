@@ -7263,7 +7263,8 @@ aside header {
 
 .wss-cta {
   display: block;
-  width: 100%;
+  width: calc(100% - 1.5rem);
+  margin-left: 1.5rem;
   min-height: 3rem;
   padding: 0.875rem 2.25rem;
   background: #566d37;
