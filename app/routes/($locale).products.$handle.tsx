@@ -37,6 +37,7 @@ import {ProductVideoSection} from '~/components/ProductVideoSection';
 import {ProductBenefits} from '~/components/ProductBenefits';
 import {GuaranteeSection} from '~/components/GuaranteeSection';
 import {ProductInfoTabs} from '~/components/ProductInfoTabs';
+import {WhySwitchSection} from '~/components/WhySwitchSection';
 
 const DEODORANT_HANDLES = new Set([
   PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT,
@@ -708,6 +709,8 @@ export default function Product() {
           </div>
         </div>
       </div>
+
+      {isRefillable && <WhySwitchSection />}
 
       {isRefillable && <ProductBenefits />}
 
