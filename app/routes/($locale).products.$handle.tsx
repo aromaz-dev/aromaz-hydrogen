@@ -710,8 +710,6 @@ export default function Product() {
         </div>
       </div>
 
-      {isRefillable && <WhySwitchSection />}
-
       {isRefillable && <ProductBenefits />}
 
       <div className={`px-3 md:max-w-6xl md:mx-auto md:px-8 ${isRefillable ? 'pb-0' : 'pb-12'}`}>
@@ -748,6 +746,8 @@ export default function Product() {
           </div>
         </>
       )}
+
+      {isRefillable && <WhySwitchSection />}
 
       <Analytics.ProductView
         data={{
