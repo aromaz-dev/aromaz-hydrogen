@@ -7262,8 +7262,9 @@ aside header {
 }
 
 .wss-cta {
-  display: inline-block;
-  align-self: flex-start;
+  display: block;
+  width: 100%;
+  min-height: 3rem;
   padding: 0.875rem 2.25rem;
   background: #566d37;
   color: var(--color-cream);
@@ -7277,6 +7278,7 @@ aside header {
   cursor: pointer;
   transition: background 180ms ease, transform 180ms ease;
   box-shadow: 0 10px 28px rgba(86, 109, 55, 0.22);
+  text-align: center;
 }
 
 .wss-cta:hover {
@@ -7338,7 +7340,10 @@ aside header {
   }
 
   .wss-cta {
+    display: inline-block;
+    width: auto;
     padding: 0.9rem 2.5rem;
     font-size: 0.875rem;
+    align-self: flex-start;
   }
 }
