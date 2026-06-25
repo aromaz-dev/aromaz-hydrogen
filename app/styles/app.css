@@ -6639,6 +6639,16 @@ aside header {
   }
 }
 
+.product-page .product-size-note {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-olive);
+  letter-spacing: 0.03em;
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
 .product-page .scent-notes-list {
   display: block;
   margin-top: 8px;

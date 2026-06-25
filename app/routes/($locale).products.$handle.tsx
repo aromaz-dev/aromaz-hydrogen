@@ -618,6 +618,9 @@ export default function Product() {
               compareAtPrice={selectedVariant?.compareAtPrice}
             />
           )}
+          {product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT && (
+            <p className="product-size-note">45 g&nbsp;&nbsp;•&nbsp;&nbsp;Up to 3 months of daily use*</p>
+          )}
           {isScent ? (
             <ScentProductForm
               product={product}
@@ -663,6 +666,9 @@ export default function Product() {
                   price={selectedVariant?.price}
                   compareAtPrice={selectedVariant?.compareAtPrice}
                 />
+              )}
+              {product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT && (
+                <p className="product-size-note">45 g&nbsp;&nbsp;•&nbsp;&nbsp;Up to 3 months of daily use*</p>
               )}
               {isScent ? (
                 <ScentProductForm
