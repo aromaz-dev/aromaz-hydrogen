@@ -1,8 +1,6 @@
 'use client';
 
 import {useEffect, useRef, useState} from 'react';
-import {Link} from 'react-router';
-import {useAside} from './Aside';
 
 const FREE_SHIPPING_THRESHOLD = 50;
 
@@ -22,7 +20,6 @@ export function FreeShippingUpsell({
   subtotal: number;
   currencyCode?: string;
 }) {
-  const {close} = useAside();
   const cardRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -69,23 +66,6 @@ export function FreeShippingUpsell({
             <strong>Free Shipping</strong>
           </p>
 
-          <p className="fsu-body">
-            Add another deodorant and your order will qualify for free
-            shipping.
-          </p>
-          <p className="fsu-body fsu-body--subtle">
-            Our customers love keeping a second scent for the gym, work,
-            travel, or simply switching fragrances.
-          </p>
-
-          <Link
-            to="/collections/all"
-            onClick={close}
-            prefetch="intent"
-            className="fsu-link"
-          >
-            Explore Another Scent →
-          </Link>
         </>
       )}
 
