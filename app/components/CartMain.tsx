@@ -5,6 +5,7 @@ import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {CartLineItem} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
+import {FreeShippingUpsell} from './FreeShippingUpsell';
 
 export type CartLayout = 'page' | 'aside';
 
@@ -44,6 +45,10 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
                 ))}
               </ul>
               <CartSummary cart={cart} layout={layout} />
+              <FreeShippingUpsell
+                subtotal={parseFloat(cart?.cost?.subtotalAmount?.amount ?? '0')}
+                currencyCode={cart?.cost?.subtotalAmount?.currencyCode ?? 'CAD'}
+              />
             </>
           )}
         </div>
