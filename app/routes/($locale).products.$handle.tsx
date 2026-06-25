@@ -621,11 +621,6 @@ export default function Product() {
       {/* Mobile Layout */}
       <div className="md:hidden">
         <ProductImage image={selectedVariant?.image} />
-        {isRefillable && (
-          <div className="pit-mobile-wrapper">
-            <ProductInfoTabs ingredients={ingredients} />
-          </div>
-        )}
         <div id="purchase-section" className="product-mobile-details px-6 pt-4 pb-6">
           <h1 className="font-serif text-3xl text-charcoal">{title}</h1>
           {!isScent && (
@@ -709,11 +704,6 @@ export default function Product() {
                   />
                 </div>
               )}
-              {isRefillable && (
-                <div className="mt-10 pt-8 border-t border-charcoal/10">
-                  <ProductInfoTabs ingredients={ingredients} />
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -727,8 +717,33 @@ export default function Product() {
 
       {isRefillable && <GuaranteeSection />}
 
-      {showcaseVideo && (
+      {showcaseVideo && !isRefillable && (
         <ProductVideoSection src={showcaseVideo.src} poster={showcaseVideo.poster} />
+      )}
+
+      {showcaseVideo && isRefillable && (
+        <>
+          {/* Mobile: video then tabs stacked */}
+          <div className="md:hidden">
+            <ProductVideoSection src={showcaseVideo.src} poster={showcaseVideo.poster} />
+            <div className="pit-mobile-wrapper">
+              <ProductInfoTabs ingredients={ingredients} />
+            </div>
+          </div>
+          {/* Desktop: video left, tabs right */}
+          <div className="hidden md:block py-10">
+            <div className="max-w-6xl mx-auto px-8">
+              <div className="grid grid-cols-2 gap-12 items-start">
+                <div>
+                  <ProductVideoSection src={showcaseVideo.src} poster={showcaseVideo.poster} />
+                </div>
+                <div className="pt-2">
+                  <ProductInfoTabs ingredients={ingredients} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
       )}
 
       <Analytics.ProductView
