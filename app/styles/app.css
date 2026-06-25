@@ -6623,7 +6623,7 @@ aside header {
 
 @media (min-width: 768px) {
   .product-page .guarantee-section {
-    padding: 1.25rem 2rem 3rem;
+    padding: 1.25rem 0 3rem;
     max-width: 72rem;
     margin-left: auto;
     margin-right: auto;
@@ -7290,7 +7290,7 @@ aside header {
 /* Desktop: side-by-side */
 @media (min-width: 768px) {
   .wss-root {
-    padding: 0 2rem;
+    padding: 0;
     max-width: 72rem;
     margin-left: auto;
     margin-right: auto;
