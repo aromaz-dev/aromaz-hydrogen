@@ -47,12 +47,7 @@ export function WhySwitchSection() {
   }, []);
 
   const scrollToPurchase = () => {
-    const el = document.getElementById('purchase-section');
-    if (el) {
-      el.scrollIntoView({behavior: 'smooth', block: 'start'});
-    } else {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    }
+    window.scrollTo({top: 0, behavior: 'smooth'});
   };
 
   return (
