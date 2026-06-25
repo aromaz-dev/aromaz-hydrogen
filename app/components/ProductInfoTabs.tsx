@@ -69,9 +69,7 @@ function IngredientsContent({ingredients}: {ingredients: string | null}) {
           Ingredient list not available.
         </p>
       )}
-      <p className="pit-allergen-note">
-        Contains naturally occurring essential oil allergens where applicable.
-      </p>
+      <p className="pit-allergen-note">Simple ingredients. Honest formula.</p>
     </div>
   );
 }
