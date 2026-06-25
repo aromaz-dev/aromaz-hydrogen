@@ -36,6 +36,7 @@ import {
 import {ProductVideoSection} from '~/components/ProductVideoSection';
 import {ProductBenefits} from '~/components/ProductBenefits';
 import {GuaranteeSection} from '~/components/GuaranteeSection';
+import {ProductInfoTabs} from '~/components/ProductInfoTabs';
 
 const DEODORANT_HANDLES = new Set([
   PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT,
@@ -601,6 +602,16 @@ export default function Product() {
 
   const {title, descriptionHtml} = product;
 
+  const ingredients =
+    product.metafields
+      ?.find(
+        (m: {key: string; value: string} | null) =>
+          m?.key === 'key_ingredients',
+      )
+      ?.value ?? null;
+  const isRefillable =
+    product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT;
+
   const showcaseVideo = DEODORANT_HANDLES.has(product.handle)
     ? PRODUCT_SHOWCASE_VIDEOS[product.handle]
     : null;
@@ -610,6 +621,11 @@ export default function Product() {
       {/* Mobile Layout */}
       <div className="md:hidden">
         <ProductImage image={selectedVariant?.image} />
+        {isRefillable && (
+          <div className="pit-mobile-wrapper">
+            <ProductInfoTabs ingredients={ingredients} />
+          </div>
+        )}
         <div id="purchase-section" className="product-mobile-details px-6 pt-4 pb-6">
           <h1 className="font-serif text-3xl text-charcoal">{title}</h1>
           {!isScent && (
@@ -618,7 +634,7 @@ export default function Product() {
               compareAtPrice={selectedVariant?.compareAtPrice}
             />
           )}
-          {product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT && (
+          {isRefillable && (
             <p className="product-size-note">45 g&nbsp;&nbsp;•&nbsp;&nbsp;Up to 3 months of daily use*</p>
           )}
           {isScent ? (
@@ -633,7 +649,7 @@ export default function Product() {
             />
           )}
           <ProductTrustNotes />
-          {descriptionHtml && (
+          {descriptionHtml && !isRefillable && (
             <div className="mt-10 pt-8 border-t border-charcoal/10">
               <h2 className="font-serif text-lg text-charcoal mb-4">
                 Description
@@ -667,7 +683,7 @@ export default function Product() {
                   compareAtPrice={selectedVariant?.compareAtPrice}
                 />
               )}
-              {product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT && (
+              {isRefillable && (
                 <p className="product-size-note">45 g&nbsp;&nbsp;•&nbsp;&nbsp;Up to 3 months of daily use*</p>
               )}
               {isScent ? (
@@ -682,7 +698,7 @@ export default function Product() {
                 />
               )}
               <ProductTrustNotes />
-              {descriptionHtml && (
+              {descriptionHtml && !isRefillable && (
                 <div className="mt-12 pt-10 border-t border-charcoal/10">
                   <h2 className="font-serif text-xl text-charcoal mb-4">
                     Description
@@ -693,22 +709,23 @@ export default function Product() {
                   />
                 </div>
               )}
+              {isRefillable && (
+                <div className="mt-10 pt-8 border-t border-charcoal/10">
+                  <ProductInfoTabs ingredients={ingredients} />
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT && (
-        <ProductBenefits />
-      )}
+      {isRefillable && <ProductBenefits />}
 
-      <div className={`px-6 md:max-w-6xl md:mx-auto md:px-8 ${product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT ? 'pb-0' : 'pb-12'}`}>
+      <div className={`px-6 md:max-w-6xl md:mx-auto md:px-8 ${isRefillable ? 'pb-0' : 'pb-12'}`}>
         <JudgeMeReviews reviews={judgeMeReviews} />
       </div>
 
-      {product.handle === PRODUCT_HANDLES.REFILLABLE_NATURAL_DEODORANT && (
-        <GuaranteeSection />
-      )}
+      {isRefillable && <GuaranteeSection />}
 
       {showcaseVideo && (
         <ProductVideoSection src={showcaseVideo.src} poster={showcaseVideo.poster} />
@@ -869,6 +886,10 @@ const PRODUCT_FRAGMENT = `#graphql
       nodes {
         ...ProductVariant
       }
+    }
+    metafields(identifiers: [{namespace: "custom", key: "key_ingredients"}]) {
+      key
+      value
     }
     seo {
       description

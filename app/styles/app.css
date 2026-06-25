@@ -6945,3 +6945,213 @@ aside header {
     white-space: nowrap;
   }
 }
+
+/* ─────────────────────────────────────────────────────────
+   ProductInfoTabs  (pit-*)
+   Tabs on desktop / accordion on mobile
+   ───────────────────────────────────────────────────────── */
+
+/* Root container — hidden on mobile, used on desktop */
+.pit-root {
+  font-family: var(--font-sans);
+}
+
+/* ── Desktop Tabs ── */
+.pit-tabs-desktop {
+  display: none;
+}
+
+.pit-tab-panel {
+  display: none;
+}
+
+/* ── Mobile Accordion ── */
+.pit-accordion {
+  border-top: 1px solid rgba(86, 109, 55, 0.18);
+}
+
+.pit-accordion-item {
+  border-bottom: 1px solid rgba(86, 109, 55, 0.18);
+}
+
+.pit-accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #566d37;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.pit-accordion-trigger:hover {
+  color: #415229;
+}
+
+.pit-chevron {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  color: #566d37;
+  transition: transform 0.3s ease;
+}
+
+.pit-accordion-item--open .pit-chevron {
+  transform: rotate(180deg);
+}
+
+.pit-accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+
+.pit-accordion-item--open .pit-accordion-body {
+  grid-template-rows: 1fr;
+}
+
+.pit-accordion-body-inner {
+  overflow: hidden;
+  padding-bottom: 0;
+  transition: padding-bottom 0.35s ease;
+}
+
+.pit-accordion-item--open .pit-accordion-body-inner {
+  padding-bottom: 1.25rem;
+}
+
+/* ── Shared content styles ── */
+.pit-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #3d3d3a;
+}
+
+.pit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.pit-list li {
+  padding-left: 1.1rem;
+  position: relative;
+}
+
+.pit-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #566d37;
+  font-weight: 700;
+}
+
+.pit-note {
+  color: #5a5a56;
+  font-style: italic;
+  font-size: 0.82rem;
+}
+
+.pit-ingredients-title {
+  color: #202322;
+}
+
+.pit-ingredients-list {
+  line-height: 1.75;
+  color: #4a4a46;
+}
+
+.pit-ingredients-placeholder {
+  color: #888;
+  font-style: italic;
+}
+
+.pit-allergen-note {
+  font-size: 0.775rem;
+  color: #7a7a76;
+  border-top: 1px solid rgba(86, 109, 55, 0.12);
+  padding-top: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+/* ── Mobile wrapper card ── */
+.pit-mobile-wrapper {
+  margin: 0 0.75rem;
+  background: rgba(224, 215, 188, 0.54);
+  border: 1px solid rgba(160, 148, 110, 0.28);
+  border-radius: 8px;
+  padding: 0 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.pit-mobile-wrapper .pit-accordion {
+  border-top: none;
+}
+
+.pit-mobile-wrapper .pit-accordion-item:last-child {
+  border-bottom: none;
+}
+
+/* ── Desktop override ── */
+@media (min-width: 768px) {
+  .pit-accordion {
+    display: none;
+  }
+
+  .pit-tabs-desktop {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid rgba(86, 109, 55, 0.18);
+    margin-bottom: 1.5rem;
+  }
+
+  .pit-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #888;
+    padding: 0.65rem 1.1rem 0.65rem 0;
+    margin-right: 1.5rem;
+    margin-bottom: -1px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .pit-tab:hover {
+    color: #566d37;
+  }
+
+  .pit-tab--active {
+    color: #566d37;
+    border-bottom-color: #566d37;
+  }
+
+  .pit-tab-panel {
+    display: block;
+  }
+
+  .pit-tab-panel .pit-content {
+    font-size: 0.9rem;
+  }
+}
