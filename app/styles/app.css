@@ -7486,3 +7486,232 @@ aside header {
   border-radius: 999px;
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* ─────────────────────────────────────────────────────────
+   ProductFAQ  (pfaq-*)
+   Accordion FAQ section — bottom of product page
+   ───────────────────────────────────────────────────────── */
+
+.pfaq-root {
+  padding: 3rem 0.75rem 4rem;
+}
+
+.pfaq-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.pfaq-header {
+  margin-bottom: 2.5rem;
+}
+
+.pfaq-title {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-charcoal);
+  line-height: 1.15;
+  margin: 0 0 0.5rem;
+}
+
+.pfaq-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: #6b6b66;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Accordion list ── */
+.pfaq-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(86, 109, 55, 0.18);
+}
+
+.pfaq-item {
+  border-bottom: 1px solid rgba(86, 109, 55, 0.18);
+}
+
+/* ── Trigger button ── */
+.pfaq-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.2rem 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  gap: 1rem;
+  transition: opacity 0.15s ease;
+}
+
+.pfaq-trigger:hover {
+  opacity: 0.78;
+}
+
+.pfaq-question {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+  line-height: 1.3;
+}
+
+.pfaq-chevron {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
+  color: #566d37;
+  transition: transform 0.28s ease;
+}
+
+.pfaq-item--open .pfaq-chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Animated body ── */
+.pfaq-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+}
+
+.pfaq-item--open .pfaq-body {
+  grid-template-rows: 1fr;
+}
+
+.pfaq-body-inner {
+  overflow: hidden;
+}
+
+.pfaq-answer {
+  padding-bottom: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* ── Answer typography ── */
+.pfaq-answer p,
+.pfaq-answer li,
+.pfaq-answer dd {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #4a4a46;
+  margin: 0;
+}
+
+.pfaq-answer strong {
+  color: var(--color-charcoal);
+  font-weight: 700;
+}
+
+.pfaq-answer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.pfaq-answer ul li {
+  padding-left: 1rem;
+  position: relative;
+}
+
+.pfaq-answer ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #566d37;
+  font-weight: 700;
+}
+
+/* Scent definitions list */
+.faq-scents {
+  margin: 0.25rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.faq-scents > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.5rem;
+  align-items: baseline;
+}
+
+.faq-scents dt {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-charcoal);
+}
+
+.faq-scents dd {
+  font-size: 0.875rem;
+  color: #5a5a56;
+  margin: 0;
+}
+
+/* Email link */
+.faq-link {
+  color: #566d37;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(86, 109, 55, 0.4);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.faq-link:hover {
+  color: #415229;
+  border-bottom-color: #415229;
+}
+
+/* ── Footer note ── */
+.pfaq-footer-note {
+  margin-top: 2.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: #7a7a76;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ── Desktop ── */
+@media (min-width: 768px) {
+  .pfaq-root {
+    padding: 4rem 2rem 5rem;
+  }
+
+  .pfaq-title {
+    font-size: 2.25rem;
+  }
+
+  .pfaq-subtitle {
+    font-size: 1rem;
+  }
+
+  .pfaq-trigger {
+    padding: 1.35rem 0;
+  }
+
+  .pfaq-question {
+    font-size: 0.9rem;
+  }
+
+  .pfaq-answer p,
+  .pfaq-answer li,
+  .pfaq-answer dd {
+    font-size: 0.95rem;
+  }
+}
