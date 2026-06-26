@@ -43,7 +43,7 @@ const FAQ_ITEMS: FAQItem[] = [
     question: 'How long does one stick last?',
     answer: (
       <>
-        <p>Our full-size refillable deodorant lasts approximately 2–3 months with daily use.</p>
+        <p>Our full-size refillable deodorant lasts approximately 3 months with daily use.</p>
         <p>Need something smaller?</p>
         <p>Our Mini Deodorant is perfect for travel, your gym bag, or trying a new scent before committing to the full size.</p>
       </>
@@ -113,7 +113,7 @@ const FAQ_ITEMS: FAQItem[] = [
     answer: (
       <>
         <p>Every Aromaz deodorant is handcrafted in Vancouver, British Columbia.</p>
-        <p>We proudly source our beeswax from local BC beekeepers whenever possible and carefully select premium ingredients from trusted ethical suppliers.</p>
+        <p>We proudly source our beeswax from local BC beekeepers and carefully select premium ingredients from trusted ethical suppliers.</p>
       </>
     ),
   },
@@ -169,7 +169,7 @@ export function ProductFAQ() {
         <div className="pfaq-header">
           <h2 className="pfaq-title">Still have questions?</h2>
           <p className="pfaq-subtitle">
-            Everything you need to know before making the switch.
+            Everything you need to know.
           </p>
         </div>
 
