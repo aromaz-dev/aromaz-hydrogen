@@ -1839,8 +1839,8 @@ aside header {
 }
 
 .catalog-hero p,
-.catalog-panel-card > p,
-.catalog-panel-card > span {
+.catalog-panel-card-body > p,
+.catalog-panel-card-body > span {
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -1850,7 +1850,7 @@ aside header {
 }
 
 .catalog-hero p,
-.catalog-panel-card > span {
+.catalog-panel-card-body > span {
   color: var(--color-clay);
 }
 
@@ -1862,7 +1862,7 @@ aside header {
 }
 
 .catalog-hero-actions a,
-.catalog-panel-card a {
+.catalog-panel-card-body a {
   align-items: center;
   border-radius: 6px;
   display: inline-flex;
@@ -1880,7 +1880,7 @@ aside header {
     transform 160ms ease;
 }
 
-.catalog-panel-card a:hover {
+.catalog-panel-card-body a:hover {
   background: var(--color-amber);
   color: var(--color-charcoal);
   transform: translateY(-1px);
@@ -1977,34 +1977,10 @@ aside header {
 .catalog-panel-content {
   align-items: start;
   display: grid;
-  gap: clamp(2rem, 5vw, 5rem);
-  grid-template-columns: repeat(2, minmax(320px, 1fr));
   justify-items: center;
   min-height: 150svh;
   padding: clamp(5rem, 9vw, 9rem) clamp(1.5rem, 5vw, 5rem);
   position: relative;
-}
-
-.catalog-panel-product {
-  animation: catalog-product-drift linear both;
-  animation-range: entry 0% exit 100%;
-  animation-timeline: --catalog-panel-progress;
-  display: grid;
-  min-height: var(--catalog-panel-box-height);
-  place-items: start center;
-  position: sticky;
-  top: calc(var(--header-height) + 2rem);
-  width: var(--catalog-panel-box-width);
-  will-change: transform;
-}
-
-.catalog-panel-product img {
-  filter: drop-shadow(0 40px 70px rgba(32, 35, 34, 0.38));
-  height: var(--catalog-panel-box-height);
-  max-width: none;
-  object-fit: cover;
-  transform: none;
-  width: 100%;
 }
 
 .catalog-panel-card {
@@ -2013,38 +1989,60 @@ aside header {
   animation-timeline: --catalog-panel-progress;
   align-self: start;
   backdrop-filter: blur(20px);
-  background: rgba(249, 244, 238, 0.9);
-  border: 1px solid rgba(249, 244, 238, 0.7);
-  border-radius: 8px;
+  background: rgba(249, 244, 238, 0.95);
+  border: 1px solid rgba(32, 35, 34, 0.1);
+  border-radius: 12px;
   box-sizing: border-box;
-  box-shadow: 0 34px 90px rgba(32, 35, 34, 0.24);
+  box-shadow: 0 34px 90px rgba(32, 35, 34, 0.18);
   color: var(--color-charcoal);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  min-height: var(--catalog-panel-box-height);
-  margin-top: 0;
-  max-width: none;
-  padding: clamp(1.4rem, 3vw, 2.35rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  max-width: 900px;
+  overflow: hidden;
   position: sticky;
   top: calc(var(--header-height) + 2rem);
-  width: var(--catalog-panel-box-width);
+  width: 100%;
   will-change: transform;
 }
 
-.catalog-panel-card > p {
+.catalog-panel-card-image {
+  background: var(--color-linen);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 480px;
+  overflow: hidden;
+}
+
+.catalog-panel-card-image img {
+  height: 100%;
+  max-height: 520px;
+  object-fit: contain;
+  padding: 2rem;
+  width: 100%;
+}
+
+.catalog-panel-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: clamp(1.8rem, 3vw, 2.8rem);
+}
+
+.catalog-panel-card-body > p {
   color: var(--color-olive);
   margin-bottom: 2rem;
 }
 
-.catalog-panel-card h2 {
+.catalog-panel-card-body h2 {
   font-family: var(--font-serif);
-  font-size: clamp(2.7rem, 6vw, 6.5rem);
+  font-size: clamp(2.2rem, 4vw, 4.5rem);
   line-height: 0.9;
   margin: 0.7rem 0 1rem;
 }
 
-.catalog-panel-card strong {
+.catalog-panel-card-body strong {
   color: var(--color-olive);
   display: block;
   font-size: 1rem;
@@ -2052,14 +2050,14 @@ aside header {
   margin-bottom: 1.25rem;
 }
 
-.catalog-panel-card div {
+.catalog-panel-card-body > div {
   display: grid;
   gap: 0.75rem;
 }
 
-.catalog-panel-card div p {
+.catalog-panel-card-body > div p {
   color: rgba(32, 35, 34, 0.74);
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.65;
   margin: 0;
 }

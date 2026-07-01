@@ -111,19 +111,21 @@ export default function CatalogRoute() {
           <article className="catalog-panel" key={product.name}>
             <div className="catalog-panel-backdrop" aria-hidden="true" />
             <div className="catalog-panel-content">
-              <div className="catalog-panel-product" aria-hidden="true">
-                <img src={product.image} alt="" loading="lazy" />
-              </div>
               <div className="catalog-panel-card">
-                <p>{String(index + 1).padStart(2, '0')}</p>
-                <span>{product.category}</span>
-                <h2>{product.name}</h2>
-                <strong>{product.price}</strong>
-                <div>
-                  <p>{product.description}</p>
-                  <p>{product.detail}</p>
+                <div className="catalog-panel-card-image">
+                  <img src={product.image} alt={product.name} loading="lazy" />
                 </div>
-                <Link to={product.href}>Add to cart</Link>
+                <div className="catalog-panel-card-body">
+                  <p>{String(index + 1).padStart(2, '0')}</p>
+                  <span>{product.category}</span>
+                  <h2>{product.name}</h2>
+                  <strong>{product.price}</strong>
+                  <div>
+                    <p>{product.description}</p>
+                    <p>{product.detail}</p>
+                  </div>
+                  <Link to={product.href}>Add to cart</Link>
+                </div>
               </div>
             </div>
           </article>
