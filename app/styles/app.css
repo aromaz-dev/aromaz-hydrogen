@@ -5458,6 +5458,23 @@ aside header {
   width: 100%;
 }
 
+@media (min-width: 900px) {
+  .home-hero-sample-media {
+    overflow: visible;
+  }
+
+  .home-hero-sample-media img {
+    max-height: min(860px, 96svh);
+    width: 118%;
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, black 50%, black 50%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, black 50%, black 50%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+  }
+}
+
 .home-hero-sample .home-proof-strip {
   color: var(--color-charcoal);
   margin-top: 1.6rem;
