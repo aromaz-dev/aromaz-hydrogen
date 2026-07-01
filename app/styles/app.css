@@ -1893,7 +1893,7 @@ aside header {
 }
 
 .catalog-hero {
-  background: linear-gradient(150deg, #202322 0%, #3d2a18 50%, #c4936b 100%);
+  background: linear-gradient(150deg, #202322 0%, #3d3530 50%, #f9f4ee 100%);
   display: grid;
   min-height: calc(100svh - var(--header-height));
   place-items: center start;
@@ -1963,7 +1963,7 @@ aside header {
   animation: catalog-backdrop-exit linear both;
   animation-range: cover 66% exit 100%;
   animation-timeline: --catalog-panel-progress;
-  background: linear-gradient(150deg, #202322 0%, #3d2a18 50%, #c4936b 100%);
+  background: linear-gradient(150deg, #202322 0%, #3d3530 50%, #f9f4ee 100%);
   height: 100svh;
   margin-bottom: -100svh;
   position: sticky;
