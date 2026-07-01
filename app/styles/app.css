@@ -1893,12 +1893,7 @@ aside header {
 }
 
 .catalog-hero {
-  background-image:
-    linear-gradient(90deg, rgba(32, 35, 34, 0.86), rgba(32, 35, 34, 0.38)),
-    var(--catalog-hero-bg);
-  background-attachment: fixed;
-  background-position: center 68%;
-  background-size: cover;
+  background: linear-gradient(150deg, #1a2410 0%, #2d4018 45%, #566d37 100%);
   display: grid;
   min-height: calc(100svh - var(--header-height));
   place-items: center start;
@@ -1968,17 +1963,7 @@ aside header {
   animation: catalog-backdrop-exit linear both;
   animation-range: cover 66% exit 100%;
   animation-timeline: --catalog-panel-progress;
-  background-image:
-    linear-gradient(
-      90deg,
-      rgba(32, 35, 34, 0.82),
-      rgba(32, 35, 34, 0.32) 48%,
-      rgba(32, 35, 34, 0.74)
-    ),
-    var(--catalog-panel-bg);
-  background-attachment: fixed;
-  background-position: center;
-  background-size: cover;
+  background: linear-gradient(150deg, #1a2410 0%, #2d4018 45%, #566d37 100%);
   height: 100svh;
   margin-bottom: -100svh;
   position: sticky;

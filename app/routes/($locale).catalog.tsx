@@ -1,5 +1,4 @@
 import {Link} from 'react-router';
-import type {CSSProperties} from 'react';
 import type {Route} from './+types/($locale).catalog';
 import {BROCHURE_PRODUCTS} from '~/lib/brochure-products';
 import {
@@ -14,16 +13,6 @@ const CATALOG_TITLE =
   'Aromaz Catalog | Refillable Natural Deodorant and Cosmetics';
 const CATALOG_DESCRIPTION =
   'Explore the Aromaz catalog with refillable natural deodorant scents, sensitive skin deodorant refills, natural loofah soap, and lip care essentials.';
-
-const CATALOG_HERO_OVERLAY =
-  'linear-gradient(to right, rgba(32, 35, 34, 0.82) 0%, rgba(32, 35, 34, 0.58) 36%, rgba(32, 35, 34, 0.06) 62%, rgba(32, 35, 34, 0.04) 100%)';
-
-const CATALOG_PANEL_OVERLAY =
-  'linear-gradient(90deg, rgba(32, 35, 34, 0.82), rgba(32, 35, 34, 0.32) 48%, rgba(32, 35, 34, 0.74))';
-
-function getCssBackgroundImage(image: string, overlay: string) {
-  return `${overlay}, url("${image}")`;
-}
 
 function getCatalogImageUrl(image: string) {
   return /^https?:\/\//.test(image)
@@ -94,17 +83,7 @@ export const meta: Route.MetaFunction = () => {
 export default function CatalogRoute() {
   return (
     <main className="catalog-page">
-      <section
-        className="catalog-hero"
-        style={
-          {
-            backgroundImage: getCssBackgroundImage(
-              '/brand-story/heade-home3.png',
-              CATALOG_HERO_OVERLAY,
-            ),
-          } as CSSProperties
-        }
-      >
+      <section className="catalog-hero">
         <div className="catalog-hero-inner">
           <img
             src="/brochure/aromaz-logo-transparent.png"
@@ -130,18 +109,7 @@ export default function CatalogRoute() {
       <section className="catalog-parallax" aria-label="Aromaz catalog items">
         {BROCHURE_PRODUCTS.map((product, index) => (
           <article className="catalog-panel" key={product.name}>
-            <div
-              className="catalog-panel-backdrop"
-              style={
-                {
-                  backgroundImage: getCssBackgroundImage(
-                    product.background,
-                    CATALOG_PANEL_OVERLAY,
-                  ),
-                } as CSSProperties
-              }
-              aria-hidden="true"
-            />
+            <div className="catalog-panel-backdrop" aria-hidden="true" />
             <div className="catalog-panel-content">
               <div className="catalog-panel-product" aria-hidden="true">
                 <img src={product.image} alt="" loading="lazy" />
