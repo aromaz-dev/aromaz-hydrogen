@@ -1823,6 +1823,12 @@ aside header {
   will-change: transform;
 }
 
+@media (max-width: 767px) {
+  .home-story-media img {
+    transform: translateY(-6%) scale(0.68);
+  }
+}
+
 .home-story-media:hover img {
   filter: saturate(1.06);
 }
