@@ -146,7 +146,7 @@ function Hero() {
 
         <div className="home-hero-sample-media">
           <img
-            src="/images/product-hero.png"
+            src="/images/IMG_1372.jpg"
             alt="Aromaz refillable natural deodorant"
             loading="eager"
           />
