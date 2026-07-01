@@ -5292,7 +5292,7 @@ aside header {
   isolation: isolate;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  min-height: min(740px, calc(100svh - var(--header-height) + 3rem));
+  min-height: min(690px, calc(100svh - var(--header-height) + 3rem));
   overflow: hidden;
   padding: clamp(2.4rem, 5.8vw, 5.5rem) clamp(1.25rem, 4vw, 4.25rem)
     clamp(6.2rem, 9vw, 8rem);
@@ -5319,9 +5319,9 @@ aside header {
   align-items: center;
   display: grid;
   gap: clamp(1.5rem, 4vw, 4rem);
-  grid-template-columns: minmax(280px, clamp(320px, 38vw, 500px)) 1fr;
-  margin: 0 auto;
-  max-width: 1440px;
+  grid-template-columns: minmax(280px, 42vw) 1fr;
+  margin: 0;
+  max-width: none;
   position: static;
   width: 100%;
   z-index: 2;
