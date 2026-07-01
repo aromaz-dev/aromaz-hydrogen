@@ -2464,14 +2464,22 @@ aside header {
     padding-top: 4rem;
   }
 
-  .catalog-panel-product,
   .catalog-panel-card {
     animation: none;
+    grid-template-columns: 1fr;
     margin-top: 0;
     min-height: auto;
     position: relative;
     top: auto;
     transform: none;
+  }
+
+  .catalog-panel-card-image {
+    min-height: 260px;
+  }
+
+  .catalog-panel-card-image img {
+    max-height: 280px;
   }
 
   .catalog-panel-product {
