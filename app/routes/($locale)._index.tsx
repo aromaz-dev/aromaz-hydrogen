@@ -496,7 +496,7 @@ function BrandStory() {
       title: 'Less waste, more polish',
       description:
         'A durable case and replaceable refills help reduce single-use packaging while keeping the experience refined, practical, and ready for everyday use.',
-      image: '/images/IMG_4345.JPG',
+      image: '/images/IMG_1616.jpg',
       imageAlt: 'Mediterranean landscape and sustainable farming',
       imageLeft: true,
     },
