@@ -1818,8 +1818,8 @@ aside header {
 }
 
 .home-story-media img {
-  height: 112%;
-  transform: translateY(-6%) scale(1.03);
+  height: 106%;
+  transform: translateY(-3%) scale(1.0);
   will-change: transform;
 }
 

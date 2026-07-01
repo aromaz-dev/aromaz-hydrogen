@@ -446,8 +446,8 @@ function BrandStory() {
 
         const copyY = -74 + progress * 160;
         const mediaY = 42 - progress * 84;
-        const imageScale = 1.02 + progress * 0.1;
-        const imageY = -8 + progress * 4;
+        const imageScale = 1.0 + progress * 0.06;
+        const imageY = -5 + progress * 4;
 
         copy.style.transform = `translate3d(0, ${copyY}px, 0)`;
         copy.style.opacity = `${0.72 + Math.min(progress, 0.65) * 0.43}`;
@@ -483,6 +483,7 @@ function BrandStory() {
       image: '/images/IMG_1616.png',
       imageAlt: 'Aromaz deodorant',
       imageLeft: true,
+      imagePosition: 'center top',
     },
     {
       title: 'Ingredient clarity',
@@ -535,6 +536,7 @@ function BrandStory() {
                       alt={story.imageAlt}
                       className="w-full h-full object-cover"
                       loading="lazy"
+                      style={(story as any).imagePosition ? {objectPosition: (story as any).imagePosition} : undefined}
                     />
                   </div>
                 </div>
