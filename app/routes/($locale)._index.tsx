@@ -446,7 +446,7 @@ function BrandStory() {
 
         const copyY = -74 + progress * 160;
         const mediaY = 42 - progress * 84;
-        const imageScale = 0.93 + progress * 0.04;
+        const imageScale = 0.82 + progress * 0.04;
         const imageY = -8 + progress * 4;
 
         copy.style.transform = `translate3d(0, ${copyY}px, 0)`;
