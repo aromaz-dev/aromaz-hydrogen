@@ -5897,7 +5897,7 @@ aside header {
     font-size: 0.82rem;
     min-height: 56px;
     padding: 0 2.2rem;
-    width: 100%;
+    width: auto;
   }
 
   .home-hero-sample .home-hero-actions {
