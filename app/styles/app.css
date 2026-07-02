@@ -5922,15 +5922,15 @@ aside header {
     width: 100%;
     -webkit-mask-image: radial-gradient(
       ellipse 75% 60% at 50% 48%,
-      black 20%,
-      rgba(0, 0, 0, 0.42) 65%,
-      rgba(0, 0, 0, 0.35) 100%
+      rgba(0, 0, 0, 0.18) 20%,
+      rgba(0, 0, 0, 0.62) 55%,
+      black 85%
     );
     mask-image: radial-gradient(
       ellipse 75% 60% at 50% 48%,
-      black 20%,
-      rgba(0, 0, 0, 0.42) 65%,
-      rgba(0, 0, 0, 0.35) 100%
+      rgba(0, 0, 0, 0.18) 20%,
+      rgba(0, 0, 0, 0.62) 55%,
+      black 85%
     );
     opacity: 1;
   }
