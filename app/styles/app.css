@@ -1855,9 +1855,10 @@ aside header {
 }
 
 .catalog-hero span {
-  color: rgba(249, 244, 238, 0.74);
+  color: #566d37;
   display: block;
   font-size: clamp(1rem, 2vw, 1.18rem);
+  font-weight: 500;
   line-height: 1.65;
 }
 
@@ -1930,15 +1931,15 @@ aside header {
     linear-gradient(to right, transparent 0%, black 42%, black 58%, transparent 100%),
     linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
   mask-composite: intersect;
-  max-height: min(720px, 92svh);
+  max-height: min(960px, 96svh);
   object-fit: contain;
-  width: 100%;
+  width: 130%;
 }
 
 .catalog-hero-logo {
   height: auto;
   margin-bottom: clamp(2rem, 5vw, 4rem);
-  max-width: min(360px, 70vw);
+  max-width: min(520px, 70vw);
 }
 
 .catalog-hero h1 {
@@ -1961,20 +1962,20 @@ aside header {
 }
 
 .catalog-hero-actions a:first-child {
-  background: var(--color-terracotta);
-  box-shadow: 0 18px 42px rgba(178, 68, 30, 0.28);
+  background: #566d37;
+  box-shadow: 0 18px 42px rgba(86, 109, 55, 0.32);
   color: var(--color-cream);
 }
 
 .catalog-hero-actions a:last-child {
-  background: rgba(178, 68, 30, 0.18);
-  border: 1px solid rgba(178, 68, 30, 0.72);
-  color: var(--color-cream);
+  background: rgba(86, 109, 55, 0.14);
+  border: 1px solid rgba(86, 109, 55, 0.72);
+  color: var(--color-charcoal);
 }
 
 .catalog-hero-actions a:hover {
-  background: var(--color-amber);
-  border-color: var(--color-amber);
+  background: #7f936d;
+  border-color: #7f936d;
   color: var(--color-charcoal);
 }
 
