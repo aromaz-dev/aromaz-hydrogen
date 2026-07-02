@@ -3079,44 +3079,42 @@ aside header {
 }
 
 .contact-hero {
-  align-items: stretch;
+  align-items: center;
   background: var(--color-cream);
   color: var(--color-charcoal);
   display: grid;
-  grid-template-columns: minmax(280px, 48vw) 1fr;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  grid-template-columns: minmax(280px, 42vw) 1fr;
   min-height: min(740px, calc(100svh - var(--header-height)));
   overflow: hidden;
+  padding: clamp(2.4rem, 5.8vw, 5.5rem) clamp(1.25rem, 4vw, 4.25rem);
   position: relative;
-}
-
-.contact-hero-copy {
-  align-self: center;
-  padding: clamp(2.4rem, 5.8vw, 5.5rem) clamp(1.25rem, 4vw, 3rem);
 }
 
 .contact-hero-img {
-  overflow: hidden;
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
   position: relative;
+  z-index: 1;
 }
 
 .contact-hero-img img {
   display: block;
-  height: 100%;
+  height: auto;
+  max-height: min(680px, 88svh);
   object-fit: cover;
   object-position: center top;
   width: 100%;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 22%,
-    black 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 22%,
-    black 100%
-  );
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 5%, black 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 5%, black 88%, transparent 100%);
+  mask-composite: intersect;
 }
 
 .contact-hero-copy {
