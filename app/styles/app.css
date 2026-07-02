@@ -5844,7 +5844,8 @@ aside header {
 
 @media (max-width: 899px) {
   .home-hero-sample {
-    align-items: flex-start;
+    align-items: flex-end;
+    justify-content: center;
     min-height: min(600px, calc(100svh - var(--header-height)));
     padding: 0 clamp(1.25rem, 5vw, 2.5rem) 3rem;
   }
