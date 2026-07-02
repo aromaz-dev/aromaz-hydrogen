@@ -91,7 +91,7 @@ export default function CatalogRoute() {
             className="catalog-hero-logo"
           />
           <p>Product Catalog</p>
-          <h1>Aromaz Collection</h1>
+          <h1><a href="#catalog-start">Aromaz Collection</a></h1>
           <span>
             Refill-led deodorant scents, natural loofah soap, and daily lip care
             essentials organized for easy scent discovery, wholesale review, and
@@ -115,7 +115,7 @@ export default function CatalogRoute() {
 
       <section className="catalog-parallax" aria-label="Aromaz catalog items">
         {BROCHURE_PRODUCTS.map((product, index) => (
-          <article className="catalog-panel" key={product.name}>
+          <article className="catalog-panel" key={product.name} {...(index === 0 ? {id: 'catalog-start'} : {})}>
             <div className="catalog-panel-backdrop" aria-hidden="true" />
             <div className="catalog-panel-content">
               <div className="catalog-panel-card">

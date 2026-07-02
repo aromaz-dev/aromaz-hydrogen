@@ -1948,6 +1948,11 @@ aside header {
   margin: 0.75rem 0 1.25rem;
 }
 
+.catalog-hero h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .catalog-hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -2458,19 +2463,29 @@ aside header {
   }
 
   .catalog-hero h1 {
-    background: rgba(249, 244, 238, 0.82);
-    border-radius: 8px;
-    display: inline-block;
+    background: none;
     font-weight: 800;
-    padding: 0.4rem 0.9rem;
-    text-shadow: none;
+    padding: 0;
+  }
+
+  .catalog-hero h1 a {
+    background: #566d37;
+    border-radius: 999px;
+    box-shadow: 0 8px 28px rgba(86, 109, 55, 0.35);
+    color: #fdfcfa;
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    min-height: 52px;
+    line-height: 52px;
+    padding: 0 2rem;
+    text-transform: uppercase;
   }
 
   .catalog-hero-actions a:first-child {
-    box-shadow: 0 8px 28px rgba(178, 68, 30, 0.5);
-    font-size: 0.78rem;
-    min-height: 52px;
-    padding: 0 1.8rem;
+    display: none;
   }
 
   .catalog-hero-actions a:last-child {
