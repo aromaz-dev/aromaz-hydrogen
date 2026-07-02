@@ -4516,6 +4516,10 @@ aside header {
     max-width: 780px;
   }
 
+  .catalog-hero-logo {
+    display: none;
+  }
+
   .catalog-hero p {
     font-size: 0.72rem;
     font-weight: 800;
