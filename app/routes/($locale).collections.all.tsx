@@ -159,9 +159,7 @@ export default function Collection() {
             and lip care made for everyday comfort.
           </span>
           <div className="shop-hero-actions">
-            <Link to="/products/refillable-deodorant/customize">
-              Build deodorant
-            </Link>
+            <a href="#shop-products">Shop all</a>
             <Link to="/catalog">View catalog</Link>
           </div>
         </div>
@@ -174,7 +172,7 @@ export default function Collection() {
         </div>
       </section>
 
-      <section className="shop-grid-shell">
+      <section id="shop-products" className="shop-grid-shell">
         <div className="shop-grid-heading">
           <div>
             <p>{productCount} products</p>
