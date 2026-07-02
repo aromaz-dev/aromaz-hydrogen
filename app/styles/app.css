@@ -2446,30 +2446,35 @@ aside header {
   }
 
   .catalog-hero {
-    align-items: flex-start;
+    display: grid;
     grid-template-columns: 1fr;
-    min-height: calc(100svh - var(--header-height));
+    grid-template-rows: auto;
+    min-height: unset;
     overflow: hidden;
-    padding: 0 clamp(1.25rem, 5vw, 2.5rem) 3rem;
-    position: relative;
+    padding: 0;
   }
 
   .catalog-hero-inner {
+    align-self: end;
+    grid-area: 1 / 1;
+    padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1.25rem, 5vw, 2.5rem) 3rem;
     position: relative;
     z-index: 2;
   }
 
   .catalog-hero-media {
-    inset: 0;
-    position: absolute;
+    grid-area: 1 / 1;
+    inset: auto;
+    position: static;
+    width: 100%;
     z-index: 1;
   }
 
   .catalog-hero-media img {
-    height: 100%;
+    display: block;
+    height: auto;
     max-height: none;
-    object-fit: cover;
-    object-position: right center;
+    object-fit: unset;
     width: 100%;
     -webkit-mask-image: radial-gradient(
       ellipse 110% 110% at 80% 60%,
