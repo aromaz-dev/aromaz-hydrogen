@@ -1849,17 +1849,20 @@ aside header {
   text-transform: uppercase;
 }
 
-.catalog-hero p,
+.catalog-hero p {
+  color: var(--color-olive);
+}
+
 .catalog-panel-card-body > span {
   color: var(--color-clay);
 }
 
 .catalog-hero span {
-  color: #566d37;
+  color: rgba(32, 35, 34, 0.72);
   display: block;
   font-size: clamp(1rem, 2vw, 1.18rem);
   font-weight: 500;
-  line-height: 1.65;
+  line-height: 1.62;
 }
 
 .catalog-hero-actions a,
@@ -1883,17 +1886,22 @@ aside header {
 
 @media (min-width: 900px) {
   .catalog-hero p {
-    font-size: 1.2rem;
+    font-size: 0.72rem;
+    font-weight: 800;
     letter-spacing: 0.22em;
   }
 
   .catalog-hero h1 {
-    font-size: clamp(6rem, 16vw, 15rem);
+    font-size: clamp(2rem, 3.8vw, 3.8rem);
+    font-weight: 600;
+    line-height: 1.05;
   }
 
   .catalog-hero span {
-    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
-    font-weight: 500;
+    font-size: clamp(0.96rem, 1.25vw, 1.08rem);
+    font-weight: 400;
+    line-height: 1.62;
+    max-width: 460px;
   }
 
   .catalog-hero-actions {
