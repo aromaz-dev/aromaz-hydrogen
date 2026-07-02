@@ -2875,30 +2875,21 @@ aside header {
 
 .shop-hero {
   align-items: center;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(253, 252, 250, 0.68) 0%,
-      rgba(253, 252, 250, 0.42) 38%,
-      rgba(253, 252, 250, 0.12) 62%,
-      rgba(253, 252, 250, 0) 100%
-    ),
-    url('/shop-contact-hero-product-fade.png') center / cover no-repeat;
-  background-color: #efe2d5;
+  background: var(--color-cream);
   color: var(--color-charcoal);
   display: grid;
-  gap: clamp(0.85rem, 2.4vw, 1.75rem);
-  grid-template-columns: minmax(0, 1fr);
-  min-height: min(310px, calc(46svh - var(--header-height)));
+  gap: clamp(1.5rem, 4vw, 4rem);
+  grid-template-columns: minmax(280px, 42vw) 1fr;
+  min-height: min(740px, calc(100svh - var(--header-height)));
   overflow: hidden;
-  padding: clamp(1.35rem, 3.4vw, 2.6rem) clamp(1rem, 4vw, 3rem);
+  padding: clamp(2.4rem, 5.8vw, 5.5rem) clamp(1.25rem, 4vw, 4.25rem);
   position: relative;
 }
 
 .shop-hero-copy {
-  max-width: 430px;
+  max-width: 545px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .shop-hero-copy p,
@@ -2913,43 +2904,48 @@ aside header {
 
 .shop-hero-copy p {
   color: var(--color-olive);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  margin: 0;
 }
 
 .shop-hero-copy h1 {
   font-family: var(--font-serif);
-  font-size: clamp(1.45rem, 3.2vw, 2.8rem);
-  line-height: 1;
-  margin: 0;
-  max-width: 420px;
+  font-size: clamp(2rem, 3.8vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 0.85rem 0 1rem;
+  max-width: none;
 }
 
 .shop-hero-copy span {
   color: rgba(32, 35, 34, 0.72);
   display: block;
-  font-size: clamp(0.74rem, 1.25vw, 0.88rem);
-  line-height: 1.5;
-  margin-top: 0.7rem;
-  max-width: 420px;
+  font-size: clamp(0.96rem, 1.25vw, 1.08rem);
+  line-height: 1.62;
+  margin: 0;
+  max-width: 460px;
 }
 
 .shop-hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: 1.4rem;
+  margin-top: 3rem;
 }
 
 .shop-hero-actions a,
 .shop-filter-band a {
   align-items: center;
-  border-radius: 6px;
+  border-radius: 999px;
   display: inline-flex;
-  font-size: 0.58rem;
+  font-size: 0.9rem;
   font-weight: 700;
   justify-content: center;
-  letter-spacing: 0.1em;
-  min-height: 34px;
-  padding: 0.55rem 0.75rem;
+  letter-spacing: 0.16em;
+  min-height: 56px;
+  padding: 0 2.2rem;
   text-transform: uppercase;
   transition:
     background-color 160ms ease,
@@ -2959,23 +2955,48 @@ aside header {
 }
 
 .shop-hero-actions a:first-child {
-  background: var(--color-olive);
-  box-shadow: 0 18px 42px rgba(32, 35, 34, 0.24);
-  color: var(--color-cream);
+  background: #566d37;
+  box-shadow: 0 24px 64px rgba(86, 109, 55, 0.42);
+  color: var(--color-off-white);
 }
 
 .shop-hero-actions a:last-child {
-  background: rgba(253, 252, 250, 0.72);
-  border: 1px solid rgba(32, 35, 34, 0.16);
+  background: rgba(86, 109, 55, 0.12);
+  border: 2px solid rgba(86, 109, 55, 0.9);
   color: var(--color-charcoal);
 }
 
 .shop-hero-actions a:hover,
 .shop-filter-band a:hover {
-  background: var(--color-terracotta);
-  border-color: var(--color-terracotta);
-  color: var(--color-cream);
+  background: #7f936d;
+  border-color: #7f936d;
+  color: var(--color-off-white);
   transform: translateY(-1px);
+}
+
+.shop-hero-img {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.shop-hero-img img {
+  display: block;
+  height: auto;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, black 42%, black 58%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 42%, black 58%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+  mask-composite: intersect;
+  max-height: min(960px, 96svh);
+  object-fit: contain;
+  width: 155%;
 }
 
 .shop-hero-media {
@@ -3327,12 +3348,11 @@ aside header {
 
 @media (max-width: 1100px) {
   .shop-hero {
-    background-attachment: scroll;
     gap: clamp(0.8rem, 2.5vw, 1.25rem);
     grid-template-columns: 1fr;
     min-height: auto;
     overflow: visible;
-    padding: clamp(1rem, 3.4vw, 1.8rem) clamp(1rem, 4vw, 2rem);
+    padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 4vw, 2rem);
   }
 
   .shop-hero-copy {
@@ -3341,11 +3361,26 @@ aside header {
 
   .shop-hero-copy h1 {
     font-size: clamp(1.45rem, 5.5vw, 2.45rem);
-    max-width: 16ch;
+    max-width: 100%;
   }
 
   .shop-hero-copy span {
     max-width: 30rem;
+  }
+
+  .shop-hero-img {
+    display: none;
+  }
+
+  .shop-hero-actions {
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .shop-hero-actions a {
+    font-size: 0.78rem;
+    min-height: 48px;
+    padding: 0 1.5rem;
   }
 
   .shop-hero-media {

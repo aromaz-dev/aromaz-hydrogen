@@ -165,6 +165,13 @@ export default function Collection() {
             <Link to="/catalog">View catalog</Link>
           </div>
         </div>
+        <div className="shop-hero-img">
+          <img
+            src="/images/IMG_1616.png"
+            alt="Aromaz natural care products"
+            loading="eager"
+          />
+        </div>
       </section>
 
       <section className="shop-grid-shell">
