@@ -2446,28 +2446,44 @@ aside header {
   }
 
   .catalog-hero {
+    align-items: flex-start;
     grid-template-columns: 1fr;
-    min-height: auto;
-    padding-bottom: 0;
+    min-height: min(600px, calc(100svh - var(--header-height)));
+    overflow: hidden;
+    padding: 0 clamp(1.25rem, 5vw, 2.5rem) 3rem;
+    position: relative;
+  }
+
+  .catalog-hero-inner {
+    position: relative;
+    z-index: 2;
   }
 
   .catalog-hero-media {
-    order: -1;
-    max-height: 45svh;
-    overflow: hidden;
+    inset: 0;
+    position: absolute;
+    z-index: 1;
   }
 
   .catalog-hero-media img {
-    max-height: 45svh;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: right center;
+    width: 100%;
     -webkit-mask-image: radial-gradient(
-      ellipse 90% 96% at 50% 50%,
-      black 40%,
-      transparent 100%
+      ellipse 90% 96% at 86% 76%,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.9) 25%,
+      rgba(0, 0, 0, 0.35) 58%,
+      transparent 76%
     );
     mask-image: radial-gradient(
-      ellipse 90% 96% at 50% 50%,
-      black 40%,
-      transparent 100%
+      ellipse 90% 96% at 86% 76%,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.9) 25%,
+      rgba(0, 0, 0, 0.35) 58%,
+      transparent 76%
     );
   }
 
