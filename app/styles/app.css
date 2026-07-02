@@ -1883,30 +1883,30 @@ aside header {
 
 @media (min-width: 900px) {
   .catalog-hero p {
-    font-size: 0.85rem;
+    font-size: 1rem;
     letter-spacing: 0.22em;
   }
 
   .catalog-hero h1 {
-    font-size: clamp(4rem, 12vw, 11rem);
+    font-size: clamp(5rem, 14vw, 13rem);
   }
 
   .catalog-hero span {
-    font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+    font-size: clamp(1.3rem, 2.1vw, 1.65rem);
     font-weight: 500;
   }
 
   .catalog-hero-actions {
-    gap: 1rem;
-    margin-top: 2.5rem;
+    gap: 1.2rem;
+    margin-top: 3rem;
   }
 
   .catalog-hero-actions a {
     border-radius: 999px;
-    font-size: 0.84rem;
+    font-size: 1rem;
     letter-spacing: 0.16em;
-    min-height: 56px;
-    padding: 0 2.2rem;
+    min-height: 66px;
+    padding: 0 2.8rem;
   }
 }
 
@@ -1935,7 +1935,7 @@ aside header {
 }
 
 .catalog-hero-inner {
-  max-width: 560px;
+  max-width: 680px;
   position: relative;
   z-index: 2;
 }
