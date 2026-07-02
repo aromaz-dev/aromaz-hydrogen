@@ -2451,7 +2451,8 @@ aside header {
     padding: 0;
   }
 
-  .catalog-hero-inner > span {
+  .catalog-hero-inner > span,
+  .catalog-hero-inner > p {
     display: none;
   }
 
