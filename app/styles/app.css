@@ -2451,6 +2451,10 @@ aside header {
     padding: 0;
   }
 
+  .catalog-hero-inner > span {
+    display: none;
+  }
+
   .catalog-hero-inner {
     align-self: end;
     grid-area: 1 / 1;
