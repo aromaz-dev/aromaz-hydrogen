@@ -1933,7 +1933,7 @@ aside header {
   mask-composite: intersect;
   max-height: min(960px, 96svh);
   object-fit: contain;
-  width: 130%;
+  width: 155%;
 }
 
 .catalog-hero-logo {
