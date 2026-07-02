@@ -86,7 +86,7 @@ export default function CatalogRoute() {
       <section className="catalog-hero">
         <div className="catalog-hero-inner">
           <img
-            src="/brochure/aromaz-logo-transparent.png"
+            src="/images/aromaz-new-logo.png"
             alt="Aromaz"
             className="catalog-hero-logo"
           />
