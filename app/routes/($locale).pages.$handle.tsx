@@ -203,15 +203,24 @@ export default function Page() {
 function ContactPage() {
   return (
     <main className="contact-page">
-      <section className="contact-hero">
-        <div className="contact-hero-copy">
-          <p>Contact Aromaz</p>
+      <section className="shop-hero contact-shop-hero">
+        <div className="shop-hero-copy">
+          <p>CONTACT AROMAZ</p>
           <h1>Natural scent care support and wholesale partnerships.</h1>
           <span>
             For customer questions, wholesale requests, franchise interest, or
             brochure access, reach the Aromaz team directly.
           </span>
-          <a href="mailto:info@aromazco.com">info@aromazco.com</a>
+          <div className="shop-hero-actions">
+            <a href="mailto:info@aromazco.com">Email Aromaz</a>
+          </div>
+        </div>
+        <div className="shop-hero-img contact-shop-hero-img">
+          <img
+            src="/images/IMG_4339.JPG"
+            alt="Aromaz natural scent care display"
+            loading="eager"
+          />
         </div>
       </section>
 

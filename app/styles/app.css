@@ -6617,6 +6617,133 @@ aside header {
   );
 }
 
+.contact-shop-hero {
+  align-items: center;
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  grid-template-columns: minmax(280px, 42vw) 1fr;
+  min-height: min(740px, calc(100svh - var(--header-height)));
+  overflow: hidden;
+  padding: clamp(2.4rem, 5.8vw, 5.5rem) clamp(1.25rem, 4vw, 4.25rem);
+}
+
+.contact-shop-hero .shop-hero-copy {
+  align-items: flex-start;
+  display: flex;
+  max-width: 545px;
+  text-align: left;
+}
+
+.contact-shop-hero .shop-hero-copy p {
+  color: var(--color-olive);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  margin: 0;
+}
+
+.contact-shop-hero .shop-hero-copy h1 {
+  color: var(--color-charcoal);
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.8vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 0.85rem 0 1rem;
+  max-width: none;
+  text-shadow: none;
+}
+
+.contact-shop-hero .shop-hero-copy span {
+  color: rgba(32, 35, 34, 0.72);
+  display: block;
+  font-size: clamp(0.96rem, 1.25vw, 1.08rem);
+  line-height: 1.62;
+  margin: 0;
+  max-width: 460px;
+}
+
+.contact-shop-hero .shop-hero-actions {
+  justify-content: flex-start;
+  margin-top: 3rem;
+}
+
+.contact-shop-hero .shop-hero-actions a {
+  width: auto;
+}
+
+.contact-shop-hero .shop-hero-img {
+  align-items: center;
+  display: flex;
+  inset: auto;
+  justify-content: flex-end;
+  min-width: 0;
+  position: relative;
+}
+
+.contact-shop-hero-img img {
+  aspect-ratio: 4 / 5;
+  border-radius: 8px;
+  display: block;
+  height: min(620px, 76svh);
+  max-height: none;
+  object-fit: cover;
+  object-position: center;
+  width: min(100%, 620px);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+@media (max-width: 767px) {
+  .contact-shop-hero {
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    overflow: visible;
+    padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 4vw, 2rem);
+  }
+
+  .contact-shop-hero .shop-hero-copy {
+    max-width: min(520px, 100%);
+  }
+
+  .contact-shop-hero .shop-hero-copy h1 {
+    font-size: clamp(1.45rem, 5.5vw, 2.45rem);
+    max-width: 100%;
+  }
+
+  .contact-shop-hero .shop-hero-copy span {
+    font-size: 0.86rem;
+    line-height: 1.5;
+    max-width: 30rem;
+  }
+
+  .contact-shop-hero .shop-hero-actions {
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .contact-shop-hero .shop-hero-actions a {
+    flex: 0 1 auto;
+    font-size: 0.78rem;
+    min-height: 48px;
+    padding: 0 1.5rem;
+    width: auto;
+  }
+
+  .contact-shop-hero .shop-hero-img {
+    display: flex;
+    justify-content: center;
+  }
+
+  .contact-shop-hero-img img {
+    aspect-ratio: 4 / 3;
+    height: auto;
+    max-height: none;
+    width: 100%;
+  }
+}
+
 .customizer-page .bg-terracotta,
 .customizer-page .hover\:bg-terracotta:hover {
   background-color: #566d37 !important;
