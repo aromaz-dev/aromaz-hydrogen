@@ -6014,6 +6014,44 @@ aside header {
   }
 }
 
+@media (min-width: 900px) {
+  .home-hero-sample .home-primary-cta {
+    box-shadow: 0 24px 64px rgba(86, 109, 55, 0.42);
+    font-size: 1.05rem;
+    min-height: 66px;
+    padding: 0 2.8rem;
+  }
+
+  .home-hero-sample .home-hero-refills-link {
+    background: rgba(86, 109, 55, 0.12);
+    border: 2px solid rgba(86, 109, 55, 0.9);
+    border-radius: 999px;
+    color: var(--color-charcoal);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    min-height: 66px;
+    padding: 0 2.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+
+  .home-hero-sample .home-hero-refills-link:hover {
+    background: #7f936d;
+    border-color: #7f936d;
+    color: var(--color-off-white);
+    text-decoration: none;
+  }
+
+  .home-hero-sample .home-hero-actions {
+    gap: 1.4rem;
+    margin-top: 3rem;
+  }
+}
+
 
 /*
 * --------------------------------------------------
