@@ -213,6 +213,13 @@ function ContactPage() {
           </span>
           <a href="mailto:info@aromazco.com">info@aromazco.com</a>
         </div>
+        <div className="contact-hero-img">
+          <img
+            src="/images/IMG_4347.jpeg"
+            alt="Aromaz natural care"
+            loading="eager"
+          />
+        </div>
       </section>
 
       <section className="contact-info-band">

@@ -3080,24 +3080,40 @@ aside header {
 
 .contact-hero {
   align-items: center;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(253, 252, 250, 0.7) 0%,
-      rgba(253, 252, 250, 0.44) 38%,
-      rgba(253, 252, 250, 0.12) 62%,
-      rgba(253, 252, 250, 0) 100%
-    ),
-    url('/shop-contact-hero-product-fade.png') center / cover no-repeat;
-  background-color: #efe2d5;
+  background: var(--color-cream);
   color: var(--color-charcoal);
   display: grid;
-  gap: clamp(2rem, 4vw, 4rem);
-  grid-template-columns: minmax(0, 1fr);
-  min-height: calc(100svh - var(--header-height));
+  gap: clamp(1.5rem, 4vw, 4rem);
+  grid-template-columns: minmax(280px, 42vw) 1fr;
+  min-height: min(740px, calc(100svh - var(--header-height)));
   overflow: hidden;
-  padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
+  padding: clamp(2.4rem, 5.8vw, 5.5rem) clamp(1.25rem, 4vw, 4.25rem);
   position: relative;
+}
+
+.contact-hero-img {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-hero-img img {
+  display: block;
+  height: auto;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, black 42%, black 58%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 42%, black 58%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+  mask-composite: intersect;
+  max-height: min(960px, 96svh);
+  object-fit: contain;
+  width: 155%;
 }
 
 .contact-hero-copy {
@@ -3312,11 +3328,14 @@ aside header {
 
 @media (max-width: 1280px) {
   .contact-hero {
-    background-attachment: scroll;
     gap: clamp(1.5rem, 3vw, 2.5rem);
     grid-template-columns: 1fr;
     min-height: auto;
     overflow: hidden;
+  }
+
+  .contact-hero-img {
+    display: none;
   }
 
   .contact-hero-copy {
@@ -6101,6 +6120,68 @@ aside header {
 
   .home-hero-sample + .home-shop-overlap {
     margin-top: -3rem;
+  }
+
+  .contact-hero {
+    align-items: center;
+    justify-content: center;
+    min-height: min(600px, calc(100svh - var(--header-height)));
+    padding: 0 clamp(1.25rem, 5vw, 2.5rem) 3rem;
+    position: relative;
+  }
+
+  .contact-hero-copy {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    position: relative;
+    text-align: center;
+    z-index: 3;
+  }
+
+  .contact-hero-copy h1 {
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 3.5rem 0 0.25rem;
+    max-width: none;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  }
+
+  .contact-hero-copy span {
+    display: none;
+  }
+
+  .contact-hero-copy a {
+    align-self: center;
+    margin-top: 2rem;
+  }
+
+  .contact-hero-img {
+    display: block;
+    inset: 0;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .contact-hero-img img {
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    -webkit-mask-image: radial-gradient(
+      ellipse 80% 65% at 50% 48%,
+      black 30%,
+      rgba(0, 0, 0, 0.6) 65%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 80% 65% at 50% 48%,
+      black 30%,
+      rgba(0, 0, 0, 0.6) 65%,
+      transparent 100%
+    );
   }
 
   .shop-hero {
