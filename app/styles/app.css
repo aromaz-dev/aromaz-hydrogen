@@ -5900,18 +5900,18 @@ aside header {
     object-position: right center;
     width: 100%;
     -webkit-mask-image: radial-gradient(
-      ellipse 96% 102% at 86% 76%,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.88) 35%,
-      rgba(0, 0, 0, 0.4) 68%,
-      transparent 88%
+      ellipse 120% 120% at 86% 76%,
+      black 0%,
+      black 55%,
+      rgba(0, 0, 0, 0.6) 78%,
+      transparent 96%
     );
     mask-image: radial-gradient(
-      ellipse 96% 102% at 86% 76%,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.88) 35%,
-      rgba(0, 0, 0, 0.4) 68%,
-      transparent 88%
+      ellipse 120% 120% at 86% 76%,
+      black 0%,
+      black 55%,
+      rgba(0, 0, 0, 0.6) 78%,
+      transparent 96%
     );
   }
 
