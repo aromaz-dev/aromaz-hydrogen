@@ -104,6 +104,13 @@ export default function CatalogRoute() {
             <Link to="/collections/all">Shop all</Link>
           </div>
         </div>
+        <div className="catalog-hero-media">
+          <img
+            src="/images/IMG_9440.jpg"
+            alt="Aromaz natural deodorant"
+            loading="eager"
+          />
+        </div>
       </section>
 
       <section className="catalog-parallax" aria-label="Aromaz catalog items">

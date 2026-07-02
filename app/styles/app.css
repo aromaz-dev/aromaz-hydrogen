@@ -1893,15 +1893,46 @@ aside header {
 }
 
 .catalog-hero {
+  align-items: center;
   background: #f9f4ee;
   display: grid;
-  min-height: calc(100svh - var(--header-height));
-  place-items: center start;
-  padding: clamp(5rem, 8vw, 8rem) clamp(1.5rem, 5vw, 5rem);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  grid-template-columns: minmax(280px, 42vw) 1fr;
+  min-height: min(740px, calc(100svh - var(--header-height)));
+  overflow: hidden;
+  padding: clamp(2.4rem, 5.8vw, 5.5rem) clamp(1.25rem, 4vw, 4.25rem);
+  position: relative;
 }
 
 .catalog-hero-inner {
-  max-width: 760px;
+  max-width: 560px;
+  position: relative;
+  z-index: 2;
+}
+
+.catalog-hero-media {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.catalog-hero-media img {
+  display: block;
+  height: auto;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, black 42%, black 58%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 42%, black 58%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+  mask-composite: intersect;
+  max-height: min(720px, 92svh);
+  object-fit: contain;
+  width: 100%;
 }
 
 .catalog-hero-logo {
@@ -2412,6 +2443,32 @@ aside header {
 
   .shop-grid-heading {
     grid-template-columns: 1fr;
+  }
+
+  .catalog-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-bottom: 0;
+  }
+
+  .catalog-hero-media {
+    order: -1;
+    max-height: 45svh;
+    overflow: hidden;
+  }
+
+  .catalog-hero-media img {
+    max-height: 45svh;
+    -webkit-mask-image: radial-gradient(
+      ellipse 90% 96% at 50% 50%,
+      black 40%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 90% 96% at 50% 50%,
+      black 40%,
+      transparent 100%
+    );
   }
 
   .contact-hero {
