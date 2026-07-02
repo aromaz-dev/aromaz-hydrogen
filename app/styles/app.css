@@ -1912,17 +1912,17 @@ aside header {
   .catalog-hero-actions a:first-child {
     background: #566d37;
     box-shadow: 0 24px 64px rgba(86, 109, 55, 0.42);
-    font-size: 1.2rem;
-    min-height: 80px;
-    padding: 0 3.8rem;
+    font-size: 1.05rem;
+    min-height: 66px;
+    padding: 0 2.8rem;
   }
 
   .catalog-hero-actions a:last-child {
     background: rgba(86, 109, 55, 0.12);
     border: 2px solid rgba(86, 109, 55, 0.9);
-    font-size: 1.2rem;
-    min-height: 80px;
-    padding: 0 3.8rem;
+    font-size: 1.05rem;
+    min-height: 66px;
+    padding: 0 2.8rem;
   }
 }
 
