@@ -2652,11 +2652,11 @@ aside header {
   }
 
   .catalog-panel-card-image {
-    min-height: 260px;
+    min-height: 420px;
   }
 
   .catalog-panel-card-image img {
-    max-height: 280px;
+    max-height: 460px;
   }
 
   .catalog-panel-product {
