@@ -2448,7 +2448,7 @@ aside header {
   .catalog-hero {
     align-items: flex-start;
     grid-template-columns: 1fr;
-    min-height: min(600px, calc(100svh - var(--header-height)));
+    min-height: calc(100svh - var(--header-height));
     overflow: hidden;
     padding: 0 clamp(1.25rem, 5vw, 2.5rem) 3rem;
     position: relative;
@@ -2472,18 +2472,18 @@ aside header {
     object-position: right center;
     width: 100%;
     -webkit-mask-image: radial-gradient(
-      ellipse 90% 96% at 86% 76%,
+      ellipse 110% 110% at 80% 60%,
       rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.9) 25%,
-      rgba(0, 0, 0, 0.35) 58%,
-      transparent 76%
+      rgba(0, 0, 0, 0.85) 40%,
+      rgba(0, 0, 0, 0.4) 70%,
+      transparent 92%
     );
     mask-image: radial-gradient(
-      ellipse 90% 96% at 86% 76%,
+      ellipse 110% 110% at 80% 60%,
       rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.9) 25%,
-      rgba(0, 0, 0, 0.35) 58%,
-      transparent 76%
+      rgba(0, 0, 0, 0.85) 40%,
+      rgba(0, 0, 0, 0.4) 70%,
+      transparent 92%
     );
   }
 
