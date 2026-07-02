@@ -5879,7 +5879,7 @@ aside header {
   }
 
   .home-hero-sample .home-hero-copy > p:not(.home-hero-eyebrow) {
-    margin-bottom: 0;
+    display: none;
   }
 
   .home-hero-sample .home-hero-actions {
