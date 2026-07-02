@@ -2479,20 +2479,8 @@ aside header {
     max-height: none;
     object-fit: unset;
     width: 100%;
-    -webkit-mask-image: radial-gradient(
-      ellipse 110% 110% at 80% 60%,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.85) 40%,
-      rgba(0, 0, 0, 0.4) 70%,
-      transparent 92%
-    );
-    mask-image: radial-gradient(
-      ellipse 110% 110% at 80% 60%,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.85) 40%,
-      rgba(0, 0, 0, 0.4) 70%,
-      transparent 92%
-    );
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
   .contact-hero {
