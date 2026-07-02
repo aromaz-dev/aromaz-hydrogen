@@ -2458,8 +2458,12 @@ aside header {
   }
 
   .catalog-hero h1 {
+    background: rgba(249, 244, 238, 0.82);
+    border-radius: 8px;
+    display: inline-block;
     font-weight: 800;
-    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.28);
+    padding: 0.4rem 0.9rem;
+    text-shadow: none;
   }
 
   .catalog-hero-actions a:first-child {
