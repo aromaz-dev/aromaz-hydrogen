@@ -4520,6 +4520,7 @@ aside header {
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.22em;
+    margin: 0;
   }
 
   .catalog-hero h1 {
@@ -4533,7 +4534,13 @@ aside header {
     font-size: clamp(0.96rem, 1.25vw, 1.08rem);
     font-weight: 400;
     line-height: 1.62;
+    margin-top: 0;
     max-width: 460px;
+  }
+
+  .catalog-hero-actions {
+    gap: 1.4rem;
+    margin-top: 3rem;
   }
 }
 
