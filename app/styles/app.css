@@ -1413,7 +1413,7 @@ img {
 
 .mobile-menu-account a {
   align-items: center;
-  background: var(--color-charcoal);
+  background: #566d37;
   border-radius: 6px;
   color: var(--color-cream);
   display: inline-flex;
@@ -1428,7 +1428,7 @@ img {
 }
 
 .mobile-menu-account a:hover {
-  background: var(--color-terracotta);
+  background: #7f936d;
   color: var(--color-cream);
   text-decoration: none;
 }
