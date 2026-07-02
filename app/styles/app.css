@@ -6621,7 +6621,7 @@ aside header {
   align-items: center;
   display: grid;
   gap: clamp(1.5rem, 4vw, 4rem);
-  grid-template-columns: minmax(280px, 42vw) 1fr;
+  grid-template-columns: minmax(0, 45%) minmax(0, 1fr);
   min-height: min(740px, calc(100svh - var(--header-height)));
   overflow: hidden;
   padding: clamp(2.4rem, 5.8vw, 5.5rem) clamp(1.25rem, 4vw, 4.25rem);
@@ -6630,6 +6630,7 @@ aside header {
 .contact-shop-hero .shop-hero-copy {
   align-items: flex-start;
   display: flex;
+  flex-direction: column;
   max-width: 545px;
   text-align: left;
 }
@@ -6669,6 +6670,7 @@ aside header {
 }
 
 .contact-shop-hero .shop-hero-actions a {
+  display: inline-flex !important;
   width: auto;
 }
 
@@ -6724,6 +6726,7 @@ aside header {
   }
 
   .contact-shop-hero .shop-hero-actions a {
+    display: inline-flex !important;
     flex: 0 1 auto;
     font-size: 0.78rem;
     min-height: 48px;

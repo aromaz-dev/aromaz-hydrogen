@@ -3,6 +3,7 @@ import type {Route} from './+types/($locale).pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {SocialLinks} from '~/components/SocialLinks';
 import {STOCKIST_LOCATIONS, StockistsPage} from '~/components/StockistsPage';
+import contactHeroImage from '~/assets/contact-hero.JPG?url';
 import {
   CUSTOMER_SUPPORT_EMAIL,
   DEFAULT_STORE_URL,
@@ -217,7 +218,7 @@ function ContactPage() {
         </div>
         <div className="shop-hero-img contact-shop-hero-img">
           <img
-            src="/images/IMG_4339.JPG"
+            src={contactHeroImage}
             alt="Aromaz natural scent care display"
             loading="eager"
           />
