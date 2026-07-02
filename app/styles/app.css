@@ -1912,17 +1912,17 @@ aside header {
   .catalog-hero-actions a:first-child {
     background: #566d37;
     box-shadow: 0 24px 64px rgba(86, 109, 55, 0.42);
-    font-size: 1.05rem;
-    min-height: 66px;
-    padding: 0 2.8rem;
+    font-size: 0.9rem;
+    min-height: 56px;
+    padding: 0 2.2rem;
   }
 
   .catalog-hero-actions a:last-child {
     background: rgba(86, 109, 55, 0.12);
     border: 2px solid rgba(86, 109, 55, 0.9);
-    font-size: 1.05rem;
-    min-height: 66px;
-    padding: 0 2.8rem;
+    font-size: 0.9rem;
+    min-height: 56px;
+    padding: 0 2.2rem;
   }
 }
 
@@ -6017,9 +6017,9 @@ aside header {
 @media (min-width: 900px) {
   .home-hero-sample .home-primary-cta {
     box-shadow: 0 24px 64px rgba(86, 109, 55, 0.42);
-    font-size: 1.05rem;
-    min-height: 66px;
-    padding: 0 2.8rem;
+    font-size: 0.9rem;
+    min-height: 56px;
+    padding: 0 2.2rem;
   }
 
   .home-hero-sample .home-hero-refills-link {
@@ -6027,11 +6027,11 @@ aside header {
     border: 2px solid rgba(86, 109, 55, 0.9);
     border-radius: 999px;
     color: var(--color-charcoal);
-    font-size: 1.05rem;
+    font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.16em;
-    min-height: 66px;
-    padding: 0 2.8rem;
+    min-height: 56px;
+    padding: 0 2.2rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
