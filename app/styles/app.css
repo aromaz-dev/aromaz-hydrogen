@@ -5884,9 +5884,24 @@ aside header {
     display: none;
   }
 
+  .home-hero-eyebrow {
+    display: none;
+  }
+
+  .home-hero-sample .home-hero-refills-link {
+    display: none;
+  }
+
+  .home-hero-sample .home-primary-cta {
+    font-size: 0.82rem;
+    min-height: 56px;
+    padding: 0 2.2rem;
+    width: 100%;
+  }
+
   .home-hero-sample .home-hero-actions {
     justify-content: center;
-    margin-top: 4rem;
+    margin-top: 2rem;
   }
 
   .home-hero-sample-media {
