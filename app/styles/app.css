@@ -2452,7 +2452,8 @@ aside header {
   }
 
   .catalog-hero-inner > span,
-  .catalog-hero-inner > p {
+  .catalog-hero-inner > p,
+  .catalog-hero-logo {
     display: none;
   }
 
