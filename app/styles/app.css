@@ -2006,6 +2006,20 @@ aside header {
   will-change: transform;
 }
 
+@media (min-width: 901px) {
+  .catalog-panel-card {
+    max-width: 1200px;
+  }
+
+  .catalog-panel-card-image {
+    min-height: 680px;
+  }
+
+  .catalog-panel-card-image img {
+    max-height: 720px;
+  }
+}
+
 .catalog-panel-card-image {
   background: var(--color-linen);
   display: flex;
