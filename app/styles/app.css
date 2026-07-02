@@ -6102,6 +6102,83 @@ aside header {
   .home-hero-sample + .home-shop-overlap {
     margin-top: -3rem;
   }
+
+  .shop-hero {
+    align-items: center;
+    justify-content: center;
+    min-height: min(600px, calc(100svh - var(--header-height)));
+    padding: 0 clamp(1.25rem, 5vw, 2.5rem) 3rem;
+    position: relative;
+  }
+
+  .shop-hero-copy {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    position: relative;
+    text-align: center;
+    z-index: 3;
+  }
+
+  .shop-hero-copy p {
+    display: none;
+  }
+
+  .shop-hero-copy h1 {
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 0.25rem;
+    max-width: none;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.22);
+  }
+
+  .shop-hero-copy span {
+    display: none;
+  }
+
+  .shop-hero-actions {
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .shop-hero-actions a {
+    font-size: 0.72rem;
+    min-height: 50px;
+    padding: 0.75rem 1.25rem;
+    width: auto;
+  }
+
+  .shop-hero-actions a:last-child {
+    display: none;
+  }
+
+  .shop-hero-img {
+    display: block;
+    inset: 0;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .shop-hero-img img {
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    -webkit-mask-image: radial-gradient(
+      ellipse 75% 60% at 50% 48%,
+      rgba(0, 0, 0, 0.18) 20%,
+      rgba(0, 0, 0, 0.62) 55%,
+      black 85%
+    );
+    mask-image: radial-gradient(
+      ellipse 75% 60% at 50% 48%,
+      rgba(0, 0, 0, 0.18) 20%,
+      rgba(0, 0, 0, 0.62) 55%,
+      black 85%
+    );
+  }
 }
 
 @media (min-width: 900px) {
