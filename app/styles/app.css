@@ -5920,9 +5920,19 @@ aside header {
     object-fit: cover;
     object-position: right center;
     width: 100%;
-    -webkit-mask-image: none;
-    mask-image: none;
-    opacity: 0.4;
+    -webkit-mask-image: radial-gradient(
+      ellipse 75% 60% at 50% 48%,
+      black 20%,
+      rgba(0, 0, 0, 0.42) 65%,
+      rgba(0, 0, 0, 0.35) 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 75% 60% at 50% 48%,
+      black 20%,
+      rgba(0, 0, 0, 0.42) 65%,
+      rgba(0, 0, 0, 0.35) 100%
+    );
+    opacity: 1;
   }
 
   .home-hero-sample + .home-shop-overlap {
