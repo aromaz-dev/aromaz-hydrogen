@@ -2457,6 +2457,26 @@ aside header {
     display: none;
   }
 
+  .catalog-hero h1 {
+    font-weight: 800;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.28);
+  }
+
+  .catalog-hero-actions a:first-child {
+    box-shadow: 0 8px 28px rgba(178, 68, 30, 0.5);
+    font-size: 0.78rem;
+    min-height: 52px;
+    padding: 0 1.8rem;
+  }
+
+  .catalog-hero-actions a:last-child {
+    background: rgba(178, 68, 30, 0.32);
+    border: 2px solid rgba(178, 68, 30, 0.9);
+    font-size: 0.78rem;
+    min-height: 52px;
+    padding: 0 1.8rem;
+  }
+
   .catalog-hero-inner {
     align-self: end;
     grid-area: 1 / 1;
