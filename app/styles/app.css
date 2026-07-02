@@ -2543,8 +2543,9 @@ aside header {
   }
 
   .catalog-hero-actions a:last-child {
-    background: rgba(178, 68, 30, 0.32);
-    border: 2px solid rgba(178, 68, 30, 0.9);
+    background: rgba(86, 109, 55, 0.12);
+    border: 2px solid rgba(86, 109, 55, 0.9);
+    color: var(--color-charcoal);
     font-size: 0.78rem;
     min-height: 52px;
     padding: 0 1.8rem;
