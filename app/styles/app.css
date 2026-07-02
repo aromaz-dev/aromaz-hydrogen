@@ -1936,12 +1936,9 @@ aside header {
 }
 
 .catalog-hero-logo {
-  background: rgba(249, 244, 238, 0.9);
-  border-radius: 8px;
   height: auto;
   margin-bottom: clamp(2rem, 5vw, 4rem);
   max-width: min(360px, 70vw);
-  padding: 0.85rem 1rem;
 }
 
 .catalog-hero h1 {
