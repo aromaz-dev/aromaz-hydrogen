@@ -4506,6 +4506,37 @@ aside header {
   }
 }
 
+@media (min-width: 900px) {
+  .catalog-hero {
+    min-height: min(740px, calc(100svh - var(--header-height)));
+    padding: clamp(2.4rem, 5.8vw, 5.5rem) clamp(1.25rem, 4vw, 4.25rem);
+  }
+
+  .catalog-hero-inner {
+    max-width: 780px;
+  }
+
+  .catalog-hero p {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+  }
+
+  .catalog-hero h1 {
+    font-size: clamp(2rem, 3.8vw, 3.8rem);
+    font-weight: 600;
+    line-height: 1.05;
+    margin: 0.85rem 0 1rem;
+  }
+
+  .catalog-hero span {
+    font-size: clamp(0.96rem, 1.25vw, 1.08rem);
+    font-weight: 400;
+    line-height: 1.62;
+    max-width: 460px;
+  }
+}
+
 /*
 * --------------------------------------------------
 * Refined cream and olive commerce theme
