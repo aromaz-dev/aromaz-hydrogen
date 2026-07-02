@@ -5894,9 +5894,10 @@ aside header {
   }
 
   .home-hero-sample .home-primary-cta {
-    font-size: 0.82rem;
-    min-height: 56px;
-    padding: 0 2.2rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    min-height: 50px;
+    padding: 0 1.25rem;
     width: auto;
   }
 
