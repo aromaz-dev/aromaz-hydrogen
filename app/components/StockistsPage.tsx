@@ -14,26 +14,6 @@ export const STOCKIST_LOCATIONS = [
       'https://www.google.com/maps/search/?api=1&query=2002%20Park%20Royal%20S%20%23967%2C%20West%20Vancouver%2C%20BC%20V7T%202W4',
   },
   {
-    name: 'Every Small Objects',
-    type: 'Retail',
-    city: 'Burnaby, BC',
-    address: '420 Grove Ave, Burnaby, BC V5B 4G3',
-    detail: 'Aromaz is available at Every Small Objects.',
-    coordinates: {lat: 49.2829, lng: -123.0145},
-    mapUrl:
-      'https://www.google.com/maps/search/?api=1&query=420%20Grove%20Ave%2C%20Burnaby%2C%20BC%20V5B%204G3',
-  },
-  {
-    name: 'Daydream Factory',
-    type: 'Retail',
-    city: 'Vancouver, BC',
-    address: '2987 Granville St, Vancouver, BC V6H 3J6',
-    detail: 'Aromaz is available at Daydream Factory.',
-    coordinates: {lat: 49.2587, lng: -123.1391},
-    mapUrl:
-      'https://www.google.com/maps/search/?api=1&query=2987%20Granville%20St%2C%20Vancouver%2C%20BC%20V6H%203J6',
-  },
-  {
     name: "Surplus Sam's Outlet Coquitlam",
     type: 'Retail',
     city: 'Coquitlam, BC',
