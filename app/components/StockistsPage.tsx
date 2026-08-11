@@ -33,6 +33,16 @@ export const STOCKIST_LOCATIONS = [
     mapUrl:
       'https://www.google.com/maps/search/?api=1&query=2987%20Granville%20St%2C%20Vancouver%2C%20BC%20V6H%203J6',
   },
+  {
+    name: "Surplus Sam's Outlet Coquitlam",
+    type: 'Retail',
+    city: 'Coquitlam, BC',
+    address: '1301 United Blvd, Coquitlam, BC V3K 6V3',
+    detail: "Aromaz is available at Surplus Sam's Outlet Coquitlam.",
+    coordinates: {lat: 49.2307893, lng: -122.8580486},
+    mapUrl:
+      'https://www.google.com/maps/search/?api=1&query=1301%20United%20Blvd%2C%20Coquitlam%2C%20BC%20V3K%206V3',
+  },
 ];
 
 const DEFAULT_MAP_CENTER = {lat: 49.292, lng: -123.08, zoom: 11};
