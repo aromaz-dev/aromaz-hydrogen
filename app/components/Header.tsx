@@ -112,6 +112,15 @@ export function HeaderMenu({
             onClick={close}
             prefetch="intent"
             style={activeLinkStyle}
+            to="/blog"
+          >
+            Blog
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
             to="/pages/stockists"
           >
             Find a Store
@@ -174,6 +183,16 @@ export function HeaderMenu({
             onClick={close}
             prefetch="intent"
             style={activeLinkStyle}
+            to="/blog"
+          >
+            Blog
+          </NavLink>
+          <NavLink
+            className="header-menu-item"
+            end
+            onClick={close}
+            prefetch="intent"
+            style={activeLinkStyle}
             to="/pages/stockists"
           >
             Find a Store
@@ -206,9 +225,13 @@ export function HeaderMenu({
           item.title.toLowerCase() === 'products' ||
           item.title.toLowerCase() === 'about' ||
           item.title.toLowerCase() === 'contact' ||
+          item.title.toLowerCase() === 'blog' ||
+          item.title.toLowerCase() === 'blogs' ||
           item.title.toLowerCase() === 'find a store' ||
           item.title.toLowerCase() === 'stockists' ||
           url === '/' ||
+          url === '/blog' ||
+          url === '/blogs' ||
           url === '/collections' ||
           url === '/collections/all' ||
           url === '/pages/contact' ||
