@@ -24,7 +24,6 @@ export default function BlogIndex() {
     <main className="aromaz-blog-page">
       <section className="aromaz-blog-hero">
         <p>AROMAZ JOURNAL</p>
-        <h1>Notes on natural scent care and sensitive skin.</h1>
         <span>
           Personal stories, ingredient thoughts, and simple care rituals from
           the Aromaz studio.
